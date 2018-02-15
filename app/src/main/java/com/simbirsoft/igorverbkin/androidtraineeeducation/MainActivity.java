@@ -2,15 +2,14 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "task";
-
-    // 4
-    private int first = 0;
-    private int second = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,13 +17,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // 2
-        final double a = 0.5;
-        final double b = 10.101;
-        double average = (a + b) / 2;
+        final double a = 0.504829;
+        final double b = 10.101303471;
+        Log.d(TAG, "Average: " + (a + b) / 2);
+
+        // 3
+        new User("Андрей", "Лохматов", "Full name: [%s] [%s]").printToConsole();
 
         // 4
+        Log.d(TAG, "Fibonacci: " + numberFibonacci(15));
+
+        // 5
         int[] array = {2, 5, 1, 8, 0, 4, 3, 7, 6, 9};
-        int[] sortArray = bubbleSort(array);
+        Log.d(TAG, "Bubble sort: " + Arrays.toString(bubbleSort(array)));
+
+        // 6
+        Log.d(TAG, "Adding a unit to a number in a row: " + addOneToString("abc123"));
     }
 
     // 3
@@ -34,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
         private String lastName;
         private String template;
 
-        public User() {
-            firstName = "Андрей";
-            lastName = "Лохматов";
-            template = "Full name: [%s] [%s]";
+        public User(String firstName, String lastName, String template) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.template = template;
         }
 
         public void printToConsole() {
@@ -46,20 +54,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 4
-    public String numberFibonacci() {
+    public String numberFibonacci(int n) {
+        int first = 0;
+        int second = 1;
+        int temp;
+
         StringBuilder sb = new StringBuilder(first + " " + second + " ");
-        for (int i = 0; i < 13; i++) {
-            sb.append(getNextNumb()).append(" ");
+        for (int i = 0; i < n - 2; i++) {
+            temp = first + second;
+            first = second;
+            second = temp;
+            sb.append(temp).append(" ");
         }
         return sb.toString();
-    }
-
-    // 4
-    public int getNextNumb() {
-        int temp = first + second;
-        first = second;
-        second = temp;
-        return temp;
     }
 
     // 5
@@ -89,10 +96,11 @@ public class MainActivity extends AppCompatActivity {
                 totalString.append(input.charAt(i));
             }
         }
-        if (!totalNumber.toString().isEmpty()) {
-            result = Integer.parseInt(totalNumber.toString());
+        String resultNumber = totalNumber.toString();
+        if (!TextUtils.isEmpty(resultNumber)) {
+            result = Integer.parseInt(resultNumber);
         }
 
-        return totalString.toString() + ++result;
+        return totalString.toString() + (result + 1);
     }
 }
