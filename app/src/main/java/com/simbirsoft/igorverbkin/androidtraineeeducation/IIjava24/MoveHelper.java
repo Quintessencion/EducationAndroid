@@ -2,10 +2,6 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24;
 
 import android.util.Log;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24.Directions.DOWN;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24.Directions.LEFT;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24.Directions.RIGHT;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24.Directions.UP;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.MainActivity.TAG;
 
 public class MoveHelper {
@@ -27,13 +23,12 @@ public class MoveHelper {
                 location[0] -= step;
                 return location;
             default:
-                return new int[]{0};
+                throw new RuntimeException("Unknown direction");
         }
     }
 
-    public void multiMove() {
+    public void multiMove(Directions[] directions) {
         int[] location = {0, 0};
-        Directions[] directions = {UP, UP, LEFT, DOWN, LEFT, DOWN, DOWN, RIGHT, RIGHT, DOWN, RIGHT};
 
         for (Directions d : directions) {
             location = move(location, d);

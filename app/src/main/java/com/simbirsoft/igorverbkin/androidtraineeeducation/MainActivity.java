@@ -5,11 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava23.MyTask;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava23.PrintHelper;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24.Directions;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24.MoveHelper;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava25.Circle;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava25.Rectangle;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava25.Shape;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava25.Square;
+
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24.Directions.DOWN;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24.Directions.LEFT;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24.Directions.RIGHT;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava24.Directions.UP;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,10 +27,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // II. Java. Часть 2. 3
-        new PrintHelper().repeatTask(10, new MyTask());
+        new PrintHelper().repeatTask(10, new MyTask("I love java 10 раз"));
 
         // II. Java. Часть 2. 4
-        new MoveHelper().multiMove();
+        Directions[] directions = {UP, UP, LEFT, DOWN, LEFT, DOWN, DOWN, RIGHT, RIGHT, DOWN, RIGHT};
+        new MoveHelper().multiMove(directions);
 
         // II. Java. Часть 2. 5
         Shape shape = new Rectangle(3, 5);
