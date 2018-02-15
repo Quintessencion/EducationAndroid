@@ -1,9 +1,11 @@
-package com.simbirsoft.igorverbkin.androidtraineeeducation;
+package com.simbirsoft.igorverbkin.androidtraineeeducation.task2;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 
 import java.util.Arrays;
 
