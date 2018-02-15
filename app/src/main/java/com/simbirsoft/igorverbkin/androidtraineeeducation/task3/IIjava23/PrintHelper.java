@@ -1,4 +1,4 @@
-package com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava23;
+package com.simbirsoft.igorverbkin.androidtraineeeducation.task3.IIjava23;
 
 public class PrintHelper {
 

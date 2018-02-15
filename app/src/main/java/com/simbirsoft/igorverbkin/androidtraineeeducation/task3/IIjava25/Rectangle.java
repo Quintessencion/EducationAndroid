@@ -1,8 +1,8 @@
-package com.simbirsoft.igorverbkin.androidtraineeeducation.IIjava25;
+package com.simbirsoft.igorverbkin.androidtraineeeducation.task3.IIjava25;
 
 import android.util.Log;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.MainActivity.TAG;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task3.MainActivity.TAG;
 
 public class Rectangle implements Shape {
 
