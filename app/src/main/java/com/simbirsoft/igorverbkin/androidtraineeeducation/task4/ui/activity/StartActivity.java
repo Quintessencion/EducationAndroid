@@ -18,8 +18,8 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        if (getActionBar() != null) {
-            getActionBar().hide();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
         }
 
         FakeLoading fakeLoading = new FakeLoading();

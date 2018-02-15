@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:fadeScrollbars="false"
-        app:layout_scrollFlags="enterAlways"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:title="@string/app_name">
-
-    </android.support.v7.widget.Toolbar>
-
-    <fragment
+    <FrameLayout
         android:id="@+id/fragment_navigation"
-        android:name="com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.NewsFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bot_nav_view" />
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bot_nav_view"
