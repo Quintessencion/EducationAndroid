@@ -16,6 +16,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.News;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.NewsAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NewsFragment extends Fragment {
@@ -34,8 +35,12 @@ public class NewsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         NewsAdapter adapter = new NewsAdapter();
+
         List<News> news = new ArrayList<>();
-        news.add(new News("TitleExample", "ContentExample"));
+        for (int i = 1; i <= 20; i++) {
+            news.add(new News("Title Example " + i, "Content Example " + i, new Date()));
+        }
+
         adapter.updateList(news);
         recyclerView.setAdapter(adapter);
 

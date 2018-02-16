@@ -10,4 +10,7 @@
     <string name="field_activity">Сфера деятельности</string>
     <string name="birthday">Дата рождния</string>
     <string name="edit">Редактировать</string>
+    <string name="logout">Выйти из аккаунта</string>
+    <string name="friends">Ваши друзья</string>
+    <string name="get_push_notification">Получать push-уведомления</string>
 </resources>
