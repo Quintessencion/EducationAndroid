@@ -11,6 +11,11 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 
 public class ProfileFragment extends Fragment {
 
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

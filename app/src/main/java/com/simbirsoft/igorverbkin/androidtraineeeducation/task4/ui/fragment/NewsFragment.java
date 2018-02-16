@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,7 +18,12 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.NewsA
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsFragment extends Fragment{
+public class NewsFragment extends Fragment {
+
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
@@ -33,5 +40,11 @@ public class NewsFragment extends Fragment{
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.news_fragment, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

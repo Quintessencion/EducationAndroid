@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:text="@string/news"
             android:textColor="@android:color/white"
             android:textSize="21sp" />
 
@@ -24,6 +25,7 @@
         android:id="@+id/fragment_navigation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/bot_nav_view"
         android:layout_below="@+id/toolbar" />
 
     <android.support.design.widget.BottomNavigationView

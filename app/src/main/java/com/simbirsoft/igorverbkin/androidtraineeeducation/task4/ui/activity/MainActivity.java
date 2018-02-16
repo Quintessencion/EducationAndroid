@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private FragmentManager fragmentManager;
 
     private TextView titleToolbar;
-    private Toolbar toolbar;
 
     private NewsFragment newsFragment;
     private SearchFragment searchFragment;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
 
         titleToolbar = findViewById(R.id.title_toolbar);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
