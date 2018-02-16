@@ -25,11 +25,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private TextView titleToolbar;
 
-    private NewsFragment newsFragment;
-    private SearchFragment searchFragment;
-    private HistoryFragment historyFragment;
-    private ProfileFragment profileFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +35,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        newsFragment = new NewsFragment();
-        searchFragment = new SearchFragment();
-        historyFragment = new HistoryFragment();
-        profileFragment = new ProfileFragment();
-
         fragmentManager = getSupportFragmentManager();
-        switchFragmentAndTitle(newsFragment, R.string.news);
+        switchFragmentAndTitle(NewsFragment.class, R.string.news);
 
         bottomNavigationView = findViewById(R.id.bot_nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -56,18 +46,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_news:
-                return switchFragmentAndTitle(newsFragment, R.string.news);
+                return switchFragmentAndTitle(NewsFragment.class, R.string.news);
             case R.id.menu_search:
-                return switchFragmentAndTitle(searchFragment, R.string.search);
+                return switchFragmentAndTitle(SearchFragment.class, R.string.search);
             case R.id.menu_history:
-                return switchFragmentAndTitle(historyFragment, R.string.history);
+                return switchFragmentAndTitle(HistoryFragment.class, R.string.history);
             case R.id.menu_profile:
-                return switchFragmentAndTitle(profileFragment, R.string.profile);
+                return switchFragmentAndTitle(ProfileFragment.class, R.string.profile);
         }
         return false;
     }
 
-    private boolean switchFragmentAndTitle(Fragment fragment, int titleId) {
+    private boolean switchFragmentAndTitle(Class clazz, int titleId) {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentByTag(clazz.getName());
+
+        if (fragment == null) {
+            try {
+                fragment = (Fragment) clazz.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_navigation, fragment)
                 .commit();

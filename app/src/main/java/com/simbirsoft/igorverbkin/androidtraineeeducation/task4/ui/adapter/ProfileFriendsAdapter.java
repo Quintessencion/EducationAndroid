@@ -28,7 +28,7 @@ public class ProfileFriendsAdapter extends RecyclerView.Adapter<ProfileFriendsVi
 
     @Override
     public void onBindViewHolder(final ProfileFriendsViewHolder holder, final int position) {
-        holder.bindView(data.get(position), position);
+        holder.bindView(data.get(position));
     }
 
     @Override

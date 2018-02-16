@@ -9,12 +9,15 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.News;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 class NewsViewHolder extends RecyclerView.ViewHolder {
 
     private ImageView imageNews;
-    private TextView newsHeadline, newsContent, expirationDate;
-    private SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
+    private TextView newsHeadline;
+    private TextView newsContent;
+    private TextView expirationDate;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", new Locale("ru"));
 
     NewsViewHolder(View itemView) {
         super(itemView);
@@ -24,9 +27,9 @@ class NewsViewHolder extends RecyclerView.ViewHolder {
         expirationDate = itemView.findViewById(R.id.expiration_date);
     }
 
-    void bindView(News news, int position) {
+    void bindView(News news) {
         newsHeadline.setText(news.getTitle());
         newsContent.setText(news.getContent());
-        expirationDate.setText(df.format(news.getDateExpiration()));
+        expirationDate.setText(sdf.format(news.getDateExpiration()));
     }
 }

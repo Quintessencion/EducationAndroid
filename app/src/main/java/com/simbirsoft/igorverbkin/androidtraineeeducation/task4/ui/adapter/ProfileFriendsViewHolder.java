@@ -19,7 +19,7 @@ public class ProfileFriendsViewHolder extends RecyclerView.ViewHolder {
         friendName = itemView.findViewById(R.id.name_friend);
     }
 
-    void bindView(Friend friend, int position) {
+    void bindView(Friend friend) {
         friendName.setText(friend.getName());
     }
 }
