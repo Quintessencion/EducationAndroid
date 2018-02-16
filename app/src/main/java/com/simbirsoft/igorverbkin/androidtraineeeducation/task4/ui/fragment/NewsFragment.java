@@ -28,7 +28,7 @@ public class NewsFragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         NewsAdapter adapter = new NewsAdapter();
         List<News> news = new ArrayList<>();
-        news.add(new News("Title", "Content"));
+        news.add(new News("TitleExample", "ContentExample"));
         adapter.updateList(news);
         recyclerView.setAdapter(adapter);
 
