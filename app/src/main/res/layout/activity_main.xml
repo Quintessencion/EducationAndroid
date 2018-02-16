@@ -12,12 +12,11 @@
 
         <TextView
             android:id="@+id/title_toolbar"
+            style="@style/ToolbarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/news"
-            android:textColor="@android:color/white"
-            android:textSize="21sp" />
+            android:text="@string/news" />
 
     </android.support.v7.widget.Toolbar>
 

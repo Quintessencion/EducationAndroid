@@ -7,4 +7,7 @@
     <string name="history">История</string>
     <string name="profile">Профиль</string>
     <string name="filter">Фильтр</string>
+    <string name="field_activity">Сфера деятельности</string>
+    <string name="birthday">Дата рождния</string>
+    <string name="edit">Редактировать</string>
 </resources>
