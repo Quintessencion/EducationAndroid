@@ -20,8 +20,7 @@ public class LoadingActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        FakeLoading fakeLoading = new FakeLoading();
-        fakeLoading.execute();
+        new FakeLoading().execute();
     }
 
     class FakeLoading extends AsyncTask<Void, Void, Void> {

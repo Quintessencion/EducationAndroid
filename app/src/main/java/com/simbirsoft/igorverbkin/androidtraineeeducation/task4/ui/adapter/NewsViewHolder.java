@@ -11,20 +11,20 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.News;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 class NewsViewHolder extends RecyclerView.ViewHolder {
 
-    private ImageView imageNews;
-    private TextView newsHeadline;
-    private TextView newsContent;
-    private TextView expirationDate;
+    @BindView(R.id.image_news) ImageView imageNews;
+    @BindView(R.id.news_headline) TextView newsHeadline;
+    @BindView(R.id.news_content) TextView newsContent;
+    @BindView(R.id.expiration_date) TextView expirationDate;
     private SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", new Locale("ru"));
 
     NewsViewHolder(View itemView) {
         super(itemView);
-        imageNews = itemView.findViewById(R.id.image_news);
-        newsHeadline = itemView.findViewById(R.id.news_headline);
-        newsContent = itemView.findViewById(R.id.news_content);
-        expirationDate = itemView.findViewById(R.id.expiration_date);
+        ButterKnife.bind(this, itemView);
     }
 
     void bindView(News news) {

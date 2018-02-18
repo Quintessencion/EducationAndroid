@@ -8,15 +8,17 @@ import android.widget.TextView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Friend;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ProfileFriendsViewHolder extends RecyclerView.ViewHolder {
 
-    private ImageView imageAvatar;
-    private TextView friendName;
+    @BindView(R.id.friend_avatar) ImageView imageAvatar;
+    @BindView(R.id.name_friend) TextView friendName;
 
     ProfileFriendsViewHolder(View itemView) {
         super(itemView);
-        imageAvatar = itemView.findViewById(R.id.friend_avatar);
-        friendName = itemView.findViewById(R.id.name_friend);
+        ButterKnife.bind(this, itemView);
     }
 
     void bindView(Friend friend) {
