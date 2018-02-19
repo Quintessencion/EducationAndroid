@@ -13,4 +13,7 @@
     <string name="logout">Выйти из аккаунта</string>
     <string name="friends">Ваши друзья</string>
     <string name="get_push_notification">Получать push-уведомления</string>
+    <string name="search_by_events">По мероприятиям</string>
+    <string name="search_by_nko">По НКО</string>
+    <string name="search_hint">Введите название организации</string>
 </resources>

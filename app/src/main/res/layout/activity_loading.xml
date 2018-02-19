@@ -33,9 +33,7 @@
         android:layout_below="@+id/progressBar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif"
         android:gravity="center_horizontal"
-        android:lineSpacingExtra="6sp"
         android:text="@string/loading" />
 
     <ImageView
