@@ -23,7 +23,7 @@ public class ProfileFriendsAdapter extends RecyclerView.Adapter<ProfileFriendsVi
     @Override
     public ProfileFriendsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ProfileFriendsViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_friends_profile_fragment, parent, false));
+                .inflate(R.layout.item_fragment_friends_profile, parent, false));
     }
 
     @Override

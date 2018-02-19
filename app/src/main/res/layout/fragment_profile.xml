@@ -108,7 +108,7 @@
             android:layout_height="200dp"
             android:layout_below="@+id/text_friends"
             android:layout_marginTop="16dp"
-            tools:listitem="@layout/item_friends_profile_fragment" />
+            tools:listitem="@layout/item_fragment_friends_profile" />
 
         <View
             android:id="@+id/divider2"

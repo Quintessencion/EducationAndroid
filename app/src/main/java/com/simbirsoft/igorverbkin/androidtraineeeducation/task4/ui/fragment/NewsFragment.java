@@ -29,7 +29,7 @@ public class NewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.news_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_news);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

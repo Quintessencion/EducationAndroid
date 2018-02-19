@@ -16,9 +16,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".task4.ui.activity.MainActivity">
-
-        </activity>
+        <activity android:name=".task4.ui.activity.MainActivity" />
 
     </application>
 
