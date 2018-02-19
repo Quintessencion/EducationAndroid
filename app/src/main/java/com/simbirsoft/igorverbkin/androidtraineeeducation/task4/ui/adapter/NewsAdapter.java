@@ -23,12 +23,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
     @Override
     public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new NewsViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_main_page, parent, false));
+                .inflate(R.layout.item_fragment_news, parent, false));
     }
 
     @Override
     public void onBindViewHolder(final NewsViewHolder holder, final int position) {
-        holder.bindView(data.get(position), position);
+        holder.bindView(data.get(position));
     }
 
     @Override

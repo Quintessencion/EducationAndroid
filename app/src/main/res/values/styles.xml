@@ -7,21 +7,74 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="ViewPadding4">
-        <item name="android:layout_marginLeft">4dp</item>
-        <item name="android:layout_marginRight">4dp</item>
-        <item name="android:layout_marginTop">4dp</item>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TextDefault">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="ViewPadding8">
-        <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:layout_marginRight">8dp</item>
-        <item name="android:layout_marginTop">8dp</item>
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@android:color/darker_gray</item>
+        <item name="android:layout_marginTop">18dp</item>
     </style>
 
-    <style name="LateralPadding26">
-        <item name="android:layout_marginLeft">26dp</item>
-        <item name="android:layout_marginRight">26dp</item>
+    <style name="ToolbarTitle" parent="TextAppearanceHeadline">
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextLoading" parent="TextDefault">
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearanceProfileFriends" parent="TextDefault">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearanceHeadline">
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textColor">@color/silver_dark</item>
+        <item name="android:textSize">21sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearanceContent" parent="TextDefault">
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/silver_dark</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearanceDate" parent="TextDefault">
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/white_70</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearanceFIO" parent="TextDefault">
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/dark_black</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearanceDescription" parent="TextAppearanceDate">
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="TextAppearanceProfileContent" parent="TextAppearanceFIO">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearanceProfileButton" parent="TextDefault">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

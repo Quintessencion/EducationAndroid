@@ -27,26 +27,22 @@
 
     <TextView
         android:id="@+id/text_loading"
+        style="@style/TextLoading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/progressBar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif"
         android:gravity="center_horizontal"
-        android:lineSpacingExtra="6sp"
-        android:text="@string/loading"
-        android:textColor="@color/grey"
-        android:textSize="14sp"
-        android:textStyle="normal" />
+        android:text="@string/loading" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_loading"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="124dp"
+        android:layout_marginBottom="40dp"
         android:src="@drawable/logo_mss" />
 
 </RelativeLayout>

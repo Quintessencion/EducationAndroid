@@ -6,4 +6,17 @@
     <string name="help">Помочь</string>
     <string name="history">История</string>
     <string name="profile">Профиль</string>
+    <string name="filter">Фильтр</string>
+    <string name="field_activity">Сфера деятельности</string>
+    <string name="birthday">Дата рождния</string>
+    <string name="edit">Редактировать</string>
+    <string name="logout">Выйти из аккаунта</string>
+    <string name="friends">Ваши друзья</string>
+    <string name="get_push_notification">Получать push-уведомления</string>
+    <string name="search_by_events">По мероприятиям</string>
+    <string name="search_by_nko">По НКО</string>
+    <string name="search_hint">Введите название организации</string>
+    <string name="search_event_name">Напишите в строке поиска название мероприятия или ключевые слова.</string>
+    <string name="example">Например,</string>
+    <string name="link_example">мастер-класс, помощь</string>
 </resources>

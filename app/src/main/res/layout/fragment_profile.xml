@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:scrollbars="none">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/image_man" />
+
+        <TextView
+            android:id="@+id/fio"
+            style="@style/TextAppearanceFIO"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/image_profile"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Константинов Денис"
+            tools:text="Константинов Денис" />
+
+        <TextView
+            android:id="@+id/text_birthday"
+            style="@style/TextAppearanceDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/fio"
+            android:layout_below="@+id/fio"
+            android:layout_marginTop="16dp"
+            android:text="@string/birthday" />
+
+        <TextView
+            android:id="@+id/birthday"
+            style="@style/TextAppearanceProfileContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/text_birthday"
+            android:layout_below="@+id/text_birthday"
+            android:text="01 февраля 1980"
+            android:textColor="@android:color/black"
+            tools:text="01 февраля 1980" />
+
+        <TextView
+            android:id="@+id/text_field_activity"
+            style="@style/TextAppearanceDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/birthday"
+            android:layout_below="@+id/birthday"
+            android:layout_marginTop="10dp"
+            android:text="@string/field_activity" />
+
+        <TextView
+            android:id="@+id/field_activity"
+            style="@style/TextAppearanceProfileContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/text_field_activity"
+            android:layout_below="@+id/text_field_activity"
+            android:text="Хирургия, травмотология"
+            tools:text="Хирургия, травмотология" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/push_notification_switch"
+            style="@style/TextAppearanceProfileContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/field_activity"
+            android:layout_below="@+id/field_activity"
+            android:layout_marginEnd="26dp"
+            android:layout_marginTop="28dp"
+            android:checked="true"
+            android:text="@string/get_push_notification" />
+
+        <View
+            android:id="@+id/divider"
+            style="@style/Divider"
+            android:layout_below="@+id/push_notification_switch" />
+
+        <TextView
+            android:id="@+id/text_friends"
+            style="@style/TextAppearanceDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/push_notification_switch"
+            android:layout_below="@+id/divider"
+            android:layout_marginTop="20dp"
+            android:text="@string/friends" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_friends"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/text_friends"
+            android:layout_marginTop="16dp"
+            tools:listitem="@layout/item_fragment_friends_profile" />
+
+        <View
+            android:id="@+id/divider2"
+            style="@style/Divider"
+            android:layout_below="@+id/recycler_friends" />
+
+        <Button
+            android:id="@+id/button_logout"
+            style="@style/TextAppearanceProfileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="38dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/green"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/logout" />
+
+    </RelativeLayout>
+</ScrollView>

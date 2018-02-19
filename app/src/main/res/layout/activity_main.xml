@@ -12,11 +12,11 @@
 
         <TextView
             android:id="@+id/title_toolbar"
+            style="@style/ToolbarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textColor="@android:color/white"
-            android:textSize="21sp" />
+            android:text="@string/news" />
 
     </android.support.v7.widget.Toolbar>
 
@@ -24,15 +24,31 @@
         android:id="@+id/fragment_navigation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/bot_nav_view"
         android:layout_below="@+id/toolbar" />
 
-    <android.support.design.widget.BottomNavigationView
+    <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/bot_nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        app:elevation="0dp"
         app:itemIconTint="@color/bottom_navigation_item_background_color"
         app:itemTextColor="@color/bottom_navigation_item_background_color"
         app:menu="@menu/bottom_navigation_items" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/bot_nav_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/heart_fab"
+        app:backgroundTint="@android:color/white"
+        app:elevation="0dp" />
 
 </RelativeLayout>

@@ -8,9 +8,10 @@ public class News {
     private String content;
     private Date dateExpiration;
 
-    public News(String title, String content) {
+    public News(String title, String content, Date dateExpiration) {
         this.title = title;
         this.content = content;
+        this.dateExpiration = dateExpiration;
     }
 
     public String getTitle() {

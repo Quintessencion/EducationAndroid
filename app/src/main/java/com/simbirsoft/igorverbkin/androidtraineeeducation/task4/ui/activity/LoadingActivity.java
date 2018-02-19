@@ -20,8 +20,7 @@ public class LoadingActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        FakeLoading fakeLoading = new FakeLoading();
-        fakeLoading.execute();
+        new FakeLoading().execute();
     }
 
     class FakeLoading extends AsyncTask<Void, Void, Void> {
@@ -29,7 +28,7 @@ public class LoadingActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -38,10 +37,12 @@ public class LoadingActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
+            if (hasWindowFocus()) {
+                Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 }
