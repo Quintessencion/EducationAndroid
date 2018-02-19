@@ -27,6 +27,7 @@
 
     <TextView
         android:id="@+id/text_loading"
+        style="@style/TextContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/progressBar"
@@ -35,10 +36,7 @@
         android:fontFamily="sans-serif"
         android:gravity="center_horizontal"
         android:lineSpacingExtra="6sp"
-        android:text="@string/loading"
-        android:textColor="@color/dark_grey"
-        android:textSize="14sp"
-        android:textStyle="normal" />
+        android:text="@string/loading" />
 
     <ImageView
         android:id="@+id/imageView2"

@@ -22,16 +22,13 @@
 
         <TextView
             android:id="@+id/name_friend"
+            style="@style/TextAppearenceProfileFriends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/friend_avatar"
             android:layout_marginBottom="14dp"
             android:layout_marginStart="20dp"
             android:layout_toEndOf="@+id/friend_avatar"
-            android:fontFamily="sans-serif"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="normal"
             tools:text="Дмитрий Валерьевич" />
 
     </RelativeLayout>
