@@ -8,6 +8,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.TAG;
+
 class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragments = new ArrayList<>();
@@ -30,7 +32,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
         try {
             fragments.add(fragmentClass.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            Log.d("task", e.getMessage());
+            Log.d(TAG, e.getMessage());
         }
     }
 }

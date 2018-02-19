@@ -16,4 +16,7 @@
     <string name="search_by_events">По мероприятиям</string>
     <string name="search_by_nko">По НКО</string>
     <string name="search_hint">Введите название организации</string>
+    <string name="search_event_name">Напишите в строке поиска название мероприятия или ключевые слова.</string>
+    <string name="example">Например,</string>
+    <string name="link_example">мастер-класс, помощь</string>
 </resources>

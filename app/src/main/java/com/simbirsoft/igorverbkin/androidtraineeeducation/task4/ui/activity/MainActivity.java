@@ -53,6 +53,8 @@ public class MainActivity extends MvpAppCompatActivity implements
         bottomNavigationView.enableAnimation(false);
         bottomNavigationView.enableShiftingMode(false);
         bottomNavigationView.enableItemShiftingMode(false);
+        bottomNavigationView.setIconSize(40, 40);
+        bottomNavigationView.setIconsMarginTop(0);
 
         fm = getSupportFragmentManager();
     }

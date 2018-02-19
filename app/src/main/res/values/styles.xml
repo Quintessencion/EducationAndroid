@@ -23,9 +23,9 @@
         <item name="android:layout_marginTop">18dp</item>
     </style>
 
-    <style name="ToolbarTitle">
+    <style name="ToolbarTitle" parent="TextAppearanceHeadline">
+        <item name="android:lineSpacingExtra">0sp</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">21sp</item>
     </style>
 
     <style name="TextLoading" parent="TextDefault">
