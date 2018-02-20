@@ -2,7 +2,7 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.TAG;
 
-class SectionsPagerAdapter extends FragmentPagerAdapter {
+class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragments = new ArrayList<>();
 

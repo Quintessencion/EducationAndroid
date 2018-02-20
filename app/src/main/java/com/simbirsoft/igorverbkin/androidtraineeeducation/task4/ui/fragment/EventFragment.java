@@ -3,12 +3,9 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,14 +16,13 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EventFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class EventFragment extends BaseSearchFragment {
 
     @BindView(R.id.text_link) TextView link;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     @Nullable
@@ -42,17 +38,8 @@ public class EventFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu, menu);
-
-        final MenuItem menuItem = menu.findItem(R.id.search_menu);
-        final SearchView actionView = (SearchView) menuItem.getActionView();
-
-        actionView.setBackgroundColor(getActivity().getResources().getColor(android.R.color.white));
-        actionView.setQueryHint(getString(R.string.search_hint));
-        actionView.setOnQueryTextListener(this);
-
-        super.onCreateOptionsMenu(menu, inflater);
+    protected void setHint(SearchView view) {
+        view.setQueryHint(getString(R.string.search_hint));
     }
 
     @Override

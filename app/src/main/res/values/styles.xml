@@ -9,8 +9,6 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <style name="TextDefault">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
@@ -28,7 +26,7 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="TextLoading" parent="TextDefault">
+    <style name="TextAppearanceDescriptionAction" parent="TextDefault">
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textSize">14sp</item>
@@ -75,6 +73,12 @@
     <style name="TextAppearanceProfileButton" parent="TextDefault">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearanceLink" parent="TextAppearanceDescriptionAction">
+        <item name="android:textColor">@color/green_100</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
     </style>
 
 </resources>
