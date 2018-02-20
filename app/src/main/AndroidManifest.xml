@@ -22,7 +22,8 @@
 
         <activity
             android:name=".task4.ui.activity.MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />

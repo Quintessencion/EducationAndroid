@@ -19,15 +19,15 @@
     <string name="search_event_name">Напишите в строке поиска название мероприятия или ключевые слова.</string>
     <string name="example">Например,</string>
     <string name="link_example">мастер-класс, помощь</string>
-    <string name="search_result">Результыта поиска:</string>
-    <string name="keywords">Ключевые слова:</string>
+    <string name="search_result">Результаты поиска: "</string>
+    <string name="keywords">Ключевые слова: "</string>
 
     <plurals name="organization_plurals">
-        <item quantity="zero">Организаций</item>
-        <item quantity="one">%1$d Организация</item>
-        <item quantity="two">%1$d Организации</item>
-        <item quantity="few">%1$d Организации</item>
-        <item quantity="many">%1$d Организаций</item>
-        <item quantity="other">%1$d Организаций</item>
+        <item quantity="zero">организаций</item>
+        <item quantity="one">%1$d организация</item>
+        <item quantity="two">%1$d организации</item>
+        <item quantity="few">%1$d организации</item>
+        <item quantity="many">%1$d организаций</item>
+        <item quantity="other">%1$d организаций</item>
     </plurals>
 </resources>
