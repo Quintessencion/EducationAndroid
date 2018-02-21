@@ -47,26 +47,4 @@
         <item>Сделать снимок</item>
         <item>Удалить</item>
     </string-array>
-
-    //example country
-    <string-array name="country_names">
-        <item>\u00A0\u00A0+1 United States"</item>
-        <item>+45 Denmark</item>
-        <item>+46 Sweden</item>
-        <item>+47 Norway</item>
-    </string-array>
-
-    <string-array name="country_codes">
-        <item>1</item>
-        <item>45</item>
-        <item>46</item>
-        <item>47</item>
-    </string-array>
-
-    <string-array name="country_flags">
-        <item>@drawable/camera</item>
-        <item>@drawable/upload</item>
-        <item>@drawable/delete</item>
-        <item>@drawable/avatar_3</item>
-    </string-array>
 </resources>

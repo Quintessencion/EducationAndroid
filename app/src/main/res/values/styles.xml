@@ -103,4 +103,23 @@
         <item name="colorControlHighlight">#ffe100</item>
     </style>
 
+
+    <!--Dialog styles -->
+    <style name="DialogTheme">
+        <item name="simpleAlertDialogStyle">@style/SimpleAlertDialogStyle</item>
+    </style>
+
+    <style name="SimpleAlertDialogStyle">
+        <item name="sadMessageTextStyle">@style/SimpleAlertDialogTitleTextStyle</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginStart">50dp</item>
+    </style>
+
+    <style name="SimpleAlertDialogTitleTextStyle">
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 </resources>

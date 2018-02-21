@@ -19,11 +19,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ChooserDialog;
+import com.simplealertdialog.SimpleAlertDialog;
+import com.simplealertdialog.SimpleAlertDialogFragment;
+import com.simplealertdialog.SimpleAlertDialogSupportFragment;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -33,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProfileEditorActivity extends AppCompatActivity {
+public class ProfileEditorActivity extends AppCompatActivity implements SimpleAlertDialog.OnItemClickListener {
 
     private static final int PERMISSIONS_REQUEST_CAMERA = 1;
     private static final int PERMISSIONS_WRITE_STORAGE = 2;
@@ -41,9 +42,9 @@ public class ProfileEditorActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA = 4;
     private static final String TAG = "task";
     private static final String DIALOG_CHOOSER = "dialog_chooser";
+    public static final int REQUEST_CODE_ICON_ITEMS = 9;
 
     @BindView(R.id.image_user) RoundedImageView avatar;
-    //    @BindView(R.id.image_user) ImageView avatar;
     @BindView(R.id.change_photo) TextView changePhoto;
     @BindView(R.id.second_name) EditText secondName;
     @BindView(R.id.first_name) EditText firstName;
@@ -71,40 +72,37 @@ public class ProfileEditorActivity extends AppCompatActivity {
 
     @OnClick({R.id.image_user, R.id.change_photo})
     public void getImage() {
-        ChooserDialog.newInstance().show(getSupportFragmentManager(), DIALOG_CHOOSER);
-
-//        Intent intent = new Intent(this, CountryCodeActivity.class);
-//        startActivityForResult(intent, 1);
-
-//        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
-//
-//        pictureDialog.setIcon(R.drawable.upload);
-//        pictureDialog.setIcon(R.drawable.camera);
-//
-//        String[] items = getResources().getStringArray(R.array.items);
-//        pictureDialog.setItems(items,
-//                (dialog, item) -> {
-//                    switch (item) {
-//                        case 0:
-//                            choosePhotoFromGallery();
-//                            break;
-//                        case 1:
-//                            checkPermissionStorage();
-//                            break;
-//                        case 2:
-//                            deleteImage();
-//                            break;
-//                    }
-//                });
-//        pictureDialog.show();
+        new SimpleAlertDialogFragment.Builder()
+//                .setTheme(R.style.DialogTheme)
+                .setItems(R.array.items, new int[]{
+                        R.drawable.upload,
+                        R.drawable.camera,
+                        R.drawable.delete})
+                .create()
+                .show(getFragmentManager(), DIALOG_CHOOSER);
     }
 
-    private void choosePhotoFromGallery() {
+    @Override
+    public void onItemClick(SimpleAlertDialog dialog, int requestCode, int which) {
+        switch (which) {
+            case 0:
+                getPhotoFromStorage();
+                break;
+            case 1:
+                getPhotoFromCamera();
+                break;
+            case 2:
+                deletePhotoFromAvatar();
+                break;
+        }
+    }
+
+    public void getPhotoFromStorage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_STORAGE);
     }
 
-    private void checkPermissionStorage() {
+    public void getPhotoFromCamera() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(ProfileEditorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_WRITE_STORAGE);
         } else {
@@ -112,7 +110,7 @@ public class ProfileEditorActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteImage() {
+    public void deletePhotoFromAvatar() {
         avatar.setImageResource(R.drawable.user_icon);
         photoFile = null;
         fileUri = null;

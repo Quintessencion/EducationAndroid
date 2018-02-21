@@ -128,5 +128,4 @@ public class MainActivity extends MvpAppCompatActivity implements
             presenter.sendVoiceQuery(query);
         }
     }
-
 }
