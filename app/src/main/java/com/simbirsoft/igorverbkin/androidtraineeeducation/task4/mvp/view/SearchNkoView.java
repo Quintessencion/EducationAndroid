@@ -11,4 +11,6 @@ import java.util.List;
 public interface SearchNkoView extends MvpView {
 
     void loadData(List<NkoEvent> nkos);
+
+    void setQueryToSearchView(String query);
 }

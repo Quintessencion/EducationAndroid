@@ -40,4 +40,6 @@ dependencies {
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
     compile 'com.arello-mobile:moxy-android:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
+    compile 'com.makeramen:roundedimageview:2.3.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

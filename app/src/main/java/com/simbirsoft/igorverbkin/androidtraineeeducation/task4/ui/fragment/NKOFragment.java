@@ -5,28 +5,28 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.PresenterType;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.NkoEvent;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NkoPresenter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SearchNkoView;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NKOFragment extends BaseSearchFragment implements SearchNkoView {
+public class NKOFragment extends BaseSearchFragment {
 
     @InjectPresenter NkoPresenter presenter;
 
-    @BindView(R.id.layout_keywords) View layoutKeywords;
+    @BindView(R.id.not_found_view) View notFoundView;
+    @BindView(R.id.main_view) View mainView;
     @BindView(R.id.count_results) TextView countResult;
     @BindView(R.id.keywords) TextView keywords;
 
@@ -36,10 +36,20 @@ public class NKOFragment extends BaseSearchFragment implements SearchNkoView {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (presenter != null) {
+        if (presenter != null && isVisibleToUser) {
             presenter.refreshData();
         }
     }
+
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        Intent intent = getActivity().getIntent();
+//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+//            String query = intent.getStringExtra(SearchManager.QUERY);
+//            Toast.makeText(getActivity(), query, Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     @Nullable
     @Override
@@ -78,8 +88,15 @@ public class NKOFragment extends BaseSearchFragment implements SearchNkoView {
 
     @Override
     public void loadData(List<NkoEvent> nkos) {
-        countResult.setText(getResources().getQuantityString(R.plurals.organization_plurals, nkos.size(), nkos.size()));
-        adapter.updateList(nkos);
-        recyclerView.scrollToPosition(0);
+        if (nkos.size() == 0) {
+            notFoundView.setVisibility(View.VISIBLE);
+            mainView.setVisibility(View.INVISIBLE);
+        } else {
+            notFoundView.setVisibility(View.INVISIBLE);
+            mainView.setVisibility(View.VISIBLE);
+            countResult.setText(getResources().getQuantityString(R.plurals.organization_plurals, nkos.size(), nkos.size()));
+            adapter.updateList(nkos);
+            recyclerView.scrollToPosition(0);
+        }
     }
 }

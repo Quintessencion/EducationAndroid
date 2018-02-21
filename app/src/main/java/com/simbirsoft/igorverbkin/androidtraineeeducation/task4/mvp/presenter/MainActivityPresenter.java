@@ -28,4 +28,8 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityView> {
     public void switchToProfile() {
         getViewState().loadProfileFragment();
     }
+
+    public void sendVoiceQuery(String query) {
+
+    }
 }

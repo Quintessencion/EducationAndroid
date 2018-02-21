@@ -12,8 +12,11 @@ import android.view.MenuItem;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SearchNkoView;
 
-public abstract class BaseSearchFragment extends MvpAppCompatFragment implements SearchView.OnQueryTextListener {
+public abstract class BaseSearchFragment extends MvpAppCompatFragment implements SearchView.OnQueryTextListener, SearchNkoView {
+
+    private SearchView searchView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,7 +29,7 @@ public abstract class BaseSearchFragment extends MvpAppCompatFragment implements
         inflater.inflate(R.menu.search_menu, menu);
 
         MenuItem menuItem = menu.findItem(R.id.action_bar_search_menu);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView = (SearchView) menuItem.getActionView();
 
         searchView.setFocusable(true);
         searchView.setBackgroundColor(getActivity().getResources().getColor(android.R.color.white));
@@ -45,6 +48,11 @@ public abstract class BaseSearchFragment extends MvpAppCompatFragment implements
     }
 
     protected abstract void setHint(SearchView view);
+
+    @Override
+    public void setQueryToSearchView(String query) {
+        searchView.setQuery(query, true);
+    }
 
     @Override
     public void onStop() {

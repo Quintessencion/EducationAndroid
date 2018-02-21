@@ -39,6 +39,8 @@ public class EventRepository {
         nkos.add(new NkoEvent("Благотворительный фонд ЦФО"));
         nkos.add(new NkoEvent("Благотворительный фонд «Кораблик»"));
         nkos.add(new NkoEvent("БФ «Живи»"));
+        nkos.add(new NkoEvent("Любовь и Ёжики»"));
+
         return nkos;
     }
 }

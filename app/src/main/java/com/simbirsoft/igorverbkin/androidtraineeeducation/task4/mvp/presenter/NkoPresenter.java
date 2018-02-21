@@ -7,8 +7,8 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.E
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SearchNkoView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 @InjectViewState
 public class NkoPresenter extends MvpPresenter<SearchNkoView> {
@@ -22,17 +22,13 @@ public class NkoPresenter extends MvpPresenter<SearchNkoView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        getViewState().loadData(getRandomRows());
+        getViewState().loadData(getShuffleRows());
     }
 
-    private List<NkoEvent> getRandomRows() {
+    private List<NkoEvent> getShuffleRows() {
         List<NkoEvent> data = repository.getData();
-        Random random = new Random();
-        List<NkoEvent> randomData = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            randomData.add(data.get(random.nextInt(data.size())));
-        }
-        return randomData;
+        Collections.shuffle(data);
+        return data;
     }
 
     public void filter(String query) {
@@ -47,7 +43,11 @@ public class NkoPresenter extends MvpPresenter<SearchNkoView> {
         getViewState().loadData(filteredModelList);
     }
 
+    public void setQuery(String query) {
+        getViewState().setQueryToSearchView(query);
+    }
+
     public void refreshData() {
-        getViewState().loadData(getRandomRows());
+        getViewState().loadData(getShuffleRows());
     }
 }
