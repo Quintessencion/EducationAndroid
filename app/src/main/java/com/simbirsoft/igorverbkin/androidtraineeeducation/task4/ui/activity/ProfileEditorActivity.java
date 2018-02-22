@@ -17,24 +17,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment;
 import com.simplealertdialog.SimpleAlertDialog;
 import com.simplealertdialog.SimpleAlertDialogFragment;
-import com.simplealertdialog.SimpleAlertDialogSupportFragment;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProfileEditorActivity extends AppCompatActivity implements SimpleAlertDialog.OnItemClickListener {
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment.EXTRA_DATE;
+
+public class ProfileEditorActivity extends AppCompatActivity implements SimpleAlertDialog.OnItemClickListener, DatePickerFragment.DateSetter {
 
     private static final int PERMISSIONS_REQUEST_CAMERA = 1;
     private static final int PERMISSIONS_WRITE_STORAGE = 2;
@@ -42,7 +49,8 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
     private static final int REQUEST_CAMERA = 4;
     private static final String TAG = "task";
     private static final String DIALOG_CHOOSER = "dialog_chooser";
-    public static final int REQUEST_CODE_ICON_ITEMS = 9;
+    public static final int PICK_DATE = 5;
+    public static final String DIALOG_DATE = "DialogDate";
 
     @BindView(R.id.image_user) RoundedImageView avatar;
     @BindView(R.id.change_photo) TextView changePhoto;
@@ -50,9 +58,14 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
     @BindView(R.id.first_name) EditText firstName;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
+    @BindView(R.id.edit_date_birthday) EditText editTextBirthday;
+
     private File photoFile;
     private Uri fileUri;
     private String currentPhotoPath;
+
+    private Date dateBirthday;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", new Locale("ru"));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +83,21 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
         toolbar.setNavigationOnClickListener(v -> finish());
     }
 
-    @OnClick({R.id.image_user, R.id.change_photo})
-    public void getImage() {
+    @OnClick(R.id.edit_date_birthday)
+    public void setDate(View view) {
+        DatePickerFragment.newInstance(new Date()).show(getSupportFragmentManager(), DIALOG_DATE);
+    }
+
+    @Override
+    public void setDateBirthday(Date date) {
+        dateBirthday = date;
+        editTextBirthday.setText(sdf.format(dateBirthday));
+    }
+
+    @OnClick({R.id.image_user, R.id.change_photo, R.id.blackout_layer})
+    public void getImage(View view) {
         new SimpleAlertDialogFragment.Builder()
-//                .setTheme(R.style.DialogTheme)
+                .setTheme(R.style.DialogTheme)
                 .setItems(R.array.items, new int[]{
                         R.drawable.upload,
                         R.drawable.camera,
@@ -172,6 +196,7 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Toast.makeText(this, "PICK_DATE " + requestCode, Toast.LENGTH_SHORT).show();
         if (resultCode != RESULT_OK) {
             return;
         }
@@ -193,6 +218,13 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
             case REQUEST_CAMERA:
                 setImage();
 //                addPhotoToGallery();
+                break;
+            case PICK_DATE:
+                Toast.makeText(this, "PICK_DATE", Toast.LENGTH_SHORT).show();
+                Date date = (Date) data.getSerializableExtra(EXTRA_DATE);
+                if (date != null) {
+                    Toast.makeText(this, "" + date.getTime(), Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

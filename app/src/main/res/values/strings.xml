@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Хочу помочь</string>
     <string name="loading">Загрузка…</string>
     <string name="news">Новости</string>
@@ -32,6 +32,22 @@
     <string name="ok">Ок</string>
     <string name="save">Сохранить</string>
     <string name="change_photo">Сменить фото</string>
+    <string name="date_birth">Дата рождения</string>
+
+
+    <string name="field_of_activity">Заполните Вашу сферу деятельности</string>
+    <string name="fill_field_of_activity">, чтобы быть наиболее полезным</string>
+
+
+    <string name="fill_one">Заполните Вашу сферу деятельности</string>
+    <string name="fill_two">@string/fill_one</string>
+    <string name="password">Пароль</string>
+    <string name="enter_email">Введите ваш email</string>
+    <string name="email_for_notification">E-mail для уведомлений</string>
+    <string name="input_number_phone">Введите номер телефона</string>
+    <string name="number_phone">Номер телефона</string>
+    <string name="cancel">Отмена</string>
+
 
     <plurals name="organization_plurals">
         <item quantity="zero">организаций</item>
