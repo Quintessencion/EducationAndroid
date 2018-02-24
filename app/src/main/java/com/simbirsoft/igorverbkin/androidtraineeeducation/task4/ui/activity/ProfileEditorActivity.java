@@ -15,22 +15,27 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageHelper;
 import com.simplealertdialog.SimpleAlertDialog;
 import com.simplealertdialog.SimpleAlertDialogFragment;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -38,8 +43,11 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment.EXTRA_DATE;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.TAG;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.SAVED_USER;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER;
 
 public class ProfileEditorActivity extends AppCompatActivity implements SimpleAlertDialog.OnItemClickListener, DatePickerFragment.DateSetter {
 
@@ -47,25 +55,26 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
     private static final int PERMISSIONS_WRITE_STORAGE = 2;
     private static final int REQUEST_STORAGE = 3;
     private static final int REQUEST_CAMERA = 4;
-    private static final String TAG = "task";
     private static final String DIALOG_CHOOSER = "dialog_chooser";
-    public static final int PICK_DATE = 5;
     public static final String DIALOG_DATE = "DialogDate";
 
-    @BindView(R.id.image_user) RoundedImageView avatar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.change_photo) TextView changePhoto;
+    @BindView(R.id.image_user) RoundedImageView avatar;
     @BindView(R.id.second_name) EditText secondName;
     @BindView(R.id.first_name) EditText firstName;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-
-    @BindView(R.id.edit_date_birthday) EditText editTextBirthday;
+    @BindView(R.id.date_birthday) EditText birthday;
+    @BindView(R.id.field_activity) EditText fieldActivity;
+    @BindView(R.id.password) EditText password;
+    @BindView(R.id.email) EditText email;
+    @BindView(R.id.phone_number) EditText phoneNumber;
 
     private File photoFile;
     private Uri fileUri;
     private String currentPhotoPath;
-
-    private Date dateBirthday;
     private SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", new Locale("ru"));
+    private User user;
+    private Date userBirthday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +82,15 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
         setContentView(R.layout.activity_profile_editor);
 
         ButterKnife.bind(this);
+
+        user = getIntent().getParcelableExtra(USER);
+        if (user != null) {
+            try {
+                userBirthday = sdf.parse(user.getBirthday());
+            } catch (NullPointerException | ParseException e) {
+            }
+            setUserFields();
+        }
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -83,15 +101,42 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
         toolbar.setNavigationOnClickListener(v -> finish());
     }
 
-    @OnClick(R.id.edit_date_birthday)
-    public void setDate(View view) {
-        DatePickerFragment.newInstance(new Date()).show(getSupportFragmentManager(), DIALOG_DATE);
+    private void setUserFields() {
+        if (!TextUtils.isEmpty(user.getPhoto())) {
+            ImageHelper.setImage(this, Uri.parse(user.getPhoto()), avatar);
+            fileUri = Uri.parse(user.getPhoto());
+        } else {
+            avatar.setImageResource(R.drawable.user_icon);
+        }
+        secondName.setText(checkOnEmpty(user.getSecondName()));
+        firstName.setText(checkOnEmpty(user.getFirstName()));
+        birthday.setText(checkOnEmpty(user.getBirthday()));
+        fieldActivity.setText(checkOnEmpty(user.getFieldActivity()));
+        password.setText(checkOnEmpty(user.getPassword()));
+        email.setText(checkOnEmpty(user.getEmail()));
+        phoneNumber.setText(checkOnEmpty(user.getPhoneNumber()));
+    }
+
+    private String checkOnEmpty(String text) {
+        return TextUtils.isEmpty(text) ? "" : text;
+    }
+
+    @OnTouch(R.id.date_birthday)
+    public boolean setDate(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            DatePickerFragment.newInstance(userBirthday).show(getSupportFragmentManager(), DIALOG_DATE);
+        }
+        int inType = birthday.getInputType();
+        birthday.setInputType(InputType.TYPE_NULL);
+        birthday.onTouchEvent(event);
+        birthday.setInputType(inType);
+        return true;
     }
 
     @Override
     public void setDateBirthday(Date date) {
-        dateBirthday = date;
-        editTextBirthday.setText(sdf.format(dateBirthday));
+        userBirthday = date;
+        birthday.setText(sdf.format(userBirthday));
     }
 
     @OnClick({R.id.image_user, R.id.change_photo, R.id.blackout_layer})
@@ -140,7 +185,6 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
         fileUri = null;
         currentPhotoPath = null;
     }
-
 
     private void checkPermissionCamera() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -196,7 +240,6 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Toast.makeText(this, "PICK_DATE " + requestCode, Toast.LENGTH_SHORT).show();
         if (resultCode != RESULT_OK) {
             return;
         }
@@ -212,33 +255,46 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
                     cursor.moveToFirst();
                     photoFile = new File(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
                     cursor.close();
-                    setImage();
+                    ImageHelper.setImage(this, fileUri, avatar);
                 }
                 break;
             case REQUEST_CAMERA:
-                setImage();
+                ImageHelper.setImage(this, fileUri, avatar);
 //                addPhotoToGallery();
                 break;
-            case PICK_DATE:
-                Toast.makeText(this, "PICK_DATE", Toast.LENGTH_SHORT).show();
-                Date date = (Date) data.getSerializableExtra(EXTRA_DATE);
-                if (date != null) {
-                    Toast.makeText(this, "" + date.getTime(), Toast.LENGTH_SHORT).show();
-                }
-                break;
         }
-    }
-
-    private void setImage() {
-        Picasso.with(this)
-                .load(fileUri)
-                .fit()
-                .into(avatar);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.profile_edit, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.submit_profile) {
+            sendResult();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void sendResult() {
+        User user = new User();
+        user.setPhoto(fileUri != null ? fileUri.toString() : "");
+        user.setSecondName(secondName.getText().toString().trim());
+        user.setFirstName(firstName.getText().toString().trim());
+        if (userBirthday != null) {
+            user.setBirthday(sdf.format(userBirthday));
+        }
+        user.setFieldActivity(fieldActivity.getText().toString().trim());
+        user.setPassword(password.getText().toString().trim());
+        user.setEmail(email.getText().toString().trim());
+        user.setPhoneNumber(phoneNumber.getText().toString());
+
+        Intent intent = new Intent();
+        intent.putExtra(SAVED_USER, user);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

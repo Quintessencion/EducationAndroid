@@ -26,8 +26,7 @@ public class DatePickerFragment extends DialogFragment {
         void setDateBirthday(Date date);
     }
 
-    public static final String EXTRA_DATE = "com.simbirsoft.igorverbkin.androidtraineeeducation.date";
-    private static final String ARG_DATE = "date";
+    private static final String ARG_DATE = "arg_date";
     private DatePicker datePicker;
     private DateSetter dateSetter;
 
@@ -53,7 +52,8 @@ public class DatePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime((Date) getArguments().getSerializable(ARG_DATE));
+        Date date = (Date) getArguments().getSerializable(ARG_DATE);
+        cal.setTime(date == null ? new Date() : date);
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null);
         datePicker = view.findViewById(R.id.dialog_date_picker);

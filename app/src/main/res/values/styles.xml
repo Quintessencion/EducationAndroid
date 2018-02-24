@@ -102,26 +102,11 @@
     </style>
 
     <!--Dialog styles -->
-    <style name="DialogTheme">
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:height">73dp</item>
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
+    <style name="DialogTheme" parent="@android:style/Theme.Dialog">
         <item name="android:dividerHeight">-1dp</item>
-
-    </style>
-
-    <style name="SimpleAlertDialogStyle">
-        <item name="sadMessageTextStyle">@style/SimpleAlertDialogTitleTextStyle</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_marginStart">50dp</item>
-    </style>
-
-    <style name="SimpleAlertDialogTitleTextStyle">
-        <item name="android:textColor">@color/orange</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textSize">22sp</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <!--<item name="android:background">@android:color/white</item>-->
+        <item name="android:height">73dp</item>
     </style>
 
 </resources>
