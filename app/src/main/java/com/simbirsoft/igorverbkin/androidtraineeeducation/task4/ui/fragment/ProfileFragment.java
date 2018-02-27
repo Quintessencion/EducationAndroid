@@ -31,15 +31,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final int REQUEST_EDIT = 1;
-    public static final String USER = "user";
     public static final String USER_PREFERENCES = "user_preferences";
-    public static final String SAVED_USER = "saved_user";
 
     @BindView(R.id.image_profile) ImageView photo;
     @BindView(R.id.fio) TextView fio;
@@ -47,12 +43,17 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.field_activity) TextView fieldActivity;
 
     private SharedPreferences preferences;
-    private User user;
 
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        preferences = getActivity().getPreferences(MODE_PRIVATE);
+        preferences = getActivity().getSharedPreferences(User.class.getName(), MODE_PRIVATE);
+        preferences.registerOnSharedPreferenceChangeListener(this);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+        setUserFields(getUser());
     }
 
     @Nullable
@@ -62,7 +63,7 @@ public class ProfileFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        user = getUser();
+        User user = getUser();
         if (user != null) {
             setUserFields(user);
         }
@@ -96,26 +97,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.profile_edit) {
-            Intent intent = new Intent(getActivity(), ProfileEditorActivity.class);
-            intent.putExtra(USER, getUser());
-            startActivityForResult(intent, REQUEST_EDIT);
+            startActivity(new Intent(getActivity(), ProfileEditorActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        if (requestCode == REQUEST_EDIT) {
-            User user = data.getParcelableExtra(SAVED_USER);
-            if (user != null) {
-                setUserFields(user);
-                saveNewData(user);
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void setUserFields(User user) {
@@ -127,9 +111,5 @@ public class ProfileFragment extends Fragment {
         fio.setText((String.format(getString(R.string.fio), user.getSecondName(), user.getFirstName())).trim());
         birthday.setText(user.getBirthday());
         fieldActivity.setText(user.getFieldActivity());
-    }
-
-    private void saveNewData(User user) {
-        preferences.edit().putString(USER_PREFERENCES, new Gson().toJson(user)).apply();
     }
 }

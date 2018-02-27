@@ -38,7 +38,6 @@
     <string name="field_of_activity">Заполните Вашу сферу деятельности</string>
     <string name="fill_field_of_activity">, чтобы быть наиболее полезным</string>
 
-
     <string name="fill_one">Заполните Вашу сферу деятельности</string>
     <string name="fill_two">@string/fill_one</string>
     <string name="password">Пароль</string>
@@ -48,7 +47,6 @@
     <string name="number_phone">Номер телефона</string>
     <string name="cancel">Отмена</string>
     <string name="fio">%s %s</string>
-
 
     <plurals name="organization_plurals">
         <item quantity="zero">организаций</item>

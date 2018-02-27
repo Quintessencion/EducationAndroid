@@ -2,6 +2,7 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
@@ -46,8 +48,7 @@ import butterknife.OnClick;
 import butterknife.OnTouch;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.TAG;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.SAVED_USER;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER_PREFERENCES;
 
 public class ProfileEditorActivity extends AppCompatActivity implements SimpleAlertDialog.OnItemClickListener, DatePickerFragment.DateSetter {
 
@@ -73,7 +74,7 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
     private Uri fileUri;
     private String currentPhotoPath;
     private SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", new Locale("ru"));
-    private User user;
+    private SharedPreferences preferences;
     private Date userBirthday;
 
     @Override
@@ -83,14 +84,7 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
 
         ButterKnife.bind(this);
 
-        user = getIntent().getParcelableExtra(USER);
-        if (user != null) {
-            try {
-                userBirthday = sdf.parse(user.getBirthday());
-            } catch (NullPointerException | ParseException e) {
-            }
-            setUserFields();
-        }
+        prepareUserData();
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -101,7 +95,23 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
         toolbar.setNavigationOnClickListener(v -> finish());
     }
 
-    private void setUserFields() {
+    private void prepareUserData() {
+        preferences = getSharedPreferences(User.class.getName(), MODE_PRIVATE);
+        User user = getUser();
+        if (user != null) {
+            try {
+                userBirthday = sdf.parse(user.getBirthday());
+            } catch (NullPointerException | ParseException e) {
+            }
+            setUserFields(user);
+        }
+    }
+
+    private User getUser() {
+        return new Gson().fromJson(preferences.getString(USER_PREFERENCES, ""), User.class);
+    }
+
+    private void setUserFields(User user) {
         if (!TextUtils.isEmpty(user.getPhoto())) {
             ImageHelper.setImage(this, Uri.parse(user.getPhoto()), avatar);
             fileUri = Uri.parse(user.getPhoto());
@@ -274,12 +284,12 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.submit_profile) {
-            sendResult();
+            saveUserData();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendResult() {
+    private void saveUserData() {
         User user = new User();
         user.setPhoto(fileUri != null ? fileUri.toString() : "");
         user.setSecondName(secondName.getText().toString().trim());
@@ -292,9 +302,8 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
         user.setEmail(email.getText().toString().trim());
         user.setPhoneNumber(phoneNumber.getText().toString());
 
-        Intent intent = new Intent();
-        intent.putExtra(SAVED_USER, user);
-        setResult(RESULT_OK, intent);
+        preferences.edit().putString(USER_PREFERENCES, new Gson().toJson(user)).apply();
+
         finish();
     }
 }
