@@ -7,18 +7,14 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -26,17 +22,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.ProfilePresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserProfileView;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.FileUtils;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageHelper;
 import com.simplealertdialog.SimpleAlertDialog;
 import com.simplealertdialog.SimpleAlertDialogFragment;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,10 +46,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.TAG;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment.DateSetter;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment.newInstance;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER_PREFERENCES;
+import static com.simplealertdialog.SimpleAlertDialog.OnItemClickListener;
 
-public class ProfileEditorActivity extends AppCompatActivity implements SimpleAlertDialog.OnItemClickListener, DatePickerFragment.DateSetter {
+public class ProfileEditorActivity extends MvpAppCompatActivity implements
+        OnItemClickListener, DateSetter, UserProfileView {
 
     private static final int PERMISSIONS_REQUEST_CAMERA = 1;
     private static final int PERMISSIONS_WRITE_STORAGE = 2;
@@ -58,6 +60,8 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
     private static final int REQUEST_CAMERA = 4;
     private static final String DIALOG_CHOOSER = "dialog_chooser";
     public static final String DIALOG_DATE = "DialogDate";
+
+    @InjectPresenter ProfilePresenter presenter;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.change_photo) TextView changePhoto;
@@ -72,7 +76,7 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
 
     private File photoFile;
     private Uri fileUri;
-    private String currentPhotoPath;
+
     private SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", new Locale("ru"));
     private SharedPreferences preferences;
     private Date userBirthday;
@@ -134,7 +138,7 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
     @OnTouch(R.id.date_birthday)
     public boolean setDate(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            DatePickerFragment.newInstance(userBirthday).show(getSupportFragmentManager(), DIALOG_DATE);
+            newInstance(userBirthday).show(getSupportFragmentManager(), DIALOG_DATE);
         }
         int inType = birthday.getInputType();
         birthday.setInputType(InputType.TYPE_NULL);
@@ -193,7 +197,6 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
         avatar.setImageResource(R.drawable.user_icon);
         photoFile = null;
         fileUri = null;
-        currentPhotoPath = null;
     }
 
     private void checkPermissionCamera() {
@@ -224,18 +227,9 @@ public class ProfileEditorActivity extends AppCompatActivity implements SimpleAl
     private void makePhoto() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            try {
-                String imageFileName = "photo_" + System.currentTimeMillis() + "_";
-                File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                photoFile = File.createTempFile(imageFileName, ".jpg", storageDir);
-                currentPhotoPath = "file:" + photoFile.getAbsolutePath();
-                fileUri = Uri.fromFile(photoFile);
-            } catch (IOException ex) {
-                Log.d(TAG, ex.getMessage());
-            }
+            photoFile = FileUtils.createFile();
             if (photoFile != null) {
-                fileUri = FileProvider.getUriForFile(this,
-                        "com.simbirsoft.igorverbkin.androidtraineeeducation.fileprovider", photoFile);
+                fileUri = FileUtils.getUriFromFile(this, photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                 startActivityForResult(takePictureIntent, REQUEST_CAMERA);
             }

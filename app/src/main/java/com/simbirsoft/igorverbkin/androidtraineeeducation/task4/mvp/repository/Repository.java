@@ -1,21 +1,23 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository;
 
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.WantHelp;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.NkoEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventRepository {
+public class Repository {
 
-    private static EventRepository INSTANCE = new EventRepository();
+//    private static Repository INSTANCE = new Repository();
     private List<NkoEvent> nkos;
 
-    private EventRepository() {
+    public Repository() {
+        WantHelp.getComponent().inject(this);
     }
 
-    public static EventRepository newInstance() {
-        return INSTANCE;
-    }
+//    public static Repository newInstance() {
+//        return INSTANCE;
+//    }
 
     public List<NkoEvent> getData() {
         if (nkos != null && !nkos.isEmpty()) {
