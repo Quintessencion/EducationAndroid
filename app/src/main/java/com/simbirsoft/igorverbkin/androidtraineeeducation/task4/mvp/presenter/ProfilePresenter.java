@@ -1,7 +1,5 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.WantHelpApp;

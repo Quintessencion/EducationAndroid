@@ -2,6 +2,8 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app;
 
 import android.app.Application;
 
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.module.ContextModule;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -21,7 +23,7 @@ public class WantHelpApp extends Application {
 
     protected AppComponent buildComponent() {
         return DaggerAppComponent.builder()
-                .repositoryModule(new RepositoryModule(this))
+                .contextModule(new ContextModule(this))
                 .build();
     }
 

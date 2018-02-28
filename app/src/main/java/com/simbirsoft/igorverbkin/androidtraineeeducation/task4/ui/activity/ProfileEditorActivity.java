@@ -25,6 +25,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.WantHelpApp;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.ProfilePresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserProfileView;
