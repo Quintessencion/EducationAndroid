@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.TAG;
 
 public class ProfileFragment extends MvpAppCompatFragment implements UserProfileView {
 
@@ -60,6 +63,11 @@ public class ProfileFragment extends MvpAppCompatFragment implements UserProfile
             birthday.setText(user.getBirthday());
             fieldActivity.setText(user.getFieldActivity());
         }
+    }
+
+    @Override
+    public void logging() {
+        Log.d(TAG, getString(R.string.user_data_empty));
     }
 
     @Nullable

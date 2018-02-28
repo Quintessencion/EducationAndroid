@@ -42,6 +42,7 @@
     <string name="number_phone">Номер телефона</string>
     <string name="cancel">Отмена</string>
     <string name="fio">%s %s</string>
+    <string name="user_data_empty">Данные пользователя отсутствуют</string>
 
     <plurals name="organization_plurals">
         <item quantity="zero">организаций</item>

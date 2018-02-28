@@ -15,7 +15,7 @@ public class RepositoryModule {
     @Provides
     @Nonnull
     @Singleton
-    Repository provideRepository(@Nonnull SharedPreferences preferences) {
+    Repository provideRepository(SharedPreferences preferences) {
         return new Repository(preferences);
     }
 }

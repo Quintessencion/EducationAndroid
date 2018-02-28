@@ -2,7 +2,7 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.WantHelpApp;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.NkoEvent;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SearchNkoView;
@@ -11,15 +11,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
-
 @InjectViewState
 public class NkoPresenter extends MvpPresenter<SearchNkoView> {
 
-    @Inject Repository repository;
+    private Repository repository;
 
-    public NkoPresenter(){
-        WantHelpApp.getComponent().inject(this);
+    public NkoPresenter() {
+        repository = App.getComponent().repository();
     }
 
     @Override
