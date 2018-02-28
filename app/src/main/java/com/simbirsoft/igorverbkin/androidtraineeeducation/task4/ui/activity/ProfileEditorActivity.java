@@ -2,7 +2,6 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,12 +23,12 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.ProfilePresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserProfileView;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.FileUtils;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageHelper;
 import com.simplealertdialog.SimpleAlertDialog;
@@ -47,8 +46,6 @@ import butterknife.OnClick;
 import butterknife.OnTouch;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment.DateSetter;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment.newInstance;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER_PREFERENCES;
 import static com.simplealertdialog.SimpleAlertDialog.OnItemClickListener;
 
 public class ProfileEditorActivity extends MvpAppCompatActivity implements
@@ -56,10 +53,10 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
 
     private static final int PERMISSIONS_REQUEST_CAMERA = 1;
     private static final int PERMISSIONS_WRITE_STORAGE = 2;
-    private static final int REQUEST_STORAGE = 3;
+    private static final int REQUEST_INTERNAL_STORAGE = 3;
     private static final int REQUEST_CAMERA = 4;
-    private static final String DIALOG_CHOOSER = "dialog_chooser";
-    public static final String DIALOG_DATE = "DialogDate";
+    private static final String DIALOG_CHOICE_STORAGE = "dialog_chooser";
+    public static final String DIALOG_DATE_PICK = "DialogDate";
 
     @InjectPresenter ProfilePresenter presenter;
 
@@ -77,18 +74,16 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
     private File photoFile;
     private Uri fileUri;
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", new Locale("ru"));
-    private SharedPreferences preferences;
+    private SimpleDateFormat sdf;
     private Date userBirthday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sdf = new SimpleDateFormat("dd MMMM yyyy", new Locale("ru"));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_editor);
 
         ButterKnife.bind(this);
-
-        prepareUserData();
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -99,36 +94,30 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
         toolbar.setNavigationOnClickListener(v -> finish());
     }
 
-    private void prepareUserData() {
-        preferences = getSharedPreferences(User.class.getName(), MODE_PRIVATE);
-        User user = getUser();
+    @Override
+    public void fillUserFields(User user) {
         if (user != null) {
             try {
                 userBirthday = sdf.parse(user.getBirthday());
-            } catch (NullPointerException | ParseException e) {
+            } catch (NullPointerException | ParseException ignored) {
             }
-            setUserFields(user);
-        }
-    }
 
-    private User getUser() {
-        return new Gson().fromJson(preferences.getString(USER_PREFERENCES, ""), User.class);
-    }
+            if (!TextUtils.isEmpty(user.getPhoto())) {
+                ImageHelper.setImage(this, Uri.parse(user.getPhoto()), avatar);
+                fileUri = Uri.parse(user.getPhoto());
+            } else {
+                avatar.setImageResource(R.drawable.user_icon);
+            }
 
-    private void setUserFields(User user) {
-        if (!TextUtils.isEmpty(user.getPhoto())) {
-            ImageHelper.setImage(this, Uri.parse(user.getPhoto()), avatar);
-            fileUri = Uri.parse(user.getPhoto());
-        } else {
-            avatar.setImageResource(R.drawable.user_icon);
+            secondName.setText(checkOnEmpty(user.getSecondName()));
+            firstName.setText(checkOnEmpty(user.getFirstName()));
+            birthday.setText(checkOnEmpty(user.getBirthday()));
+            fieldActivity.setText(checkOnEmpty(user.getFieldActivity()));
+            password.setText(checkOnEmpty(user.getPassword()));
+            email.setText(checkOnEmpty(user.getEmail()));
+            phoneNumber.setText(checkOnEmpty(user.getPhoneNumber()));
         }
-        secondName.setText(checkOnEmpty(user.getSecondName()));
-        firstName.setText(checkOnEmpty(user.getFirstName()));
-        birthday.setText(checkOnEmpty(user.getBirthday()));
-        fieldActivity.setText(checkOnEmpty(user.getFieldActivity()));
-        password.setText(checkOnEmpty(user.getPassword()));
-        email.setText(checkOnEmpty(user.getEmail()));
-        phoneNumber.setText(checkOnEmpty(user.getPhoneNumber()));
+        ;
     }
 
     private String checkOnEmpty(String text) {
@@ -138,7 +127,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
     @OnTouch(R.id.date_birthday)
     public boolean setDate(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            newInstance(userBirthday).show(getSupportFragmentManager(), DIALOG_DATE);
+            DatePickerFragment.newInstance(userBirthday).show(getSupportFragmentManager(), DIALOG_DATE_PICK);
         }
         int inType = birthday.getInputType();
         birthday.setInputType(InputType.TYPE_NULL);
@@ -162,7 +151,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
                         R.drawable.camera,
                         R.drawable.delete})
                 .create()
-                .show(getFragmentManager(), DIALOG_CHOOSER);
+                .show(getFragmentManager(), DIALOG_CHOICE_STORAGE);
     }
 
     @Override
@@ -182,7 +171,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
 
     public void getPhotoFromStorage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_STORAGE);
+        startActivityForResult(intent, REQUEST_INTERNAL_STORAGE);
     }
 
     public void getPhotoFromCamera() {
@@ -248,7 +237,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
             return;
         }
         switch (requestCode) {
-            case REQUEST_STORAGE:
+            case REQUEST_INTERNAL_STORAGE:
                 fileUri = data.getData();
                 if (fileUri != null) {
                     Cursor cursor = getContentResolver().query(data.getData(),
@@ -296,7 +285,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
         user.setEmail(email.getText().toString().trim());
         user.setPhoneNumber(phoneNumber.getText().toString());
 
-        preferences.edit().putString(USER_PREFERENCES, new Gson().toJson(user)).apply();
+        presenter.saveDataUser(user);
 
         finish();
     }

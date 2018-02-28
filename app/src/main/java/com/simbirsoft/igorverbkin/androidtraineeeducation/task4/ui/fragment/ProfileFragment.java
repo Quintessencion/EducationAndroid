@@ -1,11 +1,9 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,10 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Friend;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.ProfilePresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserProfileView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.ProfileEditorActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.ProfileFriendsAdapter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageHelper;
@@ -31,29 +32,34 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.content.Context.MODE_PRIVATE;
-
-public class ProfileFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class ProfileFragment extends MvpAppCompatFragment implements UserProfileView {
 
     public static final String USER_PREFERENCES = "user_preferences";
+
+    @InjectPresenter ProfilePresenter presenter;
 
     @BindView(R.id.image_profile) ImageView photo;
     @BindView(R.id.fio) TextView fio;
     @BindView(R.id.birthday) TextView birthday;
     @BindView(R.id.field_activity) TextView fieldActivity;
 
-    private SharedPreferences preferences;
-
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        preferences = getActivity().getSharedPreferences(User.class.getName(), MODE_PRIVATE);
-        preferences.registerOnSharedPreferenceChangeListener(this);
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
-        setUserFields(getUser());
+    public void fillUserFields(User user) {
+        if (user != null) {
+            if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
+                ImageHelper.setImage(getActivity(), Uri.parse(user.getPhoto()), photo);
+            } else {
+                photo.setImageResource(R.drawable.user_icon);
+            }
+            fio.setText((String.format(getString(R.string.fio), user.getSecondName(), user.getFirstName())).trim());
+            birthday.setText(user.getBirthday());
+            fieldActivity.setText(user.getFieldActivity());
+        }
     }
 
     @Nullable
@@ -62,11 +68,6 @@ public class ProfileFragment extends Fragment implements SharedPreferences.OnSha
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         ButterKnife.bind(this, view);
-
-        User user = getUser();
-        if (user != null) {
-            setUserFields(user);
-        }
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_friends);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -84,10 +85,6 @@ public class ProfileFragment extends Fragment implements SharedPreferences.OnSha
         return view;
     }
 
-    private User getUser() {
-        return new Gson().fromJson(preferences.getString(USER_PREFERENCES, ""), User.class);
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.profile_menu, menu);
@@ -100,16 +97,5 @@ public class ProfileFragment extends Fragment implements SharedPreferences.OnSha
             startActivity(new Intent(getActivity(), ProfileEditorActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setUserFields(User user) {
-        if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
-            ImageHelper.setImage(getActivity(), Uri.parse(user.getPhoto()), photo);
-        } else {
-            photo.setImageResource(R.drawable.user_icon);
-        }
-        fio.setText((String.format(getString(R.string.fio), user.getSecondName(), user.getFirstName())).trim());
-        birthday.setText(user.getBirthday());
-        fieldActivity.setText(user.getFieldActivity());
     }
 }

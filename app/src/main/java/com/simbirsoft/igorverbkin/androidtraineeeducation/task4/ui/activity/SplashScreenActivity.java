@@ -9,7 +9,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 
 import java.util.concurrent.TimeUnit;
 
-public class LoadingActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class LoadingActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             if (hasWindowFocus()) {
-                Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();

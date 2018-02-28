@@ -1,6 +1,8 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository;
 
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.WantHelp;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.NkoEvent;
 
 import java.util.ArrayList;
@@ -8,18 +10,14 @@ import java.util.List;
 
 public class Repository {
 
-//    private static Repository INSTANCE = new Repository();
-    private List<NkoEvent> nkos;
+    private SharedPreferences preferences;
+    private List<NkoEvent> nkos;// <--! temporary type
 
-    public Repository() {
-        WantHelp.getComponent().inject(this);
+    public Repository(SharedPreferences preferences) {
+        this.preferences = preferences;
     }
 
-//    public static Repository newInstance() {
-//        return INSTANCE;
-//    }
-
-    public List<NkoEvent> getData() {
+    public List<NkoEvent> getNkoData() {
         if (nkos != null && !nkos.isEmpty()) {
             return nkos;
         }
@@ -44,5 +42,13 @@ public class Repository {
         nkos.add(new NkoEvent("Любовь и Ёжики»"));
 
         return nkos;
+    }
+
+    public Object loadObject(Class<?> clazz, String nameObject) {
+        return new Gson().fromJson(preferences.getString(nameObject, ""), clazz);
+    }
+
+    public void saveObject(Object obj, String nameObject) {
+        preferences.edit().putString(nameObject, new Gson().toJson(obj)).apply();
     }
 }

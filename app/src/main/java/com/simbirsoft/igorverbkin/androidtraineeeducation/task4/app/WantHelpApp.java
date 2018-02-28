@@ -5,13 +5,9 @@ import android.app.Application;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class WantHelp extends Application {
+public class WantHelpApp extends Application {
 
     private static AppComponent component;
-
-    public static AppComponent getComponent() {
-        return component;
-    }
 
     @Override
     public void onCreate() {
@@ -25,7 +21,11 @@ public class WantHelp extends Application {
 
     protected AppComponent buildComponent() {
         return DaggerAppComponent.builder()
-                .repositoryModule(new RepositoryModule())
+                .repositoryModule(new RepositoryModule(this))
                 .build();
+    }
+
+    public static AppComponent getComponent() {
+        return component;
     }
 }
