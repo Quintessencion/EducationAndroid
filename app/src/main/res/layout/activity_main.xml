@@ -48,7 +48,7 @@
         android:layout_marginBottom="18dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/heart_fab"
+        android:src="@drawable/heart_fab_depressed"
         app:backgroundTint="@android:color/white"
         app:elevation="0dp" />
 

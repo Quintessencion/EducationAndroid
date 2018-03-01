@@ -11,6 +11,8 @@ public interface MainActivityView extends MvpView {
 
     void loadSearchFragment();
 
+    void loadHelpFragment();
+
     void loadHistoryFragment();
 
     void loadProfileFragment();
