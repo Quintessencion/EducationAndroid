@@ -31,7 +31,7 @@ public class Repository {
         nkos.add(new NkoEvent("АНО «СИНЯЯ ПТИЦА»"));
         nkos.add(new NkoEvent("Аппарель"));
         nkos.add(new NkoEvent("БФ «ПОДАРОК АНГЕЛУ»"));
-        nkos.add(new NkoEvent("Безорасный дом"));
+        nkos.add(new NkoEvent("Безопасный дом"));
         nkos.add(new NkoEvent("БЛАГО ДАРЮ"));
         nkos.add(new NkoEvent("БУМАЖНЫЙ ЖУРАВЛИК"));
         nkos.add(new NkoEvent("Благотворительный фонд «Лучик»"));
