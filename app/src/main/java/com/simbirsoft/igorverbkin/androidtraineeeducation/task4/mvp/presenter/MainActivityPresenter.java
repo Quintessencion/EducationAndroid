@@ -21,11 +21,19 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityView> {
         getViewState().loadSearchFragment();
     }
 
+    public void switchToHelp() {
+        getViewState().loadHelpFragment();
+    }
+
     public void switchToHistory() {
         getViewState().loadHistoryFragment();
     }
 
     public void switchToProfile() {
         getViewState().loadProfileFragment();
+    }
+
+    public void sendVoiceQuery(String query) {
+
     }
 }

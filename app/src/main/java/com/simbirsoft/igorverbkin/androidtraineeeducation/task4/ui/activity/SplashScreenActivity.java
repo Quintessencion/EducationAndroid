@@ -4,17 +4,25 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ProgressBar;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 
 import java.util.concurrent.TimeUnit;
 
-public class LoadingActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class SplashScreenActivity extends AppCompatActivity {
+
+    @BindView(R.id.progressBar) ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
+
+        ButterKnife.bind(this);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -38,7 +46,7 @@ public class LoadingActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             if (hasWindowFocus()) {
-                Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();

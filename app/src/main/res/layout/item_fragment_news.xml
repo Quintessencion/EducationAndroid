@@ -69,7 +69,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="26dp"
             android:layout_marginRight="26dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:gravity="center_horizontal"
             tools:text="Дубовская школа-интернат для детей с ограниченными возможностями здоровья стала первой в области …" />
 
@@ -86,14 +86,14 @@
                 android:id="@+id/image_calendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/icon_calendar" />
+                app:srcCompat="@drawable/icon_calendar_ligth" />
 
             <TextView
                 android:id="@+id/expiration_date"
                 style="@style/TextAppearanceDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="4dp"
                 android:paddingTop="4dp"
                 tools:text="Осталось 13 дней (21.09 – 20.10)" />
         </LinearLayout>

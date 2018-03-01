@@ -3,70 +3,84 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e8eded">
-
-    <ImageView
-        android:id="@+id/image_zoom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="101dp"
-        android:src="@drawable/icon_zoom" />
-
-    <TextView
-        android:id="@+id/text_search_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/image_zoom"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="58dp"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="37.5dp"
-        android:fontFamily="sans-serif"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="6sp"
-        android:text="@string/search_event_name"
-        android:textColor="#b3000000"
-        android:textSize="14sp"
-        android:textStyle="normal" />
+    android:background="@color/silver">
 
     <LinearLayout
+        android:id="@+id/not_found_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text_search_event"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
 
-        <TextView
-            android:id="@+id/text_example"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="sans-serif"
-            android:gravity="end"
-            android:lineSpacingExtra="6sp"
-            android:text="@string/example"
-            android:textColor="#b3000000"
-            android:textSize="14sp"
-            android:textStyle="normal" />
+            android:layout_gravity="center"
+            android:layout_marginTop="52dp"
+            android:src="@drawable/icon_zoom" />
 
         <TextView
-            android:id="@+id/text_link"
+            style="@style/TextAppearanceDescriptionAction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:fontFamily="sans-serif"
-            android:lineSpacingExtra="6sp"
-            android:text="@string/link_example"
-            android:textColor="#66a636"
-            android:textSize="14sp"
-            android:textStyle="normal" />
+            android:layout_gravity="center"
+            android:layout_marginEnd="58dp"
+            android:layout_marginStart="58dp"
+            android:layout_marginTop="36dp"
+            android:gravity="center_horizontal"
+            android:text="@string/search_event_not_found" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="52dp"
+            android:src="@drawable/icon_zoom" />
+
+        <TextView
+            style="@style/TextAppearanceDescriptionAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="58dp"
+            android:layout_marginStart="58dp"
+            android:layout_marginTop="36dp"
+            android:gravity="center_horizontal"
+            android:text="@string/search_event_name" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextAppearanceDescriptionAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="end"
+                android:text="@string/example" />
+
+            <TextView
+                android:id="@+id/text_link"
+                style="@style/TextAppearanceLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="4dp"
+                android:text="@string/link_example" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

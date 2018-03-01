@@ -2,15 +2,14 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
+import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.TAG;
-
-class SectionsPagerAdapter extends FragmentPagerAdapter {
+class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragments = new ArrayList<>();
 
@@ -32,7 +31,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
         try {
             fragments.add(fragmentClass.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            Log.d(TAG, e.getMessage());
+            Logger.d(e.getMessage());
         }
     }
 }

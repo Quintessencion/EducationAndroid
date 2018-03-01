@@ -7,11 +7,10 @@
         android:title="@string/news" />
     <item
         android:id="@+id/menu_search"
-        android:icon="@drawable/searh"
+        android:icon="@drawable/icon_search"
         android:title="@string/search" />
     <item
         android:id="@+id/menu_help"
-        android:enabled="false"
         android:title="@string/help" />
     <item
         android:id="@+id/menu_history"

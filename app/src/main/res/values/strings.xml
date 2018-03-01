@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Хочу помочь</string>
-    <string name="loading">Загрузка...</string>
+    <string name="loading">Загрузка…</string>
     <string name="news">Новости</string>
     <string name="search">Поиск</string>
     <string name="help">Помочь</string>
@@ -17,6 +17,44 @@
     <string name="search_by_nko">По НКО</string>
     <string name="search_hint">Введите название организации</string>
     <string name="search_event_name">Напишите в строке поиска название мероприятия или ключевые слова.</string>
+    <string name="search_event_not_found">К сожалению по вашему вопросу ничего не найдено</string>
     <string name="example">Например,</string>
     <string name="link_example">мастер-класс, помощь</string>
+    <string name="search_result">Результаты поиска: "</string>
+    <string name="keywords">Ключевые слова: "</string>
+    <string name="empty_history">История пуста</string>
+    <string name="press_help">Нажите «Помочь», чтобы принять участие</string>
+    <string name="not_participate">Вы еще не участвовали ни в одном мероприятии.</string>
+    <string name="second_name">Ваша фамилия</string>
+    <string name="your_name">Ваше имя</string>
+    <string name="input_second_name">Введите фамилию</string>
+    <string name="input_first_name">Введите имя</string>
+    <string name="ok">Ок</string>
+    <string name="save">Сохранить</string>
+    <string name="change_photo">Сменить фото</string>
+    <string name="date_birth">Дата рождения</string>
+    <string name="field_of_activity">Заполните Вашу сферу деятельности</string>
+    <string name="fill_field_of_activity">Заполните Вашу сферу деятельности, чтобы быть наиболее полезным</string>
+    <string name="password">Пароль</string>
+    <string name="enter_email">Введите ваш email</string>
+    <string name="email_for_notification">E-mail для уведомлений</string>
+    <string name="input_number_phone">Введите номер телефона</string>
+    <string name="number_phone">Номер телефона</string>
+    <string name="cancel">Отмена</string>
+    <string name="fio">%s %s</string>
+
+    <plurals name="organization_plurals">
+        <item quantity="zero">организаций</item>
+        <item quantity="one">%1$d организация</item>
+        <item quantity="two">%1$d организации</item>
+        <item quantity="few">%1$d организации</item>
+        <item quantity="many">%1$d организаций</item>
+        <item quantity="other">%1$d организаций</item>
+    </plurals>
+
+    <string-array name="items">
+        <item>Выбрать фото</item>
+        <item>Сделать снимок</item>
+        <item>Удалить</item>
+    </string-array>
 </resources>

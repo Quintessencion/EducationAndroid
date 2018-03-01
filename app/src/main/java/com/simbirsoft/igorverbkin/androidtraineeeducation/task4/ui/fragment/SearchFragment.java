@@ -19,23 +19,15 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         ViewPager viewPager = view.findViewById(R.id.search_container);
-        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
         adapter.addFragment(EventFragment.class);
         adapter.addFragment(NKOFragment.class);
         viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = view.findViewById(R.id.tabs);
+        TabLayout tabLayout = view.findViewById(R.id.search_tabs);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
 
         return view;
-    }
-
-    @Override
-    public void onStop() {
-        for (Fragment fragment : getFragmentManager().getFragments()) {
-            fragment.setMenuVisibility(false);
-        }
-        super.onStop();
     }
 }

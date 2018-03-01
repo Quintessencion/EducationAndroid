@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 26
@@ -20,6 +21,9 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    realm {
+        syncEnabled = true;
+    }
 }
 
 dependencies {
@@ -34,10 +38,37 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //Round Image
+    compile 'com.makeramen:roundedimageview:2.3.0'
+    //Picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    //Simple AlertDialog
+    compile 'com.github.ksoichiro:simplealertdialog:1.2.1@aar'
+    //Gson
+    compile 'com.google.code.gson:gson:2.8.1'
+    //ButterKnife
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //Retrofit 2
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
+    compile 'com.google.code.gson:gson:2.8.1'
+    //Moxy
     compile 'com.arello-mobile:moxy:1.5.3'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
     compile 'com.arello-mobile:moxy-android:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
+    //RxBinding
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.1.0'
+    //RxJava 2
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.4'
+    //Dagger 2
+    compile 'com.google.dagger:dagger:2.13'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
+    //Dagger-Android
+    compile 'com.google.dagger:dagger-android:2.11'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
 }
