@@ -78,6 +78,10 @@
         <item name="android:textColor">@color/grey</item>
     </style>
 
+    <style name="TextAppearanceProfile" parent="TextAppearanceDate">
+        <item name="android:textColor">@color/grey_100</item>
+    </style>
+
     <style name="TextAppearanceProfileContent" parent="TextAppearanceFIO">
         <item name="android:textSize">16sp</item>
     </style>

@@ -11,6 +11,4 @@ public interface UserProfileView extends MvpView {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
     void fillUserFields(User user);
-
-    void logging();
 }

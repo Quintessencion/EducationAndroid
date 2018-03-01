@@ -35,7 +35,7 @@ public abstract class BaseSearchFragment extends MvpAppCompatFragment implements
         searchView.setBackgroundColor(getActivity().getResources().getColor(android.R.color.white));
         searchView.setOnQueryTextListener(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            searchView.setElevation(16);
+            searchView.setElevation(getResources().getDimension(R.dimen.elevation));
         }
         setHint(searchView);
 

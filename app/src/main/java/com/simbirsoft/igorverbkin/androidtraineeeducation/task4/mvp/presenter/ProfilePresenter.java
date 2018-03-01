@@ -6,6 +6,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserProfileView;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
 import io.reactivex.Flowable;
 import io.reactivex.annotations.Nullable;
@@ -28,7 +29,7 @@ public class ProfilePresenter extends MvpPresenter<UserProfileView> {
     public void attachView(UserProfileView view) {
         super.attachView(view);
         disposable.add(getUser()
-                .subscribe(user -> getViewState().fillUserFields(user), throwable -> getViewState().logging()));
+                .subscribe(user -> getViewState().fillUserFields(user), tr -> Logger.d("No user data")));
     }
 
     @Nullable

@@ -1,20 +1,32 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ProgressBar;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SplashScreenActivity extends AppCompatActivity {
+
+    @BindView(R.id.progressBar) ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
+
+        ButterKnife.bind(this);
+
+        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.green),
+                PorterDuff.Mode.MULTIPLY);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();

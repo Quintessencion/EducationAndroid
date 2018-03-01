@@ -1,6 +1,7 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -14,11 +15,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -44,9 +45,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 import butterknife.OnTouch;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.TAG;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment.DateSetter;
 import static com.simplealertdialog.SimpleAlertDialog.OnItemClickListener;
 
@@ -79,6 +80,8 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
     private SimpleDateFormat sdf;
     private Date userBirthday;
 
+    private boolean onTouch = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sdf = new SimpleDateFormat("dd MMMM yyyy", new Locale("ru"));
@@ -98,32 +101,25 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
 
     @Override
     public void fillUserFields(User user) {
-        if (user != null) {
-            try {
-                userBirthday = sdf.parse(user.getBirthday());
-            } catch (NullPointerException | ParseException ignored) {
-            }
-
-            if (!TextUtils.isEmpty(user.getPhoto())) {
-                ImageHelper.setImage(this, Uri.parse(user.getPhoto()), avatar);
-                fileUri = Uri.parse(user.getPhoto());
-            } else {
-                avatar.setImageResource(R.drawable.user_icon);
-            }
-
-            secondName.setText(checkOnEmpty(user.getSecondName()));
-            firstName.setText(checkOnEmpty(user.getFirstName()));
-            birthday.setText(checkOnEmpty(user.getBirthday()));
-            fieldActivity.setText(checkOnEmpty(user.getFieldActivity()));
-            password.setText(checkOnEmpty(user.getPassword()));
-            email.setText(checkOnEmpty(user.getEmail()));
-            phoneNumber.setText(checkOnEmpty(user.getPhoneNumber()));
+        try {
+            userBirthday = sdf.parse(user.getBirthday());
+        } catch (NullPointerException | ParseException ignored) {
         }
-    }
 
-    @Override
-    public void logging() {
-        Log.d(TAG, getString(R.string.user_data_empty));
+        if (!TextUtils.isEmpty(user.getPhoto())) {
+            ImageHelper.setImage(this, Uri.parse(user.getPhoto()), avatar);
+            fileUri = Uri.parse(user.getPhoto());
+        } else {
+            avatar.setImageResource(R.drawable.user_icon);
+        }
+
+        secondName.setText(checkOnEmpty(user.getSecondName()));
+        firstName.setText(checkOnEmpty(user.getFirstName()));
+        birthday.setText(checkOnEmpty(user.getBirthday()));
+        fieldActivity.setText(checkOnEmpty(user.getFieldActivity()));
+        password.setText(checkOnEmpty(user.getPassword()));
+        email.setText(checkOnEmpty(user.getEmail()));
+        phoneNumber.setText(checkOnEmpty(user.getPhoneNumber()));
     }
 
     private String checkOnEmpty(String text) {
@@ -132,14 +128,34 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
 
     @OnTouch(R.id.date_birthday)
     public boolean setDate(MotionEvent event) {
+        onTouch = true;
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            DatePickerFragment.newInstance(userBirthday).show(getSupportFragmentManager(), DIALOG_DATE_PICK);
+            pickDate();
         }
         int inType = birthday.getInputType();
         birthday.setInputType(InputType.TYPE_NULL);
         birthday.onTouchEvent(event);
         birthday.setInputType(inType);
+        onTouch = false;
         return true;
+    }
+
+    @OnFocusChange(R.id.date_birthday)
+    public void setDate(View v, boolean hasFocus) {
+        if (onTouch) {
+            return;
+        }
+        if (hasFocus) {
+            pickDate();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        }
+    }
+
+    private void pickDate() {
+        DatePickerFragment.newInstance(userBirthday).show(getSupportFragmentManager(), DIALOG_DATE_PICK);
     }
 
     @Override

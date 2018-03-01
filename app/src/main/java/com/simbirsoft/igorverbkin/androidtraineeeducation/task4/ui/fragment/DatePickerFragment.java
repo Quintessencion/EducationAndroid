@@ -6,19 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.ProfileEditorActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.TAG;
 
 public class DatePickerFragment extends DialogFragment {
 
@@ -44,7 +42,7 @@ public class DatePickerFragment extends DialogFragment {
         try {
             dateSetter = (DateSetter) context;
         } catch (ClassCastException e) {
-            Log.d(TAG, ProfileEditorActivity.class.getSimpleName() + " can't cast to DateSetter");
+            Logger.d(ProfileEditorActivity.class.getSimpleName() + " can't cast to DateSetter");
         }
     }
 
@@ -58,6 +56,7 @@ public class DatePickerFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null);
         datePicker = view.findViewById(R.id.dialog_date_picker);
         datePicker.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), null);
+        datePicker.setMaxDate(System.currentTimeMillis());
 
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
