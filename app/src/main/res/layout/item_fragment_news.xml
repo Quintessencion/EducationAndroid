@@ -86,7 +86,7 @@
                 android:id="@+id/image_calendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/icon_calendar_ligth" />
+                app:srcCompat="@drawable/icon_calendar_light" />
 
             <TextView
                 android:id="@+id/expiration_date"

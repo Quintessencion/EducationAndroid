@@ -10,6 +10,8 @@
     <color name="silver_dark">#627f8f</color>
     <color name="grey">#60000000</color>
     <color name="grey_100">#61000000</color>
+    <color name="grey_200">#94998a</color>
+    <color name="grey_300">#99000000</color>
     <color name="light_red">#fe7460</color>
     <color name="orange">#f2b630</color>
     <color name="dark_black">#de000000</color>

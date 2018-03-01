@@ -36,7 +36,6 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-
         <activity android:name=".task4.ui.activity.ProfileEditorActivity" />
 
         <provider
@@ -49,6 +48,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".task4.ui.activity.EventDetailActivity"></activity>
     </application>
 
 </manifest>

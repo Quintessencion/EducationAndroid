@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.News;
@@ -43,6 +45,24 @@ public class NewsFragment extends Fragment {
 
         adapter.updateList(news);
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                Toast.makeText(getActivity(), "onInterceptTouchEvent()", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+                Toast.makeText(getActivity(), "onTouchEvent()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+                Toast.makeText(getActivity(), "onRequestDisallowInterceptTouchEvent()", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }
