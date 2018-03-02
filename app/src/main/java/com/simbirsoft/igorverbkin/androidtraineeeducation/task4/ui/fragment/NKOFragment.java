@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.NkoEvent;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NkoPresenter;
 
 import java.util.List;
@@ -76,7 +76,7 @@ public class NKOFragment extends BaseSearchFragment {
     }
 
     @Override
-    public void loadData(List<NkoEvent> nkos) {
+    public void loadData(List<Event> nkos) {
         if (nkos.size() == 0) {
             notFoundView.setVisibility(View.VISIBLE);
             mainView.setVisibility(View.INVISIBLE);

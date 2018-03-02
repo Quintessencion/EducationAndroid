@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.NkoEvent;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 
 import java.util.List;
 
@@ -33,7 +33,6 @@ public class EventFragment extends BaseSearchFragment {
         View view = inflater.inflate(R.layout.fragment_event, container, false);
 
         ButterKnife.bind(this, view);
-
         link.setPaintFlags(link.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         return view;
@@ -56,7 +55,7 @@ public class EventFragment extends BaseSearchFragment {
     }
 
     @Override
-    public void loadData(List<NkoEvent> nkos) {
+    public void loadData(List<Event> nkos) {
 
     }
 }

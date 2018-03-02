@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.NkoEvent;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +19,7 @@ class NkoViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    void bindView(NkoEvent nko) {
-        nameNko.setText(nko.getName());
+    void bindView(Event nko) {
+        nameNko.setText(nko.getFundName());
     }
 }

@@ -9,6 +9,7 @@
     <color name="silver">#e8eded</color>
     <color name="silver_dark">#627f8f</color>
     <color name="grey">#60000000</color>
+    <color name="grey_50">#61c2bebe</color>
     <color name="grey_100">#61000000</color>
     <color name="grey_200">#94998a</color>
     <color name="grey_300">#99000000</color>

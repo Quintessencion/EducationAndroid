@@ -3,45 +3,27 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.NkoEvent;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.EventStorage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Repository {
 
     private SharedPreferences preferences;
-    private List<NkoEvent> nkos;// <--! temporary type
+    private EventStorage eventStorage;
 
-    public Repository(SharedPreferences preferences) {
+    public Repository(SharedPreferences preferences, EventStorage eventStorage) {
         this.preferences = preferences;
+        this.eventStorage = eventStorage;
     }
 
-    public List<NkoEvent> getNkoData() {
-        if (nkos != null && !nkos.isEmpty()) {
-            return nkos;
-        }
+    public Event getEventById(String id) {
+        return eventStorage.getEventById(id);
+    }
 
-        nkos = new ArrayList<>();
-        nkos.add(new NkoEvent("Благотворительный фонд Алины Калашниковой"));
-        nkos.add(new NkoEvent("«Во имя жизни»"));
-        nkos.add(new NkoEvent("Благотворительный Фонд В. Потанина"));
-        nkos.add(new NkoEvent("«Детские домики»"));
-        nkos.add(new NkoEvent("«Мозаика счастья»"));
-        nkos.add(new NkoEvent("АНО «СИНЯЯ ПТИЦА»"));
-        nkos.add(new NkoEvent("Аппарель"));
-        nkos.add(new NkoEvent("БФ «ПОДАРОК АНГЕЛУ»"));
-        nkos.add(new NkoEvent("Безопасный дом"));
-        nkos.add(new NkoEvent("БЛАГО ДАРЮ"));
-        nkos.add(new NkoEvent("БУМАЖНЫЙ ЖУРАВЛИК"));
-        nkos.add(new NkoEvent("Благотворительный фонд «Лучик»"));
-        nkos.add(new NkoEvent("Благотворительный фонд «Система»"));
-        nkos.add(new NkoEvent("Благотворительный фонд ЦФО"));
-        nkos.add(new NkoEvent("Благотворительный фонд «Кораблик»"));
-        nkos.add(new NkoEvent("БФ «Живи»"));
-        nkos.add(new NkoEvent("Любовь и Ёжики»"));
-
-        return nkos;
+    public List<Event> getEvents() {
+        return eventStorage.getEvents();
     }
 
     public Object loadObject(Class<?> clazz, String nameObject) {

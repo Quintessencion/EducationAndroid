@@ -3,7 +3,7 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.NkoEvent;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SearchNkoView;
 
@@ -23,20 +23,20 @@ public class NkoPresenter extends MvpPresenter<SearchNkoView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        getViewState().loadData(getShuffleRows());
+        getViewState().loadData(repository.getEvents());
     }
 
-    private List<NkoEvent> getShuffleRows() {
-        List<NkoEvent> data = repository.getNkoData();
-        Collections.shuffle(data);
-        return data;
-    }
+//    private List<Event> getShuffleRows() {
+//        List<Event> data = repository.getEvents();
+//        Collections.shuffle(data);
+//        return data;
+//    }
 
     public void filter(String query) {
-        List<NkoEvent> filteredModelList = new ArrayList<>();
+        List<Event> filteredModelList = new ArrayList<>();
 
-        for (NkoEvent nko : repository.getNkoData()) {
-            String text = nko.getName().toLowerCase();
+        for (Event nko : repository.getEvents()) {
+            String text = nko.getFundName().toLowerCase();
             if (text.contains(query.toLowerCase())) {
                 filteredModelList.add(nko);
             }
@@ -49,6 +49,6 @@ public class NkoPresenter extends MvpPresenter<SearchNkoView> {
     }
 
     public void refreshData() {
-        getViewState().loadData(getShuffleRows());
+        getViewState().loadData(repository.getEvents());
     }
 }

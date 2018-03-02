@@ -5,16 +5,16 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.NkoEvent;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class NkoAdapter extends RecyclerView.Adapter<NkoViewHolder> {
 
-    private List<NkoEvent> data = new ArrayList<>();
+    private List<Event> data = new ArrayList<>();
 
-    public void updateList(List<NkoEvent> data) {
+    public void updateList(List<Event> data) {
         this.data.clear();
         this.data.addAll(data);
         notifyDataSetChanged();

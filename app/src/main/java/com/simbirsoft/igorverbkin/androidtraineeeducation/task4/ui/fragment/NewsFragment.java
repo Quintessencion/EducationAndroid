@@ -1,27 +1,33 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.News;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NewsPresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventDetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.NewsAdapter;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class NewsFragment extends Fragment {
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventDetailActivity.EVENT_ID;
+
+public class NewsFragment extends MvpAppCompatFragment implements NewsView, RecyclerViewClickListener {
+
+    @InjectPresenter NewsPresenter presenter;
+    private NewsAdapter adapter;
 
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -36,40 +42,27 @@ public class NewsFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_news);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
-        NewsAdapter adapter = new NewsAdapter();
-
-        List<News> news = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            news.add(new News("Title Example " + i, "Content Example " + i, new Date()));
-        }
-
-        adapter.updateList(news);
+        adapter = new NewsAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                Toast.makeText(getActivity(), "onInterceptTouchEvent()", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-                Toast.makeText(getActivity(), "onTouchEvent()", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-                Toast.makeText(getActivity(), "onRequestDisallowInterceptTouchEvent()", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         return view;
+    }
+
+    @Override
+    public void updateData(List<Event> events) {
+        adapter.updateList(events);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.news_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void openDetailEvent(String id) {
+        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+        intent.putExtra(EVENT_ID, id);
+        startActivity(intent);
     }
 }
