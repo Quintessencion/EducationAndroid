@@ -53,6 +53,7 @@ public class EventDetailActivity extends MvpAppCompatActivity implements EventDe
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.icon_back);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
     }

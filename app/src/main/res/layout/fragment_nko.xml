@@ -11,20 +11,8 @@
         layout="@layout/screen_not_found"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/result_nko_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <include
+        android:id="@+id/request_view"
+        layout="@layout/request_information" />
 
-        <include layout="@layout/request_information" />
-
-        <include
-            layout="@layout/divider_layout"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
-
-        <include layout="@layout/recycler_view" />
-
-    </LinearLayout>
 </LinearLayout>

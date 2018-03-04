@@ -48,6 +48,10 @@
     <string name="send_via">Отправить с помощью:</string>
     <string name="rest_days">%s (%s – %s)</string>
     <string name="share">Поделиться</string>
+    <string name="help_things">Помочь \nвещами</string>
+    <string name="become_volunteer">Стать \nволонтером</string>
+    <string name="professional_help">Проф. \nпомощь</string>
+    <string name="help_money">Помочь \nденьгами</string>
 
     <plurals name="organization_plural">
         <item quantity="zero">организаций</item>

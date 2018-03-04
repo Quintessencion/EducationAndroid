@@ -2,13 +2,15 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
@@ -34,9 +36,7 @@ public abstract class BaseSearchFragment extends MvpAppCompatFragment implements
         searchView.setFocusable(true);
         searchView.setBackgroundColor(getActivity().getResources().getColor(android.R.color.white));
         searchView.setOnQueryTextListener(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            searchView.setElevation(getResources().getDimension(R.dimen.elevation));
-        }
+        searchView.setElevation(getResources().getDimension(R.dimen.elevation));
         setHint(searchView);
 
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);

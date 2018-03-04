@@ -28,7 +28,7 @@ public class NkoFragment extends BaseSearchFragment implements RecyclerViewClick
     @InjectPresenter NkoPresenter presenter;
 
     @BindView(R.id.not_found_view) View notFoundView;
-    @BindView(R.id.result_nko_view) View resultNkoView;
+    @BindView(R.id.request_view) View resultNkoView;
     @BindView(R.id.count_results) TextView countResult;
     @BindView(R.id.keywords) TextView keywords;
 

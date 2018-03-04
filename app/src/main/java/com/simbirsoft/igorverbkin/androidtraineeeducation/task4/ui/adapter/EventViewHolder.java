@@ -14,7 +14,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtil
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class NewsViewHolder extends RecyclerView.ViewHolder {
+class EventViewHolder extends RecyclerView.ViewHolder {
 
     private RecyclerViewClickListener listener;
 
@@ -24,7 +24,7 @@ class NewsViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.news_content) TextView newsContent;
     @BindView(R.id.expiration_date) TextView expirationDate;
 
-    NewsViewHolder(View itemView, RecyclerViewClickListener listener) {
+    EventViewHolder(View itemView, RecyclerViewClickListener listener) {
         super(itemView);
         this.listener = listener;
         ButterKnife.bind(this, itemView);

@@ -97,6 +97,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.icon_back);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
     }

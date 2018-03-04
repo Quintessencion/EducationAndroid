@@ -16,6 +16,8 @@ public class Event {
     private String email;
     private String webSite;
     private boolean isEvent;
+    private String[] contributors;
+    private TypeAssistance[] typesAssistance;
 
     public Event(String id, String eventName, Date start, Date end, String fundName, String email,
                  String address, String[] phones, String content, String webSite, boolean isEvent) {

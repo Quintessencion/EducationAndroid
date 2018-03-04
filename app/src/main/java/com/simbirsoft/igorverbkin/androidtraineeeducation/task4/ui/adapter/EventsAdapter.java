@@ -11,7 +11,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.Recy
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
+public class EventsAdapter extends RecyclerView.Adapter<EventViewHolder> {
 
     private RecyclerViewClickListener listener;
     private List<Event> data = new ArrayList<>();
@@ -27,13 +27,13 @@ public class EventsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
     }
 
     @Override
-    public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new NewsViewHolder(LayoutInflater.from(parent.getContext())
+    public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new EventViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_event, parent, false), listener);
     }
 
     @Override
-    public void onBindViewHolder(final NewsViewHolder holder, final int position) {
+    public void onBindViewHolder(final EventViewHolder holder, final int position) {
         holder.bindView(data.get(position));
     }
 

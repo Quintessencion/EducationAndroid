@@ -27,7 +27,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SwitchAble extends MvpAppCompatActivity implements
+public class MainActivity extends MvpAppCompatActivity implements
         BottomNavigationViewEx.OnNavigationItemSelectedListener, SwitchAbleView {
 
     public static final int HELP_PAGE = 2;
@@ -75,7 +75,7 @@ public class SwitchAble extends MvpAppCompatActivity implements
             case R.id.menu_news:
                 presenter.switchToNews();
                 fabIsPressed = false;
-                return false;
+                return true;
             case R.id.menu_search:
                 presenter.switchToSearch();
                 fabIsPressed = false;
@@ -135,7 +135,6 @@ public class SwitchAble extends MvpAppCompatActivity implements
 
         fm.beginTransaction()
                 .replace(R.id.fragment_navigation, fragment, classFragment.getName())
-//                .addToBackStack(null)
                 .commit();
         titleToolbar.setText(titleId);
     }
