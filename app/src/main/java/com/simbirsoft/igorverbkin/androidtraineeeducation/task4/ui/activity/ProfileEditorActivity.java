@@ -64,6 +64,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
     @InjectPresenter ProfilePresenter presenter;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.title_toolbar) TextView titleToolbar;
     @BindView(R.id.change_photo) TextView changePhoto;
     @BindView(R.id.image_user) RoundedImageView avatar;
     @BindView(R.id.second_name) EditText secondName;
@@ -90,6 +91,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
 
         ButterKnife.bind(this);
 
+        titleToolbar.setText(getString(R.string.edit));
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -168,7 +170,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
     public void getImage(View view) {
         new SimpleAlertDialogFragment.Builder()
                 .setTheme(R.style.DialogTheme)
-                .setItems(R.array.items, new int[]{
+                .setItems(R.array.items_choice, new int[]{
                         R.drawable.upload,
                         R.drawable.camera,
                         R.drawable.delete})

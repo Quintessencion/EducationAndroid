@@ -46,9 +46,10 @@
     <string name="contact_us">Напишите нам</string>
     <string name="organization_website">Перейти на сайт организаии</string>
     <string name="send_via">Отправить с помощью:</string>
-    <string name="rest_days">Осталось %s дней (%s – %s)</string>
+    <string name="rest_days">%s (%s – %s)</string>
+    <string name="share">Поделиться</string>
 
-    <plurals name="organization_plurals">
+    <plurals name="organization_plural">
         <item quantity="zero">организаций</item>
         <item quantity="one">%1$d организация</item>
         <item quantity="two">%1$d организации</item>
@@ -57,9 +58,19 @@
         <item quantity="other">%1$d организаций</item>
     </plurals>
 
-    <string-array name="items">
+    <plurals name="days_plural">
+        <item quantity="zero">Осталось %d дней</item>
+        <item quantity="one">Остался %d день</item>
+        <item quantity="two">Осталось %d дня</item>
+        <item quantity="few">Осталось %d дня</item>
+        <item quantity="many">Осталось %d дней</item>
+        <item quantity="other">Осталось %d дней</item>
+    </plurals>
+
+    <string-array name="items_choice">
         <item>Выбрать фото</item>
         <item>Сделать снимок</item>
         <item>Удалить</item>
     </string-array>
+
 </resources>

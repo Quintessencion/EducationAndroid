@@ -3,52 +3,47 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SearchNkoView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import io.reactivex.disposables.CompositeDisposable;
 
 @InjectViewState
 public class NkoPresenter extends MvpPresenter<SearchNkoView> {
 
+    private final String EMPTY_QUERY = "";
+
     private Repository repository;
+    private CompositeDisposable disposable;
 
     public NkoPresenter() {
         repository = App.getComponent().repository();
+        disposable = new CompositeDisposable();
     }
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        getViewState().loadData(repository.getEvents());
-    }
-
-//    private List<Event> getShuffleRows() {
-//        List<Event> data = repository.getEvents();
-//        Collections.shuffle(data);
-//        return data;
-//    }
-
-    public void filter(String query) {
-        List<Event> filteredModelList = new ArrayList<>();
-
-        for (Event nko : repository.getEvents()) {
-            String text = nko.getFundName().toLowerCase();
-            if (text.contains(query.toLowerCase())) {
-                filteredModelList.add(nko);
-            }
-        }
-        getViewState().loadData(filteredModelList);
-    }
-
-    public void setQuery(String query) {
-        getViewState().setQueryToSearchView(query);
+        setObserverQuery();
+        getOrganizationsByName(EMPTY_QUERY);
     }
 
     public void refreshData() {
-        getViewState().loadData(repository.getEvents());
+        getOrganizationsByName(EMPTY_QUERY);
+    }
+
+    public void getOrganizationsByName(String query) {
+        getViewState().loadData(repository.getOrganizationsByNameRequest(query));
+    }
+
+    private void setObserverQuery() {
+        disposable.add(repository.voiceQuery().subscribe(s -> getViewState().setQueryToSearchView(s), throwable -> {}));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable.clear();
+        disposable.dispose();
     }
 }

@@ -99,13 +99,13 @@
             android:layout_marginTop="20dp"
             android:text="@string/friends" />
 
-        <android.support.v7.widget.RecyclerView
+        <include
             android:id="@+id/recycler_friends"
+            layout="@layout/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@+id/text_friends"
-            android:layout_marginTop="16dp"
-            tools:listitem="@layout/item_fragment_friends_profile" />
+            android:layout_marginTop="16dp" />
 
         <View
             android:id="@+id/divider2"

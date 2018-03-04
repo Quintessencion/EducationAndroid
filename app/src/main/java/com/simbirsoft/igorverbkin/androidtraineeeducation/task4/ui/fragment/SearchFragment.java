@@ -21,7 +21,7 @@ public class SearchFragment extends Fragment {
         ViewPager viewPager = view.findViewById(R.id.search_container);
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
         adapter.addFragment(EventFragment.class);
-        adapter.addFragment(NKOFragment.class);
+        adapter.addFragment(NkoFragment.class);
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = view.findViewById(R.id.search_tabs);

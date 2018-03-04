@@ -14,6 +14,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.EventDetailPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.EventDetailView;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,12 +27,14 @@ public class EventDetailActivity extends MvpAppCompatActivity implements EventDe
 
     @BindView(R.id.mail_link) TextView mailLink;
     @BindView(R.id.website_link) TextView websiteLink;
-    @BindView(R.id.toolbar_event) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.title_toolbar) TextView title;
     @BindView(R.id.name_event) TextView nameEvent;
     @BindView(R.id.expiration_date) TextView expirationDate;
     @BindView(R.id.charitable_foundation_name) TextView fundName;
     @BindView(R.id.address) TextView address;
+    @BindView(R.id.phone) TextView phone;
+    @BindView(R.id.event_content) TextView content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +75,17 @@ public class EventDetailActivity extends MvpAppCompatActivity implements EventDe
     public void fillEventData(Event event) {
         title.setText(event.getEventName());
         nameEvent.setText(event.getEventName());
+        expirationDate.setText(DateUtils.getFormatStringDate(getResources(), event.getStart(), event.getEnd()));
         fundName.setText(event.getFundName());
-        expirationDate.setText(getString(R.string.rest_days, "89", "05.02", "31.05"));
+        address.setText(event.getAddress());
+
+        StringBuilder eventPhones = new StringBuilder();
+        for (String phone : event.getPhones()) {
+            eventPhones.append(phone).append("\n");
+        }
+        this.phone.setText(eventPhones.toString().trim());
+
+        content.setText(event.getContent());
 
         mailLink.setOnClickListener(v -> sendLetter(event.getEmail()));
         websiteLink.setOnClickListener(v -> startBrowser(event.getWebSite()));

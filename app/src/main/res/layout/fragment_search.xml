@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             app:tabIndicatorColor="@color/orange"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-            app:tabTextColor="@color/light_grey">
+            app:tabTextColor="@color/gray_light">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tab_item"

@@ -17,13 +17,17 @@ public class Event {
     private String webSite;
     private boolean isEvent;
 
-    public Event(String id, String eventName, Date start, Date end, String fundName, String email, String webSite, boolean isEvent) {
+    public Event(String id, String eventName, Date start, Date end, String fundName, String email,
+                 String address, String[] phones, String content, String webSite, boolean isEvent) {
         this.id = id;
         this.eventName = eventName;
         this.start = start;
         this.end = end;
+        this.address = address;
         this.fundName = fundName;
         this.email = email;
+        this.phones = phones;
+        this.content = content;
         this.webSite = webSite;
         this.isEvent = isEvent;
     }

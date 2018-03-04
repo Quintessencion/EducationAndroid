@@ -4,29 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/AppTheme.AppBarOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/green">
-
-        <TextView
-            android:id="@+id/title_toolbar"
-            style="@style/ToolbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/news" />
-
-    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/fragment_navigation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bot_nav_view"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/divider"
         android:layout_below="@+id/toolbar" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/bot_nav_view"
+        android:background="@color/silver_light" />
 
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/bot_nav_view"
@@ -46,8 +38,7 @@
         android:layout_alignBottom="@+id/bot_nav_view"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="18dp"
-        android:clickable="true"
-        android:focusable="true"
+        app:pressedTranslationZ="0dp"
         android:src="@drawable/heart_fab_depressed"
         app:backgroundTint="@android:color/white"
         app:elevation="0dp" />

@@ -45,7 +45,6 @@ public class EventFragment extends BaseSearchFragment {
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Toast.makeText(getActivity(), query, Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -55,7 +54,7 @@ public class EventFragment extends BaseSearchFragment {
     }
 
     @Override
-    public void loadData(List<Event> nkos) {
+    public void loadData(List<String> nkos) {
 
     }
 }

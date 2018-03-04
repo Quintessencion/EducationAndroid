@@ -18,7 +18,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NewsPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventDetailActivity;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.NewsAdapter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activi
 public class NewsFragment extends MvpAppCompatFragment implements NewsView, RecyclerViewClickListener {
 
     @InjectPresenter NewsPresenter presenter;
-    private NewsAdapter adapter;
+    private EventsAdapter adapter;
 
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -39,13 +39,19 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView, Recy
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_news);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
-        adapter = new NewsAdapter(this);
+        adapter = new EventsAdapter(this);
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.getEvents();
     }
 
     @Override

@@ -12,9 +12,14 @@ import java.util.List;
 
 class NkoAdapter extends RecyclerView.Adapter<NkoViewHolder> {
 
-    private List<Event> data = new ArrayList<>();
+    private RecyclerViewClickListener listener;
+    private List<String> data = new ArrayList<>();
 
-    public void updateList(List<Event> data) {
+    public NkoAdapter(RecyclerViewClickListener listener) {
+        this.listener = listener;
+    }
+
+    public void updateList(List<String> data) {
         this.data.clear();
         this.data.addAll(data);
         notifyDataSetChanged();
@@ -23,7 +28,7 @@ class NkoAdapter extends RecyclerView.Adapter<NkoViewHolder> {
     @Override
     public NkoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new NkoViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_fragment_nko, parent, false));
+                .inflate(R.layout.item_fragment_nko, parent, false), listener);
     }
 
     @Override

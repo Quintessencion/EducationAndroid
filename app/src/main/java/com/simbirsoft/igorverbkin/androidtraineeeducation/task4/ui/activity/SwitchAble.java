@@ -10,14 +10,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.MainActivityPresenter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.MainActivityView;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SwitchAbleView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.HelpFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.HistoryFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.NewsFragment;
@@ -28,8 +27,8 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends MvpAppCompatActivity implements
-        BottomNavigationViewEx.OnNavigationItemSelectedListener, MainActivityView {
+public class SwitchAble extends MvpAppCompatActivity implements
+        BottomNavigationViewEx.OnNavigationItemSelectedListener, SwitchAbleView {
 
     public static final int HELP_PAGE = 2;
 
@@ -41,6 +40,7 @@ public class MainActivity extends MvpAppCompatActivity implements
     @BindView(R.id.floating_action_button) FloatingActionButton fab;
 
     private FragmentManager fm;
+    private boolean fabIsPressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,29 +61,37 @@ public class MainActivity extends MvpAppCompatActivity implements
         bottomNV.setIconsMarginTop(0);
 
         fab.setOnClickListener(v -> bottomNV.setCurrentItem(HELP_PAGE));
+        fab.setClickable(false);
 
         fm = getSupportFragmentManager();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        fab.setImageResource(R.drawable.heart_fab_depressed);
+        if (fabIsPressed) {
+            fab.setImageResource(R.drawable.heart_fab_depressed);
+        }
         switch (item.getItemId()) {
             case R.id.menu_news:
                 presenter.switchToNews();
-                return true;
+                fabIsPressed = false;
+                return false;
             case R.id.menu_search:
                 presenter.switchToSearch();
+                fabIsPressed = false;
                 return true;
             case R.id.menu_help:
                 fab.setImageResource(R.drawable.heart_fab_pressed);
                 presenter.switchToHelp();
+                fabIsPressed = true;
                 return true;
             case R.id.menu_history:
                 presenter.switchToHistory();
+                fabIsPressed = false;
                 return true;
             case R.id.menu_profile:
                 presenter.switchToProfile();
+                fabIsPressed = false;
                 return true;
         }
         return false;
@@ -127,7 +135,7 @@ public class MainActivity extends MvpAppCompatActivity implements
 
         fm.beginTransaction()
                 .replace(R.id.fragment_navigation, fragment, classFragment.getName())
-                .addToBackStack(null)
+//                .addToBackStack(null)
                 .commit();
         titleToolbar.setText(titleId);
     }
@@ -136,9 +144,7 @@ public class MainActivity extends MvpAppCompatActivity implements
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this, query, Toast.LENGTH_SHORT).show();
-            presenter.sendVoiceQuery(query);
+            presenter.setQuery(intent.getStringExtra(SearchManager.QUERY));
         }
     }
 }

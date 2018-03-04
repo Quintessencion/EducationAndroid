@@ -75,11 +75,11 @@
     </style>
 
     <style name="TextAppearanceDescription" parent="TextAppearanceDate">
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">@color/gray</item>
     </style>
 
     <style name="TextAppearanceProfile" parent="TextAppearanceDate">
-        <item name="android:textColor">@color/grey_100</item>
+        <item name="android:textColor">@color/gray_100</item>
     </style>
 
     <style name="TextAppearanceProfileContent" parent="TextAppearanceFIO">
@@ -98,7 +98,7 @@
     </style>
 
     <style name="AppearanceHintText" parent="TextAppearance.AppCompat.Small">
-        <item name="android:textColor">@color/grey_100</item>
+        <item name="android:textColor">@color/gray_100</item>
     </style>
 
     <style name="AppearanceControlActive" parent="Theme.AppCompat.Light">

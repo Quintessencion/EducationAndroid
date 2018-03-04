@@ -51,12 +51,7 @@ public abstract class BaseSearchFragment extends MvpAppCompatFragment implements
 
     @Override
     public void setQueryToSearchView(String query) {
-        searchView.setQuery(query, true);
-    }
-
-    @Override
-    public void onStop() {
-        setMenuVisibility(false);
-        super.onStop();
+        searchView.setQuery(query, false);
+        searchView.clearFocus();
     }
 }

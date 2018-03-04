@@ -5,7 +5,6 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
 @InjectViewState
 public class NewsPresenter extends MvpPresenter<NewsView> {
@@ -16,9 +15,11 @@ public class NewsPresenter extends MvpPresenter<NewsView> {
         repository = App.getComponent().repository();
     }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-        getViewState().updateData(repository.getEvents());
+    public void getEvents() {
+        getViewState().updateData(repository.getAllEvents());
+    }
+
+    public void getEvents(String fundName) {
+        getViewState().updateData(repository.getEventsByNameOrganization(fundName));
     }
 }

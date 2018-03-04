@@ -11,6 +11,12 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 
 public class HelpFragment extends Fragment {
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -18,4 +24,6 @@ public class HelpFragment extends Fragment {
 
         return view;
     }
+
+
 }

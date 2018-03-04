@@ -5,7 +5,7 @@ import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 @StateStrategyType(SingleStateStrategy.class)
-public interface MainActivityView extends MvpView {
+public interface SwitchAbleView extends MvpView {
 
     void loadNewsFragment();
 

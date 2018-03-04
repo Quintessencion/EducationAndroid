@@ -1,5 +1,6 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,20 +13,22 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NkoPresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventsOrganizationsActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NKOFragment extends BaseSearchFragment {
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventsOrganizationsActivity.EVENT_FUND_NAME;
+
+public class NkoFragment extends BaseSearchFragment implements RecyclerViewClickListener {
 
     @InjectPresenter NkoPresenter presenter;
 
     @BindView(R.id.not_found_view) View notFoundView;
-    @BindView(R.id.main_view) View mainView;
+    @BindView(R.id.result_nko_view) View resultNkoView;
     @BindView(R.id.count_results) TextView countResult;
     @BindView(R.id.keywords) TextView keywords;
 
@@ -47,10 +50,10 @@ public class NKOFragment extends BaseSearchFragment {
 
         ButterKnife.bind(this, view);
 
-        recyclerView = view.findViewById(R.id.recycler_nko);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
-        adapter = new NkoAdapter();
+        adapter = new NkoAdapter(this);
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -64,28 +67,35 @@ public class NKOFragment extends BaseSearchFragment {
     @Override
     public boolean onQueryTextSubmit(String query) {
         keywords.setText(query);
-        presenter.filter(query);
+        presenter.getOrganizationsByName(query);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         keywords.setText(newText);
-        presenter.filter(newText);
+        presenter.getOrganizationsByName(newText);
         return false;
     }
 
     @Override
-    public void loadData(List<Event> nkos) {
+    public void loadData(List<String> nkos) {
         if (nkos.size() == 0) {
             notFoundView.setVisibility(View.VISIBLE);
-            mainView.setVisibility(View.INVISIBLE);
+            resultNkoView.setVisibility(View.GONE);
         } else {
-            notFoundView.setVisibility(View.INVISIBLE);
-            mainView.setVisibility(View.VISIBLE);
-            countResult.setText(getResources().getQuantityString(R.plurals.organization_plurals, nkos.size(), nkos.size()));
+            notFoundView.setVisibility(View.GONE);
+            resultNkoView.setVisibility(View.VISIBLE);
+            countResult.setText(getResources().getQuantityString(R.plurals.organization_plural, nkos.size(), nkos.size()));
             adapter.updateList(nkos);
             recyclerView.scrollToPosition(0);
         }
+    }
+
+    @Override
+    public void openDetailEvent(String fundName) {
+        Intent intent = new Intent(getActivity(), EventsOrganizationsActivity.class);
+        intent.putExtra(EVENT_FUND_NAME, fundName);
+        startActivity(intent);
     }
 }
