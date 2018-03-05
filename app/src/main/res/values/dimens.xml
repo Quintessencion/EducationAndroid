@@ -4,4 +4,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="elevation">16dp</dimen>
+    <dimen name="border_width">2dp</dimen>
+    <dimen name="width">36dp</dimen>
+    <dimen name="height">36dp</dimen>
+    <dimen name="start_padding">-4dp</dimen>
 </resources>

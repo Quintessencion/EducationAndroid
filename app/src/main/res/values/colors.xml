@@ -19,6 +19,7 @@
     <color name="gray_200">#94998a</color>
     <color name="gray_300">#99000000</color>
     <color name="gray_400">#66000000</color>
+    <color name="gray_500">#d8d8d8</color>
     <color name="dark_black">#de000000</color>
     <color name="black_alpha">#aa000000</color>
 </resources>

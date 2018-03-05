@@ -1,13 +1,13 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model;
 
-import java.util.Date;
+import org.threeten.bp.LocalDate;
 
 public class Event {
 
     private String id;
     private String eventName;
-    private Date start;
-    private Date end;
+    private LocalDate start;
+    private LocalDate end;
     private String fundName;
     private String address;
     private String[] phones;
@@ -16,11 +16,12 @@ public class Event {
     private String email;
     private String webSite;
     private boolean isEvent;
-    private String[] contributors;
+    private int[] contributors;
     private TypeAssistance[] typesAssistance;
 
-    public Event(String id, String eventName, Date start, Date end, String fundName, String email,
-                 String address, String[] phones, String content, String webSite, boolean isEvent) {
+    public Event(String id, String eventName, LocalDate start, LocalDate end, String fundName,
+                 String email, String address, String[] phones, String content, String webSite,
+                 boolean isEvent, int[] contributors, TypeAssistance[] typesAssistance) {
         this.id = id;
         this.eventName = eventName;
         this.start = start;
@@ -32,6 +33,8 @@ public class Event {
         this.content = content;
         this.webSite = webSite;
         this.isEvent = isEvent;
+        this.contributors = contributors;
+        this.typesAssistance = typesAssistance;
     }
 
     public String getId() {
@@ -50,19 +53,19 @@ public class Event {
         this.eventName = eventName;
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 
@@ -128,5 +131,21 @@ public class Event {
 
     public void setEvent(boolean event) {
         isEvent = event;
+    }
+
+    public int[] getContributors() {
+        return contributors;
+    }
+
+    public void setContributors(int[] contributors) {
+        this.contributors = contributors;
+    }
+
+    public TypeAssistance[] getTypesAssistance() {
+        return typesAssistance;
+    }
+
+    public void setTypesAssistance(TypeAssistance[] typesAssistance) {
+        this.typesAssistance = typesAssistance;
     }
 }

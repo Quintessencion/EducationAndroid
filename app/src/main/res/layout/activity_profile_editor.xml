@@ -108,14 +108,14 @@
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
-            <include
+            <View
                 android:id="@+id/divider"
-                layout="@layout/divider_layout"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/first_name"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/text_view_birthday"

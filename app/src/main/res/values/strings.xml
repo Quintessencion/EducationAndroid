@@ -52,6 +52,22 @@
     <string name="become_volunteer">Стать \nволонтером</string>
     <string name="professional_help">Проф. \nпомощь</string>
     <string name="help_money">Помочь \nденьгами</string>
+    <string name="count_images">%d из %d</string>
+    <string name="plus">+%d</string>
+    <string name="how_to_help">Как вы хотите помочь?</string>
+    <string name="things">Вещами</string>
+    <string name="money">Деньгами</string>
+    <string name="volunteering">Волонтерством</string>
+    <string name="prof_help">Проф. помощью</string>
+
+    <plurals name="days_plural">
+        <item quantity="zero">Осталось %1$d дней</item>
+        <item quantity="one">Остался %1$d день</item>
+        <item quantity="two">Осталось %1$d дня</item>
+        <item quantity="few">Осталось %1$d дня</item>
+        <item quantity="many">Осталось %1$d дней</item>
+        <item quantity="other">Осталось %1$d дней</item>
+    </plurals>
 
     <plurals name="organization_plural">
         <item quantity="zero">организаций</item>
@@ -60,15 +76,6 @@
         <item quantity="few">%1$d организации</item>
         <item quantity="many">%1$d организаций</item>
         <item quantity="other">%1$d организаций</item>
-    </plurals>
-
-    <plurals name="days_plural">
-        <item quantity="zero">Осталось %d дней</item>
-        <item quantity="one">Остался %d день</item>
-        <item quantity="two">Осталось %d дня</item>
-        <item quantity="few">Осталось %d дня</item>
-        <item quantity="many">Осталось %d дней</item>
-        <item quantity="other">Осталось %d дней</item>
     </plurals>
 
     <string-array name="items_choice">

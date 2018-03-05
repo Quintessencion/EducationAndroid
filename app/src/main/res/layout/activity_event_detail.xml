@@ -12,6 +12,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:scrollbars="none">
 
@@ -169,35 +170,47 @@
 
             </LinearLayout>
 
-            <GridLayout
+            <android.support.v7.widget.GridLayout
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                app:columnCount="3">
 
                 <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/image_main"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    app:layout_columnSpan="2"
+                    app:layout_columnWeight="226"
+                    app:layout_gravity="fill"
+                    app:layout_rowSpan="2"
+                    app:layout_rowWeight="2"
                     app:srcCompat="@drawable/img" />
 
                 <ImageView
-                    android:id="@+id/imageView7"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/image_additional_1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:adjustViewBounds="true"
+                    app:layout_columnWeight="100"
                     app:srcCompat="@drawable/cardimage_2" />
 
                 <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/image_additional_2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
+                    android:adjustViewBounds="true"
+                    app:layout_columnWeight="100"
                     app:srcCompat="@drawable/cardimage_3" />
 
-            </GridLayout>
+            </android.support.v7.widget.GridLayout>
 
             <TextView
                 android:id="@+id/event_content"
@@ -229,76 +242,112 @@
                 android:textStyle="normal" />
 
             <LinearLayout
+                android:id="@+id/layout_contributors"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="30dp"
                 android:background="@color/silver_light"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingEnd="20dp"
+                android:paddingStart="20dp">
+
+                <LinearLayout
+                    android:id="@+id/layout_avatars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|start"
+                    android:orientation="horizontal" />
+
+                <TextView
+                    android:id="@+id/count_contributors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@string/plus"
+                    android:textColor="#8a000000"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    tools:text="+102" />
 
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_500" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/help_things"
+            android:id="@+id/help_things_btn"
             style="@style/BottomActionButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:drawableTop="@drawable/shirt"
-            android:text="@string/help_things" />
+            android:text="@string/help_things"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/separator_1"
             android:layout_width="1dp"
             android:layout_height="match_parent"
+            android:visibility="gone"
             app:srcCompat="@drawable/separator_1" />
 
         <Button
-            android:id="@+id/become_volunteer"
+            android:id="@+id/become_volunteer_btn"
             style="@style/BottomActionButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:drawableTop="@drawable/hands"
-            android:text="@string/become_volunteer" />
+            android:text="@string/become_volunteer"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/separator_2"
             android:layout_width="1dp"
             android:layout_height="match_parent"
+            android:visibility="gone"
             app:srcCompat="@drawable/separator_1" />
 
         <Button
-            android:id="@+id/professional_help"
+            android:id="@+id/professional_help_btn"
             style="@style/BottomActionButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:drawableTop="@drawable/tools"
-            android:text="@string/professional_help" />
+            android:text="@string/professional_help"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/separator_3"
             android:layout_width="1dp"
             android:layout_height="match_parent"
+            android:visibility="gone"
             app:srcCompat="@drawable/separator_1" />
 
         <Button
-            android:id="@+id/help_money"
+            android:id="@+id/help_money_btn"
             style="@style/BottomActionButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="70dp"
             android:layout_weight="1"
             android:drawableTop="@drawable/coins"
-            android:text="@string/help_money" />
+            android:text="@string/help_money"
+            android:visibility="gone" />
 
     </LinearLayout>
 </LinearLayout>

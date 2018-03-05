@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/silver_light"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center|start"
+        android:lineSpacingExtra="6sp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:text="@string/how_to_help"
+        android:textColor="@color/dark_grey"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        tools:text="Как вы хотите помочь?" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingEnd="0dp"
+        android:paddingStart="20dp">
+
+        <Switch
+            android:id="@+id/money_switch"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/money" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <Switch
+            android:id="@+id/things_switch"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/things" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <Switch
+            android:id="@+id/prof_help_switch"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/prof_help" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <Switch
+            android:id="@+id/volunteer_switch"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/volunteering" />
+    </LinearLayout>
+
+
+</LinearLayout>

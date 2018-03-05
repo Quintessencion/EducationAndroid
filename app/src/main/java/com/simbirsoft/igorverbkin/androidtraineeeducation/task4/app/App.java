@@ -2,6 +2,7 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app;
 
 import android.app.Application;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.component.AppComponent;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.component.DaggerAppComponent;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.module.ContextModule;
@@ -16,6 +17,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        AndroidThreeTen.init(this);
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().build();
         Realm.setDefaultConfiguration(config);
