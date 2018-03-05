@@ -6,6 +6,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SearchNkoView;
 
+import io.reactivex.Flowable;
 import io.reactivex.disposables.CompositeDisposable;
 
 @InjectViewState
@@ -33,11 +34,13 @@ public class NkoPresenter extends MvpPresenter<SearchNkoView> {
     }
 
     public void getOrganizationsByName(String query) {
-        getViewState().loadData(repository.getOrganizationsByNameRequest(query));
+        disposable.add(Flowable.fromCallable(() -> repository.getOrganizationsByNameRequest(query))
+                .subscribe(getViewState()::loadData));
     }
 
     private void setObserverQuery() {
-        disposable.add(repository.voiceQuery().subscribe(s -> getViewState().setQueryToSearchView(s), throwable -> {}));
+        disposable.add(repository.voiceQuery()
+                .subscribe(getViewState()::setQueryToSearchView, tr -> {}));
     }
 
     @Override

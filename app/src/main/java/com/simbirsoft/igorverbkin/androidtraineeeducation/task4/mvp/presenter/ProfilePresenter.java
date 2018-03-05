@@ -9,7 +9,6 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserPro
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
 import io.reactivex.Flowable;
-import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.CompositeDisposable;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER_PREFERENCES;
@@ -28,13 +27,8 @@ public class ProfilePresenter extends MvpPresenter<UserProfileView> {
     @Override
     public void attachView(UserProfileView view) {
         super.attachView(view);
-        disposable.add(getUser()
-                .subscribe(user -> getViewState().fillUserFields(user), tr -> Logger.d("No user data")));
-    }
-
-    @Nullable
-    private Flowable<User> getUser() {
-        return Flowable.fromCallable(() -> (User) repository.loadObject(User.class, USER_PREFERENCES));
+        disposable.add(Flowable.fromCallable(() -> (User) repository.loadObject(User.class, USER_PREFERENCES))
+                .subscribe(getViewState()::fillUserFields, tr -> Logger.d("No user data save")));
     }
 
     public void saveDataUser(User user) {

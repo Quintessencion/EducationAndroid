@@ -13,11 +13,14 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.FilterPresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.FilterView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FilterActivity extends MvpAppCompatActivity {
+public class FilterActivity extends MvpAppCompatActivity implements FilterView {
+
+    public static final String FILTERS_PREFERENCES = "user_filters_preferences";
 
     @InjectPresenter FilterPresenter presenter;
 
@@ -47,6 +50,14 @@ public class FilterActivity extends MvpAppCompatActivity {
     }
 
     @Override
+    public void fillUserFilters(Filter filter) {
+        moneySwitch.setChecked(filter.isMoneyHelp());
+        thingsSwitch.setChecked(filter.isThingsHelp());
+        profHelpSwitch.setChecked(filter.isProfHelp());
+        volunteerSwitch.setChecked(filter.isVolunteer());
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.profile_edit, menu);
         return true;
@@ -55,16 +66,14 @@ public class FilterActivity extends MvpAppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.submit_profile) {
-            saveUserData();
+            saveUserFilters();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveUserData() {
-        presenter.saveDataFilter(new Filter(moneySwitch.isSelected(),
-                thingsSwitch.isSelected(),
-                profHelpSwitch.isSelected(),
-                volunteerSwitch.isSelected()));
+    private void saveUserFilters() {
+        presenter.saveDataFilter(new Filter(moneySwitch.isChecked(), thingsSwitch.isChecked(),
+                profHelpSwitch.isChecked(), volunteerSwitch.isChecked()));
         finish();
     }
 }

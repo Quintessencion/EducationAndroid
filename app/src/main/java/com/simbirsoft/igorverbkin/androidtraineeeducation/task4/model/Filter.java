@@ -10,11 +10,11 @@ public class Filter implements Parcelable {
     private boolean isThingsHelp;
     private boolean isProfHelp;
 
-    public Filter(boolean isVolunteer, boolean isMoneyHelp, boolean isThingsHelp, boolean isProfHelp) {
-        this.isVolunteer = isVolunteer;
+    public Filter(boolean isMoneyHelp, boolean isThingsHelp, boolean isProfHelp, boolean isVolunteer) {
         this.isMoneyHelp = isMoneyHelp;
         this.isThingsHelp = isThingsHelp;
         this.isProfHelp = isProfHelp;
+        this.isVolunteer = isVolunteer;
     }
 
     protected Filter(Parcel in) {
@@ -23,18 +23,6 @@ public class Filter implements Parcelable {
         isThingsHelp = in.readByte() != 0;
         isProfHelp = in.readByte() != 0;
     }
-
-    public static final Creator<Filter> CREATOR = new Creator<Filter>() {
-        @Override
-        public Filter createFromParcel(Parcel in) {
-            return new Filter(in);
-        }
-
-        @Override
-        public Filter[] newArray(int size) {
-            return new Filter[size];
-        }
-    };
 
     public boolean isVolunteer() {
         return isVolunteer;
@@ -80,4 +68,16 @@ public class Filter implements Parcelable {
         dest.writeByte((byte) (isThingsHelp ? 1 : 0));
         dest.writeByte((byte) (isProfHelp ? 1 : 0));
     }
+
+    public static final Creator<Filter> CREATOR = new Creator<Filter>() {
+        @Override
+        public Filter createFromParcel(Parcel in) {
+            return new Filter(in);
+        }
+
+        @Override
+        public Filter[] newArray(int size) {
+            return new Filter[size];
+        }
+    };
 }

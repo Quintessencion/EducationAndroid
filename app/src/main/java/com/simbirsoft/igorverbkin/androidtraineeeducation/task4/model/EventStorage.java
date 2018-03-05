@@ -5,6 +5,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,6 +61,7 @@ public class EventStorage {
         }
         List<String> events = new ArrayList<>();
         events.addAll(nkoEvents);
+        Collections.shuffle(events);
         return events;
     }
 

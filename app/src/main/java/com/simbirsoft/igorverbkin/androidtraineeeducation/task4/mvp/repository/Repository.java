@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.EventStorage;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class Repository {
         return eventStorage.getAllEvents();
     }
 
-
+    //preferences  processing
     public Object loadObject(Class<?> clazz, String nameObject) {
         return new Gson().fromJson(preferences.getString(nameObject, ""), clazz);
     }
@@ -50,6 +51,7 @@ public class Repository {
         preferences.edit().putString(nameObject, new Gson().toJson(obj)).apply();
     }
 
+    //voice processing
     public void sendVoiceQuery(String query) {
         queryObservable.onNext(query);
     }

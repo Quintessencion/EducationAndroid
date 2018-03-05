@@ -82,6 +82,10 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="EditTextAppearance" parent="TextAppearanceProfileContent">
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="TextAppearanceProfileButton" parent="TextDefault">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">14sp</item>

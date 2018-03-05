@@ -69,19 +69,15 @@
 
             <EditText
                 android:id="@+id/second_name"
+                style="@style/EditTextAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView"
                 android:layout_marginEnd="21dp"
                 android:layout_marginStart="18dp"
                 android:layout_toEndOf="@+id/image_user"
-                android:fontFamily="sans-serif"
                 android:hint="@string/input_second_name"
-                android:inputType="textCapWords"
-                android:lineSpacingExtra="8sp"
-                android:textColor="@color/dark_black"
-                android:textSize="16sp"
-                android:textStyle="normal" />
+                android:inputType="textCapWords" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -95,18 +91,14 @@
 
             <EditText
                 android:id="@+id/first_name"
+                style="@style/EditTextAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/image_user"
                 android:layout_alignStart="@+id/second_name"
                 android:layout_marginEnd="21dp"
-                android:fontFamily="sans-serif"
                 android:hint="@string/input_first_name"
-                android:inputType="textCapWords"
-                android:lineSpacingExtra="8sp"
-                android:textColor="@color/dark_black"
-                android:textSize="16sp"
-                android:textStyle="normal" />
+                android:inputType="textCapWords" />
 
             <View
                 android:id="@+id/divider"
@@ -129,20 +121,15 @@
 
             <EditText
                 android:id="@+id/date_birthday"
+                style="@style/EditTextAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/text_view_birthday"
                 android:layout_marginEnd="21dp"
                 android:layout_marginStart="18dp"
                 android:drawableEnd="@drawable/icon_calendar_dark"
-                android:fontFamily="sans-serif"
                 android:hint="@string/date_birth"
-                android:inputType="none"
-                android:lineSpacingExtra="8sp"
-                android:textColor="@color/dark_black"
-                android:textIsSelectable="true"
-                android:textSize="16sp"
-                android:textStyle="normal" />
+                android:textIsSelectable="true" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -157,18 +144,14 @@
 
             <EditText
                 android:id="@+id/field_activity"
+                style="@style/EditTextAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/date_birthday"
                 android:layout_below="@+id/textView4"
                 android:layout_marginEnd="20dp"
-                android:fontFamily="sans-serif"
                 android:hint="@string/field_of_activity"
                 android:inputType="textCapSentences"
-                android:lineSpacingExtra="8sp"
-                android:textColor="@color/dark_black"
-                android:textSize="16sp"
-                android:textStyle="normal"
                 android:theme="@style/AppearanceControlActive" />
 
             <TextView
@@ -195,11 +178,11 @@
 
                 <EditText
                     android:id="@+id/password"
+                    style="@style/EditTextAppearance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:singleLine="true"
-                    android:textSize="16sp"
                     android:theme="@style/AppearanceControlActive" />
 
             </android.support.design.widget.TextInputLayout>
@@ -217,18 +200,14 @@
 
             <EditText
                 android:id="@+id/email"
+                style="@style/EditTextAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/date_birthday"
                 android:layout_below="@+id/text_view_email"
                 android:layout_marginEnd="20dp"
-                android:fontFamily="sans-serif"
                 android:hint="@string/enter_email"
                 android:inputType="textEmailAddress"
-                android:lineSpacingExtra="8sp"
-                android:textColor="@color/dark_black"
-                android:textSize="16sp"
-                android:textStyle="normal"
                 android:theme="@style/AppearanceControlActive" />
 
             <TextView
@@ -244,18 +223,14 @@
 
             <EditText
                 android:id="@+id/phone_number"
+                style="@style/EditTextAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/date_birthday"
                 android:layout_below="@+id/text_view_phone"
                 android:layout_marginEnd="20dp"
-                android:fontFamily="sans-serif"
                 android:hint="@string/number_phone"
                 android:inputType="phone"
-                android:lineSpacingExtra="8sp"
-                android:textColor="@color/dark_black"
-                android:textSize="16sp"
-                android:textStyle="normal"
                 android:theme="@style/AppearanceControlActive" />
 
         </RelativeLayout>

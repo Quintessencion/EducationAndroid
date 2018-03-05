@@ -53,6 +53,7 @@ public class NkoFragment extends BaseSearchFragment implements RecyclerViewClick
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
+        recyclerView.setPadding(0, 0, 0, (int) getResources().getDimension(R.dimen.bottom_padding));
         adapter = new NkoAdapter(this);
         recyclerView.setAdapter(adapter);
 

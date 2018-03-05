@@ -17,13 +17,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".task4.ui.activity.SplashScreenActivity">
+
+        <activity android:name=".task4.ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".task4.ui.activity.MainActivity"
             android:launchMode="singleTop"
@@ -36,7 +38,6 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".task4.ui.activity.ProfileEditorActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -51,7 +52,8 @@
         <activity android:name=".task4.ui.activity.EventDetailActivity" />
         <activity android:name=".task4.ui.activity.EventsOrganizationsActivity" />
         <activity android:name=".task4.ui.activity.ImageSwitcherActivity" />
-        <activity android:name=".task4.ui.activity.FilterActivity"></activity>
+        <activity android:name=".task4.ui.activity.FilterActivity" />
+        <activity android:name=".task4.ui.activity.ProfileEditorActivity" />
     </application>
 
 </manifest>

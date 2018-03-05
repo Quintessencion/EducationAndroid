@@ -24,8 +24,9 @@ import butterknife.ButterKnife;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventDetailActivity.IMAGES;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventDetailActivity.POSITION;
 
-public class ImageSwitcherActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
+public class ImageSwitcherActivity extends AppCompatActivity implements WrapperGestureDetector {
 
+    private static final String PHOTO_POSITION = "photo_position";
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
@@ -46,23 +47,16 @@ public class ImageSwitcherActivity extends AppCompatActivity implements GestureD
         setContentView(R.layout.activity_image_switcher);
         ButterKnife.bind(this);
 
-        position = getIntent().getIntExtra(POSITION, 0);
+        if (savedInstanceState != null) {
+            position = savedInstanceState.getInt(PHOTO_POSITION);
+        } else {
+            position = getIntent().getIntExtra(POSITION, 0);
+        }
         imageIds = getIntent().getIntArrayExtra(IMAGES);
         count = imageIds.length;
 
-        Window window = getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, android.R.color.black));
-
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.icon_back);
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
+        setColorStatusBar(android.R.color.black);
+        customizeToolBar();
 
         switcher.setBackgroundColor(Color.BLACK);
         switcher.setFactory(() -> {
@@ -71,12 +65,35 @@ public class ImageSwitcherActivity extends AppCompatActivity implements GestureD
             imageView.setLayoutParams(new ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             return imageView;
         });
-
         switcher.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
         switcher.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
         switchImage();
 
         gestureDetector = new GestureDetector(this, this);
+    }
+
+    private void setColorStatusBar(int resId) {
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, resId));
+    }
+
+    private void customizeToolBar() {
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.icon_back);
+        }
+        toolbar.setNavigationOnClickListener(v -> finish());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(PHOTO_POSITION, position);
     }
 
     private void switchImage() {
@@ -121,30 +138,5 @@ public class ImageSwitcherActivity extends AppCompatActivity implements GestureD
             return true;
         }
         return true;
-    }
-
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-
     }
 }
