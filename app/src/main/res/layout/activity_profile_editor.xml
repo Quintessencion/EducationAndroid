@@ -69,7 +69,7 @@
 
             <EditText
                 android:id="@+id/second_name"
-                style="@style/EditTextAppearance"
+                style="@style/TextAppearanceProfileContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView"
@@ -91,7 +91,7 @@
 
             <EditText
                 android:id="@+id/first_name"
-                style="@style/EditTextAppearance"
+                style="@style/TextAppearanceProfileContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/image_user"
@@ -121,7 +121,7 @@
 
             <EditText
                 android:id="@+id/date_birthday"
-                style="@style/EditTextAppearance"
+                style="@style/TextAppearanceProfileContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/text_view_birthday"
@@ -144,7 +144,7 @@
 
             <EditText
                 android:id="@+id/field_activity"
-                style="@style/EditTextAppearance"
+                style="@style/TextAppearanceProfileContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/date_birthday"
@@ -178,7 +178,7 @@
 
                 <EditText
                     android:id="@+id/password"
-                    style="@style/EditTextAppearance"
+                    style="@style/TextAppearanceProfileContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -200,7 +200,7 @@
 
             <EditText
                 android:id="@+id/email"
-                style="@style/EditTextAppearance"
+                style="@style/TextAppearanceProfileContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/date_birthday"
@@ -223,7 +223,7 @@
 
             <EditText
                 android:id="@+id/phone_number"
-                style="@style/EditTextAppearance"
+                style="@style/TextAppearanceProfileContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/date_birthday"

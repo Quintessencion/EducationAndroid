@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/TextAppearanceFIO"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center_horizontal"
+        android:text="@string/thanks_for_help"
+        android:textSize="20sp" />
+
+    <TextView
+        style="@style/TextAppearanceDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_horizontal"
+        android:text="@string/choose_size_donation" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/amount_selector"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/first_amount"
+            style="@style/TextSelectorAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:text="@string/_100_rub" />
+
+        <TextView
+            android:id="@+id/second_amount"
+            style="@style/TextSelectorAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:text="@string/_500_rub" />
+
+        <TextView
+            android:id="@+id/third_amount"
+            style="@style/TextSelectorAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:text="@string/_1000_rub" />
+
+        <TextView
+            android:id="@+id/fourth_amount"
+            style="@style/TextSelectorAppearance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:text="@string/_2000_rub" />
+    </LinearLayout>
+
+    <TextView
+        style="@style/TextAppearanceDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/enter_desired_amount" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/amount_money_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:focusableInTouchMode="true"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/InputTextError"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false">
+
+        <EditText
+            android:id="@+id/amount_money"
+            style="@style/TextAppearanceProfileContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:gravity="center_horizontal"
+            android:hint="@string/enter_amount"
+            android:inputType="number" />
+
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

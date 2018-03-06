@@ -30,7 +30,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.ProfilePresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserProfileView;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.dialog.DatePickerDialog;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.FileUtils;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageHelper;
 import com.simplealertdialog.SimpleAlertDialog;
@@ -48,7 +48,7 @@ import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTouch;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.DatePickerFragment.DateSetter;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.dialog.DatePickerDialog.DateSetter;
 import static com.simplealertdialog.SimpleAlertDialog.OnItemClickListener;
 
 public class ProfileEditorActivity extends MvpAppCompatActivity implements
@@ -158,7 +158,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
     }
 
     private void pickDate() {
-        DatePickerFragment.newInstance(userBirthday).show(getSupportFragmentManager(), DIALOG_DATE_PICK);
+        DatePickerDialog.newInstance(userBirthday).show(getSupportFragmentManager(), DIALOG_DATE_PICK);
     }
 
     @Override

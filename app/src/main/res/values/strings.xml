@@ -59,6 +59,25 @@
     <string name="money">Деньгами</string>
     <string name="volunteering">Волонтерством</string>
     <string name="prof_help">Проф. помощью</string>
+    <string name="open_via">Открыть с помощью:</string>
+    <string name="transfer">Перевести</string>
+    <string name="thanks_for_help">Спасибо за решение помочь!</string>
+    <string name="choose_size_donation">Выберите размер пожертвования</string>
+    <string name="enter_desired_amount">или введите нужную сумму</string>
+    <string name="enter_amount">Введите сумму</string>
+    <string name="enter_correct_amount">Введите корректную сумму</string>
+    <string name="thanks_for_you_help">Спасибо за Вашу помощь!)</string>
+    <string name="_100_rub">100 ₽</string>
+    <string name="_500_rub">500 ₽</string>
+    <string name="_1000_rub">1000 ₽</string>
+    <string name="_2000_rub">2000 ₽</string>
+    <string name="leave_your_phone">Оставьте свой телефон</string>
+    <string name="phone_template">+7 (___) ___-__-__</string>
+    <string name="or_email">или e-mail</string>
+    <string name="input_email">Введите e-mail</string>
+    <string name="what_specialization">Укажите специализацию</string>
+    <string name="specify_specialization_which_can_help">и укажите специализацию, в которой можете помочь</string>
+    <string name="we_will_contact_you">Мы с вами свяжемся.</string>
 
     <plurals name="days_plural">
         <item quantity="zero">Осталось %1$d дней</item>

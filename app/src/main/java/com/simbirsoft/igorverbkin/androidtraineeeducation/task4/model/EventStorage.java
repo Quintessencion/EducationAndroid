@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.BECOME_VOLUNTEER;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.HELPING_THINGS;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.HELP_MONEY;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.PROFESSIONAL_HELP;
@@ -31,7 +32,7 @@ public class EventStorage {
     }
 
     private void fillData() {
-        events.add(new Event("1", "Виктор Кузьмин", LocalDate.of(2018, JANUARY, 1), LocalDate.of(2018, APRIL, 21), "«Мозаика счастья»", "centr.umka-deti@mail.ru", "Санкт-Петербург, Кирочная улица, д. 50А, каб. 208", new String[]{"+7 (937) 111-52-46", "+7 (937) 512-72-87"}, "11111111111 222222222222222 333333 44444444 55 6 6 77777777777 \n\n88888 9999 00000", "www.umka-deti.spb.ru/", false, new int[]{R.drawable.photo_2, R.drawable.photo_4}, new TypeAssistance[]{HELPING_THINGS, HELP_MONEY}));
+        events.add(new Event("1", "Виктор Кузьмин", LocalDate.of(2018, JANUARY, 1), LocalDate.of(2018, APRIL, 21), "«Мозаика счастья»", "centr.umka-deti@mail.ru", "Санкт-Петербург, Кирочная улица, д. 50А, каб. 208", new String[]{"+7 (937) 111-52-46", "+7 (937) 512-72-87"}, "11111111111 222222222222222 333333 44444444 55 6 6 77777777777 \n\n88888 9999 00000", "www.umka-deti.spb.ru/", false, new int[]{R.drawable.photo_2, R.drawable.photo_4}, new TypeAssistance[]{HELPING_THINGS, HELP_MONEY, PROFESSIONAL_HELP, BECOME_VOLUNTEER}));
         events.add(new Event("4", "Посещение детей в НИИ дет. онкол. им Р. М. Горбачевой", LocalDate.of(2018, JANUARY, 31), LocalDate.of(2018, MARCH, 31), "Благотворительный Фонд В. Потанина", "centr.umka-deti@mail.ru", "Санкт-Петербург, Кирочная улица, д. 50А, каб. 208", new String[]{"+7 (937) 199-55-46", "+7 (937) 215-02-07"}, "", "http://www.umka-deti.spb.ru/", true, new int[]{R.drawable.photo_2, R.drawable.photo_4, R.drawable.photo_1}, new TypeAssistance[]{PROFESSIONAL_HELP, HELP_MONEY}));
         events.add(new Event("2", "Поможем Лёне встать на ножки", LocalDate.of(2018, FEBRUARY, 5), LocalDate.of(2018, MAY, 8), "Благотворительный фонд Алины Калашниковой", "centr.umka-deti@mail.ru", "Санкт-Петербург, Кирочная улица, д. 50А, каб. 208", new String[]{"+7 (936) 549-70-15"}, "", "http://www.umka-deti.spb.ru/", false, new int[]{R.drawable.photo_2, R.drawable.photo_3}, new TypeAssistance[]{HELP_MONEY}));
         events.add(new Event("3", "Маша Малышева", LocalDate.of(2018, JANUARY, 1), LocalDate.of(2018, APRIL, 21), "«Во имя жизни»", "centr.umka-deti@mail.ru", "Санкт-Петербург, Кирочная улица, д. 50А, каб. 208", new String[]{"+7 (987) 331-72-11", "+7 (937) 412-77-88"}, "", "http://www.umka-deti.spb.ru/", false, new int[]{}, new TypeAssistance[]{HELP_MONEY}));

@@ -10,6 +10,9 @@ public class Filter implements Parcelable {
     private boolean isThingsHelp;
     private boolean isProfHelp;
 
+    public Filter() {
+    }
+
     public Filter(boolean isMoneyHelp, boolean isThingsHelp, boolean isProfHelp, boolean isVolunteer) {
         this.isMoneyHelp = isMoneyHelp;
         this.isThingsHelp = isThingsHelp;

@@ -1,4 +1,4 @@
-package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
+package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatePickerFragment extends DialogFragment {
+public class DatePickerDialog extends DialogFragment {
 
     public interface DateSetter {
         void setDateBirthday(Date date);
@@ -28,10 +28,10 @@ public class DatePickerFragment extends DialogFragment {
     private DatePicker datePicker;
     private DateSetter dateSetter;
 
-    public static DatePickerFragment newInstance(Date date) {
+    public static DatePickerDialog newInstance(Date date) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_DATE, date);
-        DatePickerFragment fragment = new DatePickerFragment();
+        DatePickerDialog fragment = new DatePickerDialog();
         fragment.setArguments(args);
         return fragment;
     }

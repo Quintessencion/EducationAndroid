@@ -6,9 +6,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.FilterView;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
-import io.reactivex.Flowable;
 import io.reactivex.disposables.CompositeDisposable;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity.FILTERS_PREFERENCES;
@@ -27,8 +25,8 @@ public class FilterPresenter extends MvpPresenter<FilterView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        disposable.add(Flowable.fromCallable(() -> (Filter) repository.loadObject(Filter.class, FILTERS_PREFERENCES))
-                .subscribe(getViewState()::fillUserFilters, tr -> Logger.d("No user filter save")));
+        disposable.add(repository.loadObject(Filter.class, FILTERS_PREFERENCES)
+                .subscribe(getViewState()::fillUserFilters));
     }
 
     public void saveDataFilter(Filter filter) {

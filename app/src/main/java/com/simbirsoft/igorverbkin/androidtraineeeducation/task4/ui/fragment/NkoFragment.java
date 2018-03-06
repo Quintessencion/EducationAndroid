@@ -15,6 +15,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NkoPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventsOrganizationsActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.NkoAdapter;
 
 import java.util.List;
 

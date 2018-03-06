@@ -1,10 +1,11 @@
-package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
+package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.RecyclerViewClickListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

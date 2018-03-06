@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.EventStorage;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
@@ -26,8 +28,10 @@ public class Repository {
         queryObservable = PublishSubject.create();
     }
 
-    public Event getEventById(String id) {
-        return eventStorage.getEventById(id);
+    public Flowable<Event> getEventById(String id) {
+        return Flowable.fromCallable(() -> eventStorage.getEventById(id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public List<String> getOrganizationsByNameRequest(String query) {
@@ -43,8 +47,11 @@ public class Repository {
     }
 
     //preferences  processing
-    public Object loadObject(Class<?> clazz, String nameObject) {
-        return new Gson().fromJson(preferences.getString(nameObject, ""), clazz);
+    public <T> Flowable<T> loadObject(Class<T> clazz, String nameObject) {
+        return Flowable.fromCallable(() -> new Gson().fromJson(preferences.getString(nameObject, ""), clazz))
+                .onErrorReturn(tr -> clazz.newInstance())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public void saveObject(Object obj, String nameObject) {
