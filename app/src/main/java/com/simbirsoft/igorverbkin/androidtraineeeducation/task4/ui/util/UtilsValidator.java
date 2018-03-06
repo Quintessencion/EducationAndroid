@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class UtilsValidator {
 
-    private static final Pattern PHONE = Pattern.compile("^\\d{11}$");
+    private static final Pattern PHONE = Pattern.compile("\\+\\d \\(\\d{3}\\) \\d{3}-\\d{2}-\\d{2}");
     private static final Pattern FIELD_ACTIVITY = Pattern.compile("^[а-яА-Яa-zA-Z][ а-яА-Яa-zA-Z]{1,52}$");
 
     public static boolean validatePhone(String text) {

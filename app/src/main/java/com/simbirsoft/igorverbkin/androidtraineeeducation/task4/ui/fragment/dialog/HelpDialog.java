@@ -23,12 +23,11 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.UtilsVal
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnTouch;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import ru.tinkoff.decoro.MaskImpl;
-import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser;
 import ru.tinkoff.decoro.slots.PredefinedSlots;
-import ru.tinkoff.decoro.slots.Slot;
 import ru.tinkoff.decoro.watchers.FormatWatcher;
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher;
 
@@ -48,10 +47,13 @@ public class HelpDialog extends DialogFragment {
     @BindView(R.id.text_prof) TextView textProf;
 
     private ActionHelp actionHelp;
+    private TypeAssistance type;
+    private FormatWatcher format;
     private boolean phoneError;
     private boolean emailError;
     private boolean fieldActivityError;
     private boolean isCheckFieldActivity;
+    private boolean isFirstPhoneTouch;
 
     private Observable<String> phoneObservable;
     private Observable<String> emailObservable;
@@ -86,7 +88,7 @@ public class HelpDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        TypeAssistance type = (TypeAssistance) getArguments().getSerializable(TYPE);
+        type = (TypeAssistance) getArguments().getSerializable(TYPE);
         String phone = (String) getArguments().getSerializable(PHONE);
         String email = (String) getArguments().getSerializable(EMAIL);
         String fieldActivity = (String) getArguments().getSerializable(FIELD_ACTIVITY);
@@ -101,7 +103,13 @@ public class HelpDialog extends DialogFragment {
         }
 
         this.phone.setText(phone);
-        setPhoneFormat();
+        if (this.phone.getText().length() > 0) {
+            isFirstPhoneTouch = false;
+        } else {
+            isFirstPhoneTouch = true;
+        }
+        format = new MaskFormatWatcher(MaskImpl.createTerminated(PredefinedSlots.RUS_PHONE_NUMBER));
+        format.installOn(this.phone);
         this.email.setText(email);
         this.fieldActivity.setText(fieldActivity);
         compositeDisposable = new CompositeDisposable();
@@ -114,11 +122,13 @@ public class HelpDialog extends DialogFragment {
                 .show();
     }
 
-    public void setPhoneFormat() {
-        Slot[] slots = new UnderscoreDigitSlotsParser().parseSlots("+7 (___) ___-__-__");
-//        FormatWatcher formatWatcher = new MaskFormatWatcher(MaskImpl.createTerminated(slots));
-        FormatWatcher formatWatcher = new MaskFormatWatcher(MaskImpl.createTerminated(PredefinedSlots.RUS_PHONE_NUMBER));
-        formatWatcher.installOn(phone);
+    @OnTouch(R.id.phone)
+    public boolean setStartMaskPhone() {
+        if (isFirstPhoneTouch) {
+            format.installOnAndFill(phone);
+            isFirstPhoneTouch = false;
+        }
+        return false;
     }
 
     private void createObservables() {
@@ -127,7 +137,7 @@ public class HelpDialog extends DialogFragment {
         fieldActivityObservable = RxTextView.textChangeEvents(fieldActivity).map(v -> v.text().toString().trim());
     }
 
-    public void subscribe() {
+    private void subscribe() {
         compositeDisposable.add(phoneObservable.subscribe(this::validatePhone));
         compositeDisposable.add(emailObservable.subscribe(this::validateEmail));
         if (isCheckFieldActivity) {
@@ -147,6 +157,12 @@ public class HelpDialog extends DialogFragment {
         AlertDialog dialog = (AlertDialog) getDialog();
         Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(v -> {
+            if ((!phoneError || !emailError) && !fieldActivityError) {
+                actionHelp.sendOfferHelp(type);
+                showInfo(R.string.thanks_for_you_help);
+                dismiss();
+                return;
+            }
             if (phoneError) {
                 phoneLayout.setError(" ");
                 showInfo(R.string.wrong_phone);
@@ -157,11 +173,6 @@ public class HelpDialog extends DialogFragment {
             }
             if (fieldActivityError) {
                 fieldActivityLayout.setError(" ");
-            }
-            if ((!phoneError || !emailError) && !fieldActivityError) {
-//                actionHelp.sendOfferHelp();
-                showInfo(R.string.thanks_for_you_help);
-                dismiss();
             }
         });
     }
@@ -176,21 +187,21 @@ public class HelpDialog extends DialogFragment {
         Toast.makeText(getActivity(), getResources().getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
-    public void validatePhone(String text) {
+    private void validatePhone(String text) {
         phoneError = UtilsValidator.validatePhone(text);
         if (!phoneError) {
             phoneLayout.setError("");
         }
     }
 
-    public void validateEmail(String text) {
+    private void validateEmail(String text) {
         emailError = UtilsValidator.validateEmail(text);
         if (!emailError) {
             emailLayout.setError("");
         }
     }
 
-    public void validateFieldActivity(String text) {
+    private void validateFieldActivity(String text) {
         fieldActivityError = UtilsValidator.validateFieldActivity(text);
         if (!fieldActivityError) {
             fieldActivityLayout.setError("");

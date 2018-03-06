@@ -37,7 +37,8 @@ import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Typ
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.HELP_MONEY;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.PROFESSIONAL_HELP;
 
-public class DetailActivity extends MvpAppCompatActivity implements EventDetailView, MoneyTransferDialog.ActionHelp, HelpDialog.ActionHelp {
+public class DetailActivity extends MvpAppCompatActivity implements EventDetailView,
+        MoneyTransferDialog.ActionHelp, HelpDialog.ActionHelp {
 
     public static final String DIALOG_HELP = "dialog_help";
     public static final String EVENT_ID = "event_id";

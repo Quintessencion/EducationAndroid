@@ -47,6 +47,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTouch;
+import ru.tinkoff.decoro.MaskImpl;
+import ru.tinkoff.decoro.slots.PredefinedSlots;
+import ru.tinkoff.decoro.watchers.FormatWatcher;
+import ru.tinkoff.decoro.watchers.MaskFormatWatcher;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.dialog.DatePickerDialog.DateSetter;
 import static com.simplealertdialog.SimpleAlertDialog.OnItemClickListener;
@@ -73,7 +77,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
     @BindView(R.id.field_activity) EditText fieldActivity;
     @BindView(R.id.password) EditText password;
     @BindView(R.id.email) EditText email;
-    @BindView(R.id.phone_number) EditText phoneNumber;
+    @BindView(R.id.phone_number) EditText phone;
 
     private File photoFile;
     private Uri fileUri;
@@ -122,7 +126,9 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
         fieldActivity.setText(checkOnEmpty(user.getFieldActivity()));
         password.setText(checkOnEmpty(user.getPassword()));
         email.setText(checkOnEmpty(user.getEmail()));
-        phoneNumber.setText(checkOnEmpty(user.getPhoneNumber()));
+        phone.setText(checkOnEmpty(user.getPhoneNumber()));
+        FormatWatcher format = new MaskFormatWatcher(MaskImpl.createTerminated(PredefinedSlots.RUS_PHONE_NUMBER));
+        format.installOn(phone);
     }
 
     private String checkOnEmpty(String text) {
@@ -308,7 +314,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
         user.setFieldActivity(fieldActivity.getText().toString().trim());
         user.setPassword(password.getText().toString().trim());
         user.setEmail(email.getText().toString().trim());
-        user.setPhoneNumber(phoneNumber.getText().toString());
+        user.setPhoneNumber(phone.getText().toString());
 
         presenter.saveDataUser(user);
 
