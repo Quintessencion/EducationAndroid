@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventDetailActivity.EVENT_ID;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
 
 public class EventsOrganizationsActivity extends MvpAppCompatActivity implements NewsView, RecyclerViewClickListener {
 
@@ -75,7 +75,7 @@ public class EventsOrganizationsActivity extends MvpAppCompatActivity implements
 
     @Override
     public void openDetailEvent(String id) {
-        Intent intent = new Intent(this, EventDetailActivity.class);
+        Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(EVENT_ID, id);
         startActivity(intent);
     }

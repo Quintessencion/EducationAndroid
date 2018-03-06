@@ -53,7 +53,7 @@
     <string name="professional_help">Проф. \nпомощь</string>
     <string name="help_money">Помочь \nденьгами</string>
     <string name="count_images">%d из %d</string>
-    <string name="plus">+%d</string>
+    <string name="plus">+%1$d</string>
     <string name="how_to_help">Как вы хотите помочь?</string>
     <string name="things">Вещами</string>
     <string name="money">Деньгами</string>
@@ -72,7 +72,9 @@
     <string name="_1000_rub">1000 ₽</string>
     <string name="_2000_rub">2000 ₽</string>
     <string name="leave_your_phone">Оставьте свой телефон</string>
-    <string name="phone_template">+7 (___) ___-__-__</string>
+    <string name="phone_mask">+7 (___) ___-__-__</string>
+    <string name="wrong_phone">Некорректный номер телефона</string>
+    <string name="wrong_email">Некорректный email</string>
     <string name="or_email">или e-mail</string>
     <string name="input_email">Введите e-mail</string>
     <string name="what_specialization">Укажите специализацию</string>

@@ -2,7 +2,6 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Paint;
-import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -38,12 +37,13 @@ import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Typ
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.HELP_MONEY;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.PROFESSIONAL_HELP;
 
-public class EventDetailActivity extends MvpAppCompatActivity implements EventDetailView, MoneyTransferDialog.ActionHelp, HelpDialog.ActionHelp {
+public class DetailActivity extends MvpAppCompatActivity implements EventDetailView, MoneyTransferDialog.ActionHelp, HelpDialog.ActionHelp {
 
     public static final String DIALOG_HELP = "dialog_help";
     public static final String EVENT_ID = "event_id";
     public static final String POSITION = "position";
     public static final String IMAGES = "images";
+    public static final int MAX_NUMB_CONTRIBUTORS = 5;
 
     @InjectPresenter DetailPresenter presenter;
 
@@ -175,8 +175,11 @@ public class EventDetailActivity extends MvpAppCompatActivity implements EventDe
             layoutContributors.setVisibility(GONE);
             return;
         }
+        countContributors.setText(contributors.length > MAX_NUMB_CONTRIBUTORS
+                ? getString(R.string.plus, (contributors.length - MAX_NUMB_CONTRIBUTORS)) : "");
+
         for (int i = 0; i < contributors.length; i++) {
-            if (i == 5) {
+            if (i == MAX_NUMB_CONTRIBUTORS) {
                 return;
             }
 
@@ -187,16 +190,12 @@ public class EventDetailActivity extends MvpAppCompatActivity implements EventDe
             avatar.setImageResource(contributors[i]);
             avatar.setBorderColor(getResources().getColor(R.color.silver_light));
             avatar.setBorderWidth(R.dimen.border_width);
-            avatar.setElevation(10 - i);
+            avatar.setElevation(MAX_NUMB_CONTRIBUTORS - i);
             avatar.setScaleType(ImageView.ScaleType.FIT_XY);
             avatar.setOval(true);
-            avatar.mutateBackground(true);
-            avatar.setTileModeX(Shader.TileMode.REPEAT);
-            avatar.setTileModeY(Shader.TileMode.REPEAT);
 
             layoutAvatars.addView(avatar);
         }
-        countContributors.setText(getString(R.string.plus, contributors.length));
     }
 
     private void enableHelpBtn(TypeAssistance type, Button button, View separator) {

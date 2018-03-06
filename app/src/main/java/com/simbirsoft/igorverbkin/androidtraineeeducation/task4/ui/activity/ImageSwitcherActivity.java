@@ -21,8 +21,8 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventDetailActivity.IMAGES;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventDetailActivity.POSITION;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.IMAGES;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.POSITION;
 
 public class ImageSwitcherActivity extends AppCompatActivity implements WrapperGestureDetector {
 

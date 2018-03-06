@@ -18,13 +18,13 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NewsPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventDetailActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
 
 import java.util.List;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventDetailActivity.EVENT_ID;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
 
 public class NewsFragment extends MvpAppCompatFragment implements NewsView, RecyclerViewClickListener {
 
@@ -77,7 +77,7 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView, Recy
 
     @Override
     public void openDetailEvent(String id) {
-        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra(EVENT_ID, id);
         startActivity(intent);
     }

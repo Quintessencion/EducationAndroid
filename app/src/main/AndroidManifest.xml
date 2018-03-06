@@ -49,7 +49,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".task4.ui.activity.EventDetailActivity" />
+        <activity android:name=".task4.ui.activity.DetailActivity" />
         <activity android:name=".task4.ui.activity.EventsOrganizationsActivity" />
         <activity android:name=".task4.ui.activity.ImageSwitcherActivity" />
         <activity android:name=".task4.ui.activity.FilterActivity" />

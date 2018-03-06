@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,9 +56,13 @@ public class ProfileFragment extends MvpAppCompatFragment implements UserProfile
         } else {
             photo.setImageResource(R.drawable.user_icon);
         }
-        fio.setText(getString(R.string.fio, user.getSecondName(), user.getFirstName()));
+        fio.setText(getString(R.string.fio, checkOnEmpty(user.getSecondName()), checkOnEmpty(user.getFirstName())));
         birthday.setText(user.getBirthday());
         fieldActivity.setText(user.getFieldActivity());
+    }
+
+    private String checkOnEmpty(String text) {
+        return TextUtils.isEmpty(text) ? "" : text;
     }
 
     @Nullable
