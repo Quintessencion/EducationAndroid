@@ -1,7 +1,6 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +24,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.Pr
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserProfileView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.ProfileEditorActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.ProfileFriendsAdapter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageHelper;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,7 @@ public class ProfileFragment extends MvpAppCompatFragment implements UserProfile
     @Override
     public void fillUserFields(User user) {
         if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
-            ImageHelper.setImage(getActivity(), Uri.parse(user.getPhoto()), photo);
+            ImageUtils.setImage(getActivity(), user.getPhoto(), photo);
         } else {
             photo.setImageResource(R.drawable.user_icon);
         }

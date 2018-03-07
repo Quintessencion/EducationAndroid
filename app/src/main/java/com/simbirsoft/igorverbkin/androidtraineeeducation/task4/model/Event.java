@@ -16,12 +16,13 @@ public class Event {
     private String email;
     private String webSite;
     private boolean isEvent;
-    private int[] contributors;
+    private String[] contributors;
     private TypeAssistance[] typesAssistance;
+    private String[] photos;
 
     public Event(String id, String eventName, LocalDate start, LocalDate end, String fundName,
                  String email, String address, String[] phones, String content, String webSite,
-                 boolean isEvent, int[] contributors, TypeAssistance[] typesAssistance) {
+                 boolean isEvent, String[] contributors, TypeAssistance[] typesAssistance, String[] photos) {
         this.id = id;
         this.eventName = eventName;
         this.start = start;
@@ -35,6 +36,7 @@ public class Event {
         this.isEvent = isEvent;
         this.contributors = contributors;
         this.typesAssistance = typesAssistance;
+        this.photos = photos;
     }
 
     public String getId() {
@@ -133,11 +135,11 @@ public class Event {
         isEvent = event;
     }
 
-    public int[] getContributors() {
+    public String[] getContributors() {
         return contributors;
     }
 
-    public void setContributors(int[] contributors) {
+    public void setContributors(String[] contributors) {
         this.contributors = contributors;
     }
 
@@ -147,5 +149,13 @@ public class Event {
 
     public void setTypesAssistance(TypeAssistance[] typesAssistance) {
         this.typesAssistance = typesAssistance;
+    }
+
+    public String[] getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(String[] photos) {
+        this.photos = photos;
     }
 }

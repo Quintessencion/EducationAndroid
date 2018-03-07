@@ -10,6 +10,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.RecyclerViewClickListener;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtils;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +35,7 @@ class EventViewHolder extends RecyclerView.ViewHolder {
         newsHeadline.setText(event.getEventName());
         newsContent.setMaxLines(3);
         newsContent.setText(event.getContent());
+        ImageUtils.setImage(itemView.getContext(), event.getPhotos()[0], imageNews);
         expirationDate.setText(DateUtils.getFormatStringDate(itemView.getResources(), event.getStart(), event.getEnd()));
         itemView.setOnClickListener(v -> listener.openDetailEvent(event.getId()));
     }

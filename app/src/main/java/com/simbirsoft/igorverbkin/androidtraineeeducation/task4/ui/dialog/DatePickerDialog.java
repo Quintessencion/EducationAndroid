@@ -1,4 +1,4 @@
-package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.dialog;
+package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

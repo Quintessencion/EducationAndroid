@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
@@ -23,11 +24,15 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssist
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.DetailPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.EventDetailView;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.dialog.HelpDialog;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.dialog.MoneyTransferDialog;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.HelpDialog;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.MoneyTransferDialog;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtils;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
@@ -45,6 +50,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
     public static final String POSITION = "position";
     public static final String IMAGES = "images";
     public static final int MAX_NUMB_CONTRIBUTORS = 5;
+    public static final int MAX_NUMB_PHOTO = 3;
 
     @InjectPresenter DetailPresenter presenter;
 
@@ -59,9 +65,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
     @BindView(R.id.phone) TextView phone;
     @BindView(R.id.event_content) TextView content;
 
-    @BindView(R.id.image_main) ImageView imageMain;
-    @BindView(R.id.image_additional_1) ImageView imageAdditional1;
-    @BindView(R.id.image_additional_2) ImageView imageAdditional2;
+    @BindViews({R.id.image_main, R.id.image_add_1, R.id.image_add_2}) List<ImageView> images;
 
     @BindView(R.id.help_things_btn) Button helpThingsBtn;
     @BindView(R.id.become_volunteer_btn) Button becomeVolunteerBtn;
@@ -83,6 +87,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         setContentView(R.layout.activity_event_detail);
 
         ButterKnife.bind(this);
+
         mailLink.setPaintFlags(mailLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         websiteLink.setPaintFlags(websiteLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
@@ -98,6 +103,20 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         toolbar.setNavigationOnClickListener(v -> finish());
     }
 
+    private final ButterKnife.Setter<View, String[]> SET_PHOTO = (view, photos, index) -> {
+        view.setVisibility(VISIBLE);
+        Glide.with(this).load(photos[index]).into((ImageView) view);
+    };
+
+    private final ButterKnife.Setter<View, String[]> SET_LISTENERS = (view, photos, index) -> {
+        view.setOnClickListener(v -> {
+            Intent imageSwitcher = new Intent(DetailActivity.this, ImageSliderActivity.class);
+            imageSwitcher.putExtra(POSITION, index);
+            imageSwitcher.putExtra(IMAGES, photos);
+            startActivity(new Intent(imageSwitcher));
+        });
+    };
+
     @Override
     public void fillEventData(User user, Event event) {
         this.user = user;
@@ -107,16 +126,23 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         fundName.setText(event.getFundName());
         address.setText(event.getAddress());
 
-        imageMain.setOnClickListener(v -> setImageListener(0));
-        imageAdditional1.setOnClickListener(v -> setImageListener(1));
-        imageAdditional2.setOnClickListener(v -> setImageListener(2));
+        //Set images
+        if (event.getPhotos().length >= MAX_NUMB_PHOTO) {
+            ButterKnife.apply(images, SET_PHOTO, event.getPhotos());
+        } else if (event.getPhotos().length >= 1) {
+            images.get(0).setVisibility(VISIBLE);
+            Glide.with(this).load(event.getPhotos()[0]).into(images.get(0));
+        }
+        ButterKnife.apply(images, SET_LISTENERS, event.getPhotos());
 
+        //Set phones
         StringBuilder eventPhones = new StringBuilder();
         for (String phone : event.getPhones()) {
             eventPhones.append(phone).append("\n");
         }
-        this.phone.setText(eventPhones.toString().trim());
+        phone.setText(eventPhones.toString().trim());
 
+        //Set content
         if (TextUtils.isEmpty(event.getContent())) {
             content.setVisibility(GONE);
         } else {
@@ -128,13 +154,6 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
 
         setContributors(event.getContributors());
         preparationButtons(event.getTypesAssistance());
-    }
-
-    private void setImageListener(int position) {
-        Intent imageSwitcher = new Intent(this, ImageSwitcherActivity.class);
-        imageSwitcher.putExtra(POSITION, position);
-        imageSwitcher.putExtra(IMAGES, new int[]{R.drawable.img, R.drawable.cardimage_2, R.drawable.cardimage_3});
-        startActivity(new Intent(imageSwitcher));
     }
 
     private void sendLetter(String emailAddress) {
@@ -171,29 +190,26 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         }
     }
 
-    private void setContributors(int[] contributors) {
+    private void setContributors(String[] contributors) {
         if (contributors == null || contributors.length == 0) {
-            layoutContributors.setVisibility(GONE);
             return;
         }
+        layoutContributors.setVisibility(VISIBLE);
         countContributors.setText(contributors.length > MAX_NUMB_CONTRIBUTORS
                 ? getString(R.string.plus, (contributors.length - MAX_NUMB_CONTRIBUTORS)) : "");
 
-        for (int i = 0; i < contributors.length; i++) {
-            if (i == MAX_NUMB_CONTRIBUTORS) {
-                return;
-            }
-
+        int upperBound = contributors.length > 5 ? MAX_NUMB_CONTRIBUTORS : contributors.length;
+        for (int i = 0; i < upperBound; i++) {
             RoundedImageView avatar = new RoundedImageView(this);
-            avatar.setMaxWidth(R.dimen.width);
-            avatar.setMaxHeight(R.dimen.height);
+            avatar.setLayoutParams(new LinearLayout.LayoutParams(
+                    (int) getResources().getDimension(R.dimen.width), (int) getResources().getDimension(R.dimen.height)));
             avatar.setPadding(i > 0 ? (int) getResources().getDimension(R.dimen.start_padding) : 0, 0, 0, 0);
-            avatar.setImageResource(contributors[i]);
             avatar.setBorderColor(getResources().getColor(R.color.silver_light));
             avatar.setBorderWidth(R.dimen.border_width);
             avatar.setElevation(MAX_NUMB_CONTRIBUTORS - i);
             avatar.setScaleType(ImageView.ScaleType.FIT_XY);
             avatar.setOval(true);
+            ImageUtils.setImage(this, contributors[i], avatar);
 
             layoutAvatars.addView(avatar);
         }

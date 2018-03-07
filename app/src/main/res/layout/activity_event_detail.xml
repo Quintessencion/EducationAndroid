@@ -173,7 +173,7 @@
             <android.support.v7.widget.GridLayout
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -182,8 +182,9 @@
                 <ImageView
                     android:id="@+id/image_main"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:adjustViewBounds="true"
+                    android:visibility="gone"
                     app:layout_columnSpan="2"
                     app:layout_columnWeight="226"
                     app:layout_gravity="fill"
@@ -192,21 +193,23 @@
                     app:srcCompat="@drawable/img" />
 
                 <ImageView
-                    android:id="@+id/image_additional_1"
+                    android:id="@+id/image_add_1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:adjustViewBounds="true"
+                    android:visibility="gone"
                     app:layout_columnWeight="100"
                     app:srcCompat="@drawable/cardimage_2" />
 
                 <ImageView
-                    android:id="@+id/image_additional_2"
+                    android:id="@+id/image_add_2"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:adjustViewBounds="true"
+                    android:visibility="gone"
                     app:layout_columnWeight="100"
                     app:srcCompat="@drawable/cardimage_3" />
 
@@ -249,13 +252,14 @@
                 android:background="@color/silver_light"
                 android:orientation="horizontal"
                 android:paddingEnd="20dp"
-                android:paddingStart="20dp">
+                android:paddingStart="20dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/layout_avatars"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|start"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical|start"
                     android:orientation="horizontal" />
 
                 <TextView

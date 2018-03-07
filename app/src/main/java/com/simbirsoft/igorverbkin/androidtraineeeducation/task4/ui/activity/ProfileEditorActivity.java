@@ -30,9 +30,9 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.ProfilePresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserProfileView;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.dialog.DatePickerDialog;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.DatePickerDialog;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.FileUtils;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageHelper;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageUtils;
 import com.simplealertdialog.SimpleAlertDialog;
 import com.simplealertdialog.SimpleAlertDialogFragment;
 
@@ -52,7 +52,7 @@ import ru.tinkoff.decoro.slots.PredefinedSlots;
 import ru.tinkoff.decoro.watchers.FormatWatcher;
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.dialog.DatePickerDialog.DateSetter;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.DatePickerDialog.DateSetter;
 import static com.simplealertdialog.SimpleAlertDialog.OnItemClickListener;
 
 public class ProfileEditorActivity extends MvpAppCompatActivity implements
@@ -114,7 +114,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
         }
 
         if (!TextUtils.isEmpty(user.getPhoto())) {
-            ImageHelper.setImage(this, Uri.parse(user.getPhoto()), avatar);
+            ImageUtils.setImage(this, user.getPhoto(), avatar);
             fileUri = Uri.parse(user.getPhoto());
         } else {
             avatar.setImageResource(R.drawable.user_icon);
@@ -256,12 +256,6 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
         }
     }
 
-    private void addPhotoToGallery() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        mediaScanIntent.setData(fileUri);
-        sendBroadcast(mediaScanIntent);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) {
@@ -279,12 +273,11 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
                     cursor.moveToFirst();
                     photoFile = new File(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
                     cursor.close();
-                    ImageHelper.setImage(this, fileUri, avatar);
+                    ImageUtils.setImage(this, fileUri.toString(), avatar);
                 }
                 break;
             case REQUEST_CAMERA:
-                ImageHelper.setImage(this, fileUri, avatar);
-//                addPhotoToGallery();
+                ImageUtils.setImage(this, fileUri.toString(), avatar);
                 break;
         }
     }

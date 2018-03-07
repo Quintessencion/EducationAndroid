@@ -1,4 +1,4 @@
-package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.dialog;
+package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -49,11 +49,13 @@ public class HelpDialog extends DialogFragment {
     private ActionHelp actionHelp;
     private TypeAssistance type;
     private FormatWatcher format;
+
     private boolean phoneError;
     private boolean emailError;
     private boolean fieldActivityError;
     private boolean isCheckFieldActivity;
     private boolean isFirstPhoneTouch;
+    private boolean hasPhoneOrEmail;
 
     private Observable<String> phoneObservable;
     private Observable<String> emailObservable;
@@ -103,11 +105,7 @@ public class HelpDialog extends DialogFragment {
         }
 
         this.phone.setText(phone);
-        if (this.phone.getText().length() > 0) {
-            isFirstPhoneTouch = false;
-        } else {
-            isFirstPhoneTouch = true;
-        }
+        isFirstPhoneTouch = this.phone.getText().length() <= 0;
         format = new MaskFormatWatcher(MaskImpl.createTerminated(PredefinedSlots.RUS_PHONE_NUMBER));
         format.installOn(this.phone);
         this.email.setText(email);
@@ -157,7 +155,11 @@ public class HelpDialog extends DialogFragment {
         AlertDialog dialog = (AlertDialog) getDialog();
         Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(v -> {
-            if ((!phoneError || !emailError) && !fieldActivityError) {
+            hasPhoneOrEmail = !phoneError && !emailError
+                    || (!phoneError && email.getText().length() == 0)
+                    || (!emailError && phone.getText().length() == 0);
+
+            if (hasPhoneOrEmail && !fieldActivityError) {
                 actionHelp.sendOfferHelp(type);
                 showInfo(R.string.thanks_for_you_help);
                 dismiss();
