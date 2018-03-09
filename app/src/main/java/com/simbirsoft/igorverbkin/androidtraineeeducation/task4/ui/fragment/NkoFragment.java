@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NkoPresenter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventsOrganizationsActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.NewsOrganizationsActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.NkoAdapter;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventsOrganizationsActivity.EVENT_FUND_NAME;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.NewsOrganizationsActivity.EVENT_FUND_NAME;
 
 public class NkoFragment extends BaseSearchFragment implements RecyclerViewClickListener {
 
@@ -96,7 +96,7 @@ public class NkoFragment extends BaseSearchFragment implements RecyclerViewClick
 
     @Override
     public void openDetailEvent(String fundName) {
-        Intent intent = new Intent(getActivity(), EventsOrganizationsActivity.class);
+        Intent intent = new Intent(getActivity(), NewsOrganizationsActivity.class);
         intent.putExtra(EVENT_FUND_NAME, fundName);
         startActivity(intent);
     }

@@ -298,7 +298,7 @@
             android:layout_height="70dp"
             android:layout_weight="1"
             android:drawableTop="@drawable/shirt"
-            android:text="@string/help_things"
+            android:text="@string/to_help_things"
             android:visibility="gone" />
 
         <ImageView
@@ -349,7 +349,7 @@
             android:layout_height="70dp"
             android:layout_weight="1"
             android:drawableTop="@drawable/coins"
-            android:text="@string/help_money"
+            android:text="@string/to_help_money"
             android:visibility="gone" />
 
     </LinearLayout>

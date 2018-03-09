@@ -14,21 +14,19 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.ProfileEditorActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import org.threeten.bp.LocalDate;
 
 public class DatePickerDialog extends DialogFragment {
 
     public interface DateSetter {
-        void setDateBirthday(Date date);
+        void setDateBirthday(LocalDate date);
     }
 
     private static final String ARG_DATE = "arg_date";
     private DatePicker datePicker;
     private DateSetter dateSetter;
 
-    public static DatePickerDialog newInstance(Date date) {
+    public static DatePickerDialog newInstance(LocalDate date) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_DATE, date);
         DatePickerDialog fragment = new DatePickerDialog();
@@ -49,22 +47,20 @@ public class DatePickerDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Calendar cal = Calendar.getInstance();
-        Date date = (Date) getArguments().getSerializable(ARG_DATE);
-        cal.setTime(date == null ? new Date() : date);
+        LocalDate date = getArguments().getSerializable(ARG_DATE) == null
+                ? LocalDate.now()
+                : (LocalDate) getArguments().getSerializable(ARG_DATE);
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null);
         datePicker = view.findViewById(R.id.dialog_date_picker);
-        datePicker.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), null);
+        datePicker.init(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), null);
         datePicker.setMaxDate(System.currentTimeMillis());
 
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    int year = datePicker.getYear();
-                    int month = datePicker.getMonth();
-                    int day = datePicker.getDayOfMonth();
-                    dateSetter.setDateBirthday(new GregorianCalendar(year, month, day).getTime());
+                    dateSetter.setDateBirthday(LocalDate.of(
+                            datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth()));
                 })
                 .setNegativeButton(R.string.cancel, (dialog, which) -> dismiss())
                 .create();

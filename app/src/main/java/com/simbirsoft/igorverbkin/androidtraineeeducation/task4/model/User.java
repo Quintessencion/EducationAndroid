@@ -1,9 +1,11 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
-public class User implements Parcelable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class User {
 
     private String uri;
     private String secondName;
@@ -13,33 +15,10 @@ public class User implements Parcelable {
     private String password;
     private String email;
     private String phoneNumber;
+    private List<History> history;
 
     public User() {
     }
-
-    protected User(Parcel in) {
-        uri = in.readString();
-        secondName = in.readString();
-        firstName = in.readString();
-        birthday = in.readString();
-        fieldActivity = in.readString();
-        password = in.readString();
-
-        email = in.readString();
-        phoneNumber = in.readString();
-    }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     public String getPhoto() {
         return uri;
@@ -105,34 +84,18 @@ public class User implements Parcelable {
         this.phoneNumber = phoneNumber;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "photo=" + uri +
-                ", secondName='" + secondName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", birthday=" + birthday +
-                ", fieldActivity='" + fieldActivity + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+    public List<History> getHistory() {
+        return history;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setHistory(List<History> history) {
+        this.history = history;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(uri);
-        dest.writeString(secondName);
-        dest.writeString(firstName);
-        dest.writeString(birthday);
-        dest.writeString(fieldActivity);
-        dest.writeString(password);
-        dest.writeString(email);
-        dest.writeString(phoneNumber);
+    public void addHistory(String id, String description) {
+        if (history == null) {
+            history = new ArrayList<>();
+        }
+        history.add(new History(id, description));
     }
 }

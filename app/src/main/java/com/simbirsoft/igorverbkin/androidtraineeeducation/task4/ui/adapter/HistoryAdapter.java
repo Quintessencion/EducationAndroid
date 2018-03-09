@@ -6,17 +6,17 @@ import android.view.ViewGroup;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.RecyclerViewClickListener;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.HistoryRecyclerViewClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventsAdapter extends RecyclerView.Adapter<EventViewHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
 
-    private RecyclerViewClickListener listener;
+    private HistoryRecyclerViewClickListener listener;
     private List<Event> data = new ArrayList<>();
 
-    public EventsAdapter(RecyclerViewClickListener listener) {
+    public HistoryAdapter(HistoryRecyclerViewClickListener listener) {
         this.listener = listener;
     }
 
@@ -27,13 +27,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventViewHolder> {
     }
 
     @Override
-    public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new EventViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_event, parent, false), listener);
+    public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new HistoryViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_fragment_history, parent, false), listener);
     }
 
     @Override
-    public void onBindViewHolder(EventViewHolder holder, final int position) {
+    public void onBindViewHolder(HistoryViewHolder holder, int position) {
         holder.bindView(data.get(position));
     }
 

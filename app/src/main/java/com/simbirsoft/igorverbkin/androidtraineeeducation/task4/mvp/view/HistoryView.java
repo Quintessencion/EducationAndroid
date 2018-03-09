@@ -8,7 +8,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import java.util.List;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface NewsView extends MvpView {
+public interface HistoryView extends MvpView {
 
     void updateData(List<Event> events);
 }

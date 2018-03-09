@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.PresenterType;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Friend;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
@@ -36,7 +37,7 @@ public class ProfileFragment extends MvpAppCompatFragment implements UserProfile
 
     public static final String USER_PREFERENCES = "user_preferences";
 
-    @InjectPresenter ProfilePresenter presenter;
+    @InjectPresenter(type = PresenterType.WEAK) ProfilePresenter presenter;
 
     @BindView(R.id.image_profile) ImageView photo;
     @BindView(R.id.fio) TextView fio;

@@ -80,6 +80,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
     @BindView(R.id.count_contributors) TextView countContributors;
 
     private User user;
+    private String eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +121,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
     @Override
     public void fillEventData(User user, Event event) {
         this.user = user;
+        eventId = event.getId();
         title.setText(event.getEventName());
         nameEvent.setText(event.getEventName());
         expirationDate.setText(DateUtils.getFormatStringDate(getResources(), event.getStart(), event.getEnd()));
@@ -170,26 +172,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         startActivity(Intent.createChooser(new Intent(Intent.ACTION_VIEW, Uri.parse(url)), getString(R.string.open_via)));
     }
 
-    private void preparationButtons(TypeAssistance[] types) {
-        if (types == null) {
-            return;
-        }
-        for (TypeAssistance type : types) {
-            if (type.equals(HELPING_THINGS)) {
-                enableHelpBtn(HELPING_THINGS, helpThingsBtn, separator1);
-            }
-            if (type.equals(BECOME_VOLUNTEER)) {
-                enableHelpBtn(BECOME_VOLUNTEER, becomeVolunteerBtn, separator2);
-            }
-            if (type.equals(PROFESSIONAL_HELP)) {
-                enableHelpBtn(PROFESSIONAL_HELP, professionalHelpBtn, separator3);
-            }
-            if (type.equals(HELP_MONEY)) {
-                enableHelpBtn(HELP_MONEY, helpMoneyBtn, separator3);
-            }
-        }
-    }
-
+    //set avatars and count(optional)
     private void setContributors(String[] contributors) {
         if (contributors == null || contributors.length == 0) {
             return;
@@ -215,6 +198,26 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         }
     }
 
+    private void preparationButtons(TypeAssistance[] types) {
+        if (types == null) {
+            return;
+        }
+        for (TypeAssistance type : types) {
+            if (type.equals(HELPING_THINGS)) {
+                enableHelpBtn(HELPING_THINGS, helpThingsBtn, separator1);
+            }
+            if (type.equals(BECOME_VOLUNTEER)) {
+                enableHelpBtn(BECOME_VOLUNTEER, becomeVolunteerBtn, separator2);
+            }
+            if (type.equals(PROFESSIONAL_HELP)) {
+                enableHelpBtn(PROFESSIONAL_HELP, professionalHelpBtn, separator3);
+            }
+            if (type.equals(HELP_MONEY)) {
+                enableHelpBtn(HELP_MONEY, helpMoneyBtn, separator3);
+            }
+        }
+    }
+
     private void enableHelpBtn(TypeAssistance type, Button button, View separator) {
         DialogFragment dialog;
         button.setVisibility(VISIBLE);
@@ -230,11 +233,13 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
 
     @Override
     public void sendMoney(int sum) {
+        user.addHistory(eventId, getString(TypeAssistance.HELP_MONEY.getDescriptionAssistance()) + ": " + sum + " ₽");
         presenter.sendMoney(sum, user);
     }
 
     @Override
     public void sendOfferHelp(TypeAssistance type) {
+        user.addHistory(eventId, getString(type.getDescriptionAssistance()));
         presenter.sendOffer(type, user);
     }
 }

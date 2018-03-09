@@ -16,7 +16,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NewsPresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.EventPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity;
@@ -28,11 +28,13 @@ import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activi
 
 public class NewsFragment extends MvpAppCompatFragment implements NewsView, RecyclerViewClickListener {
 
-    @InjectPresenter NewsPresenter presenter;
+    @InjectPresenter EventPresenter presenter;
     private EventsAdapter adapter;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        adapter = new EventsAdapter(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -44,7 +46,6 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView, Recy
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
-        adapter = new EventsAdapter(this);
         recyclerView.setAdapter(adapter);
 
         return view;

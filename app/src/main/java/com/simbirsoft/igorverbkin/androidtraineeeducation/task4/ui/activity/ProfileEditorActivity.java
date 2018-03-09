@@ -25,21 +25,22 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.PresenterType;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.ProfilePresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserProfileView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.DatePickerDialog;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.PickPhotoDialog;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtils;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.FileUtils;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageUtils;
-import com.simplealertdialog.SimpleAlertDialog;
-import com.simplealertdialog.SimpleAlertDialogFragment;
+
+import org.threeten.bp.LocalDate;
 
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -53,23 +54,21 @@ import ru.tinkoff.decoro.watchers.FormatWatcher;
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.DatePickerDialog.DateSetter;
-import static com.simplealertdialog.SimpleAlertDialog.OnItemClickListener;
 
-public class ProfileEditorActivity extends MvpAppCompatActivity implements
-        OnItemClickListener, DateSetter, UserProfileView {
+public class ProfileEditorActivity extends MvpAppCompatActivity implements DateSetter,
+        UserProfileView, PickPhotoDialog.ActionChoose {
 
     private static final int PERMISSIONS_REQUEST_CAMERA = 1;
     private static final int PERMISSIONS_WRITE_STORAGE = 2;
     private static final int REQUEST_INTERNAL_STORAGE = 3;
     private static final int REQUEST_CAMERA = 4;
-    private static final String DIALOG_CHOICE_STORAGE = "dialog_chooser";
-    public static final String DIALOG_DATE_PICK = "DialogDate";
+    public static final String DIALOG_DATE_PICK = "dialog_pick_date";
+    public static final String DIALOG_PHOTO_PICK = "dialog_photo_pick";
 
-    @InjectPresenter ProfilePresenter presenter;
+    @InjectPresenter(type = PresenterType.WEAK) ProfilePresenter presenter;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.title_toolbar) TextView titleToolbar;
-    @BindView(R.id.change_photo) TextView changePhoto;
     @BindView(R.id.image_user) RoundedImageView avatar;
     @BindView(R.id.second_name) EditText secondName;
     @BindView(R.id.first_name) EditText firstName;
@@ -83,9 +82,10 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
     private Uri fileUri;
 
     private SimpleDateFormat sdf;
-    private Date userBirthday;
+    private LocalDate userBirthday;
 
     private boolean onTouch = false;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,9 +108,10 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
 
     @Override
     public void fillUserFields(User user) {
+        this.user = user;
         try {
-            userBirthday = sdf.parse(user.getBirthday());
-        } catch (NullPointerException | ParseException ignored) {
+            userBirthday = DateUtils.parse(user.getBirthday());
+        } catch (NullPointerException ignored) {
         }
 
         if (!TextUtils.isEmpty(user.getPhoto())) {
@@ -127,6 +128,7 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
         password.setText(checkOnEmpty(user.getPassword()));
         email.setText(checkOnEmpty(user.getEmail()));
         phone.setText(checkOnEmpty(user.getPhoneNumber()));
+
         FormatWatcher format = new MaskFormatWatcher(MaskImpl.createTerminated(PredefinedSlots.RUS_PHONE_NUMBER));
         format.installOn(phone);
     }
@@ -168,44 +170,24 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
     }
 
     @Override
-    public void setDateBirthday(Date date) {
+    public void setDateBirthday(LocalDate date) {
         userBirthday = date;
-        birthday.setText(sdf.format(userBirthday));
+        birthday.setText(DateUtils.format(userBirthday));
     }
 
     @OnClick({R.id.image_user, R.id.change_photo, R.id.blackout_layer})
-    public void getImage(View view) {
-        new SimpleAlertDialogFragment.Builder()
-                .setTheme(R.style.DialogTheme)
-                .setItems(R.array.items_choice, new int[]{
-                        R.drawable.upload,
-                        R.drawable.camera,
-                        R.drawable.delete})
-                .create()
-                .show(getFragmentManager(), DIALOG_CHOICE_STORAGE);
+    public void pickImage(View view) {
+        PickPhotoDialog.newInstance().show(getSupportFragmentManager(), DIALOG_PHOTO_PICK);
     }
 
     @Override
-    public void onItemClick(SimpleAlertDialog dialog, int requestCode, int which) {
-        switch (which) {
-            case 0:
-                getPhotoFromStorage();
-                break;
-            case 1:
-                getPhotoFromCamera();
-                break;
-            case 2:
-                deletePhotoFromAvatar();
-                break;
-        }
-    }
-
-    public void getPhotoFromStorage() {
+    public void pickPhotoFromStorage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_INTERNAL_STORAGE);
     }
 
-    public void getPhotoFromCamera() {
+    @Override
+    public void pickPhotoCamera() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(ProfileEditorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_WRITE_STORAGE);
         } else {
@@ -213,7 +195,8 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
         }
     }
 
-    public void deletePhotoFromAvatar() {
+    @Override
+    public void deletePhoto() {
         avatar.setImageResource(R.drawable.user_icon);
         photoFile = null;
         fileUri = null;
@@ -263,9 +246,9 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
         }
         switch (requestCode) {
             case REQUEST_INTERNAL_STORAGE:
-                fileUri = data.getData();
-                if (fileUri != null) {
-                    Cursor cursor = getContentResolver().query(data.getData(),
+                if (data.getData() != null) {
+                    fileUri = data.getData();
+                    Cursor cursor = getContentResolver().query(fileUri,
                             new String[]{MediaStore.Images.Media.DATA}, null, null, null);
                     if (cursor == null) {
                         return;
@@ -273,11 +256,11 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
                     cursor.moveToFirst();
                     photoFile = new File(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
                     cursor.close();
-                    ImageUtils.setImage(this, fileUri.toString(), avatar);
+                    ImageUtils.setImage(this, fileUri, avatar);
                 }
                 break;
             case REQUEST_CAMERA:
-                ImageUtils.setImage(this, fileUri.toString(), avatar);
+                ImageUtils.setImage(this, fileUri, avatar);
                 break;
         }
     }
@@ -297,12 +280,11 @@ public class ProfileEditorActivity extends MvpAppCompatActivity implements
     }
 
     private void saveUserData() {
-        User user = new User();
         user.setPhoto(fileUri != null ? fileUri.toString() : "");
         user.setSecondName(secondName.getText().toString().trim());
         user.setFirstName(firstName.getText().toString().trim());
         if (userBirthday != null) {
-            user.setBirthday(sdf.format(userBirthday));
+            user.setBirthday(DateUtils.format(userBirthday));
         }
         user.setFieldActivity(fieldActivity.getText().toString().trim());
         user.setPassword(password.getText().toString().trim());

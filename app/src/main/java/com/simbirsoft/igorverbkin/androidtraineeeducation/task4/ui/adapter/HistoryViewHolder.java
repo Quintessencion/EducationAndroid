@@ -3,40 +3,43 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.RecyclerViewClickListener;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.HistoryRecyclerViewClickListener;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtils;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class EventViewHolder extends RecyclerView.ViewHolder {
+public class HistoryViewHolder extends RecyclerView.ViewHolder {
 
-    private RecyclerViewClickListener listener;
+    private HistoryRecyclerViewClickListener listener;
 
     @BindView(R.id.news_card_view) CardView cardView;
-    @BindView(R.id.image_news) ImageView imageNews;
-    @BindView(R.id.headline) TextView newsHeadline;
-    @BindView(R.id.news_content) TextView newsContent;
+    @BindView(R.id.headline) TextView headline;
     @BindView(R.id.expiration_date) TextView expirationDate;
+    @BindView(R.id.description_assistance) TextView descriptionAssistance;
+    @BindView(R.id.download_report_btn) Button downloadReportBtn;
 
-    EventViewHolder(View itemView, RecyclerViewClickListener listener) {
+    public HistoryViewHolder(View itemView, HistoryRecyclerViewClickListener listener) {
         super(itemView);
         this.listener = listener;
         ButterKnife.bind(this, itemView);
     }
 
-    void bindView(Event event) {
-        newsHeadline.setText(event.getEventName());
-        newsContent.setMaxLines(3);
-        newsContent.setText(event.getContent());
-        ImageUtils.setImage(itemView.getContext(), event.getPhotos()[0], imageNews);
+    public void bindView(Event event) {
+        headline.setText(event.getEventName());
         expirationDate.setText(DateUtils.getFormatStringDate(itemView.getResources(), event.getStart(), event.getEnd()));
+        descriptionAssistance.setText(event.getDescriptionAssistance());
+
+        if (DateUtils.getRemainingDays(event.getEnd()) > 0) {
+            downloadReportBtn.getLayoutParams().height = 0;
+        } else {
+            downloadReportBtn.setOnClickListener(v -> listener.downloadReport(event.getId()));
+        }
         itemView.setOnClickListener(v -> listener.openDetailEvent(event.getId()));
     }
 }

@@ -6,28 +6,25 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
 
-import io.reactivex.Flowable;
 import io.reactivex.disposables.CompositeDisposable;
 
 @InjectViewState
-public class NewsPresenter extends MvpPresenter<NewsView> {
+public class EventPresenter extends MvpPresenter<NewsView> {
 
     private Repository repository;
     private CompositeDisposable disposable;
 
-    public NewsPresenter() {
+    public EventPresenter() {
         repository = App.getComponent().repository();
         disposable = new CompositeDisposable();
     }
 
     public void getEvents() {
-        disposable.add(Flowable.fromCallable(() -> repository.getAllEvents())
-                .subscribe(getViewState()::updateData));
+        disposable.add(repository.getAllEvents().subscribe(getViewState()::updateData));
     }
 
     public void getEvents(String fundName) {
-        disposable.add(Flowable.fromCallable(() -> repository.getEventsByNameOrganization(fundName))
-                .subscribe(getViewState()::updateData));
+        disposable.add(repository.getEventsByNameOrganization(fundName).subscribe(getViewState()::updateData));
     }
 
     @Override

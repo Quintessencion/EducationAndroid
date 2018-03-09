@@ -72,9 +72,9 @@ public class HelpDialog extends DialogFragment {
         args.putString(PHONE, phone);
         args.putString(EMAIL, email);
         args.putString(FIELD_ACTIVITY, fieldActivity);
-        HelpDialog fragment = new HelpDialog();
-        fragment.setArguments(args);
-        return fragment;
+        HelpDialog dialog = new HelpDialog();
+        dialog.setArguments(args);
+        return dialog;
     }
 
     @Override

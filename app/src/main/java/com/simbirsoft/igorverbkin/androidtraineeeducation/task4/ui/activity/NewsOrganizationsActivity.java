@@ -12,7 +12,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NewsPresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.EventPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.RecyclerViewClickListener;
@@ -24,11 +24,11 @@ import butterknife.ButterKnife;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
 
-public class EventsOrganizationsActivity extends MvpAppCompatActivity implements NewsView, RecyclerViewClickListener {
+public class NewsOrganizationsActivity extends MvpAppCompatActivity implements NewsView, RecyclerViewClickListener {
 
     public static final String EVENT_FUND_NAME = "event_fund_name";
 
-    @InjectPresenter NewsPresenter presenter;
+    @InjectPresenter EventPresenter presenter;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
     private EventsAdapter adapter;
@@ -36,7 +36,7 @@ public class EventsOrganizationsActivity extends MvpAppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_events_organizations);
+        setContentView(R.layout.activity_news_organizations);
 
         ButterKnife.bind(this);
 

@@ -1,60 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/silver_light">
+    android:background="@color/silver_light"
+    android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/empty_history"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginBottom="28dp"
-        android:src="@drawable/icon_ketter" />
+    <include
+        layout="@layout/recycler_view"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/empty_history"
-        style="@style/TextAppearanceHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:text="@string/empty_history" />
+    <RelativeLayout
+        android:id="@+id/empty_history_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text"
-        style="@style/TextAppearanceDescriptionAction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/text_help"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="96dp"
-        android:layout_marginStart="96dp"
-        android:gravity="center_horizontal"
-        android:text="@string/not_participate" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/empty_history"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="28dp"
+            android:src="@drawable/icon_ketter" />
 
-    <TextView
-        android:id="@+id/text_help"
-        style="@style/TextAppearanceDescriptionAction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/image_arrow"
-        android:layout_marginEnd="104dp"
-        android:layout_marginStart="104dp"
-        android:gravity="center_horizontal"
-        android:text="@string/press_help" />
+        <TextView
+            android:id="@+id/empty_history"
+            style="@style/TextAppearanceHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="@string/empty_history" />
 
-    <ImageView
-        android:id="@+id/image_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/icon_arrow" />
+        <TextView
+            android:id="@+id/text"
+            style="@style/TextAppearanceDescriptionAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/text_help"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="96dp"
+            android:layout_marginStart="96dp"
+            android:gravity="center_horizontal"
+            android:text="@string/not_participate" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/text_help"
+            style="@style/TextAppearanceDescriptionAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/image_arrow"
+            android:layout_marginEnd="104dp"
+            android:layout_marginStart="104dp"
+            android:gravity="center_horizontal"
+            android:text="@string/press_help" />
+
+        <ImageView
+            android:id="@+id/image_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/icon_arrow" />
+    </RelativeLayout>
+
+</LinearLayout>

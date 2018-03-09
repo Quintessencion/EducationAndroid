@@ -48,17 +48,21 @@
     <string name="send_via">Отправить с помощью:</string>
     <string name="rest_days">%s (%s – %s)</string>
     <string name="share">Поделиться</string>
-    <string name="help_things">Помочь \nвещами</string>
+    <string name="to_help_things">Помочь \nвещами</string>
+    <string name="help_with_things">Помощь вещами</string>
     <string name="become_volunteer">Стать \nволонтером</string>
     <string name="professional_help">Проф. \nпомощь</string>
-    <string name="help_money">Помочь \nденьгами</string>
+    <string name="to_help_money">Помочь \nденьгами</string>
+    <string name="help_with_money">Помощь деньгами</string>
     <string name="count_images">%d из %d</string>
     <string name="plus">+%1$d</string>
     <string name="how_to_help">Как вы хотите помочь?</string>
     <string name="things">Вещами</string>
     <string name="money">Деньгами</string>
-    <string name="volunteering">Волонтерством</string>
-    <string name="prof_help">Проф. помощью</string>
+    <string name="volunteering_1">Волонтерство</string>
+    <string name="volunteering_2">Волонтерством</string>
+    <string name="prof_help_1">Проф. помощью</string>
+    <string name="prof_help_2">Проф. помощь</string>
     <string name="open_via">Открыть с помощью:</string>
     <string name="transfer">Перевести</string>
     <string name="thanks_for_help">Спасибо за решение помочь!</string>
@@ -80,6 +84,10 @@
     <string name="what_specialization">Укажите специализацию</string>
     <string name="specify_specialization_which_can_help">и укажите специализацию, в которой можете помочь</string>
     <string name="we_will_contact_you">Мы с вами свяжемся.</string>
+    <string name="choose_photo">Выбрать фото</string>
+    <string name="take_photo">Сделать снимок</string>
+    <string name="delete">Удалить</string>
+    <string name="download_report">Скачать отчет</string>
 
     <plurals name="days_plural">
         <item quantity="zero">Осталось %1$d дней</item>

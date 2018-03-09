@@ -39,7 +39,7 @@
             app:srcCompat="@drawable/fade" />
 
         <TextView
-            android:id="@+id/news_headline"
+            android:id="@+id/headline"
             style="@style/TextAppearanceHeadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,14 +47,13 @@
             android:layout_marginLeft="26dp"
             android:layout_marginRight="26dp"
             android:layout_marginTop="208dp"
-            android:gravity="center_horizontal"
             tools:text="Спонсоры отремонтируют школу-интернат" />
 
         <ImageView
             android:id="@+id/image_decor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/news_headline"
+            android:layout_below="@+id/headline"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             app:srcCompat="@drawable/decor" />
@@ -94,7 +93,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:paddingTop="4dp"
                 tools:text="Осталось 13 дней (21.09 – 20.10)" />
         </LinearLayout>
 

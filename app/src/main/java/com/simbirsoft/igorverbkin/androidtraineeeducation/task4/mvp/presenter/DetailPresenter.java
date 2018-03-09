@@ -31,6 +31,10 @@ public class DetailPresenter extends MvpPresenter<EventDetailView> {
                 .subscribe(p -> getViewState().fillEventData(p.first, p.second)));
     }
 
+    private void saveUser(User user) {
+        repository.saveObject(user, USER_PREFERENCES);
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -39,10 +43,10 @@ public class DetailPresenter extends MvpPresenter<EventDetailView> {
     }
 
     public void sendMoney(int sum, User user) {
-
+        saveUser(user);
     }
 
     public void sendOffer(TypeAssistance type, User user) {
-
+        saveUser(user);
     }
 }

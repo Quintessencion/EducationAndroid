@@ -6,7 +6,6 @@ import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 
-@StateStrategyType(OneExecutionStateStrategy.class)
 public interface UserProfileView extends MvpView {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
