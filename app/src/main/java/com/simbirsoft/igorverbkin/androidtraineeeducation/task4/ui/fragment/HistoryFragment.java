@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -33,6 +34,7 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.empty_history_screen) RelativeLayout emptyHistoryScreenLayout;
+    @BindView(R.id.progress_bar) ProgressBar loading;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +66,12 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
     }
 
     @Override
+    public void showEmptyHistory() {
+        emptyHistoryScreenLayout.setVisibility(View.VISIBLE);
+        hideLoading();
+    }
+
+    @Override
     public void openDetailEvent(String id) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra(EVENT_ID, id);
@@ -73,6 +81,16 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
     @Override
     public void downloadReport(String id) {
         presenter.downloadReport(id);
+    }
+
+    @Override
+    public void showLoading() {
+        loading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        loading.setVisibility(View.GONE);
     }
 }
 

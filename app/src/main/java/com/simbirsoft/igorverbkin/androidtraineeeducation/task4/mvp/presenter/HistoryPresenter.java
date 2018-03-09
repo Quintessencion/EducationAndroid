@@ -9,7 +9,6 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.R
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.HistoryView;
 
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -34,15 +33,20 @@ public class HistoryPresenter extends MvpPresenter<HistoryView> {
 
     private void loadDataUser() {
         disposable.add(repository.loadObject(User.class, USER_PREFERENCES)
+                .doOnSubscribe(e -> getViewState().showLoading())
                 .subscribe(user -> {
                     if (user.getHistory() != null) {
                         getEventsByIds(user.getHistory());
+                    } else {
+                        getViewState().showEmptyHistory();
                     }
                 }));
     }
 
     private void getEventsByIds(List<History> histories) {
-        disposable.add(repository.getEventsByIds(histories).subscribe(getViewState()::updateData));
+        disposable.add(repository.getEventsByIds(histories)
+                .doOnNext(e -> getViewState().hideLoading())
+                .subscribe(getViewState()::updateData));
     }
 
     public void downloadReport(String id) {

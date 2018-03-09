@@ -70,6 +70,7 @@
             android:layout_marginTop="12dp"
             android:gravity="center_horizontal"
             android:maxLines="3"
+            android:ellipsize="end"
             tools:text="Дубовская школа-интернат для детей с ограниченными возможностями здоровья стала первой в области …" />
 
         <LinearLayout

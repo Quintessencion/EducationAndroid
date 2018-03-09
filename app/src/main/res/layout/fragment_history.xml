@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,12 +10,23 @@
         layout="@layout/recycler_view"
         android:visibility="gone" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:id="@+id/empty_history_screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <ImageView
+            android:id="@+id/image_ketter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/empty_history"
@@ -68,4 +79,4 @@
             android:src="@drawable/icon_arrow" />
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
