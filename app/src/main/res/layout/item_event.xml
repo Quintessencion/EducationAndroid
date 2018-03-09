@@ -24,8 +24,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
-            tools:src="@drawable/img"/>
+            android:layout_marginTop="4dp" />
 
         <ImageView
             android:id="@+id/image_white_noise"
@@ -68,9 +67,9 @@
             android:layout_marginLeft="26dp"
             android:layout_marginRight="26dp"
             android:layout_marginTop="12dp"
+            android:ellipsize="end"
             android:gravity="center_horizontal"
             android:maxLines="3"
-            android:ellipsize="end"
             tools:text="Дубовская школа-интернат для детей с ограниченными возможностями здоровья стала первой в области …" />
 
         <LinearLayout

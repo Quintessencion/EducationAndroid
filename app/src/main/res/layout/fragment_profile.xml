@@ -19,7 +19,7 @@
             android:layout_height="220dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/user_icon" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/fio"

@@ -106,6 +106,9 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
 
     private final ButterKnife.Setter<View, String[]> SET_PHOTO = (view, photos, index) -> {
         view.setVisibility(VISIBLE);
+        if (index > 2) {
+            return;
+        }
         Glide.with(this).load(photos[index]).into((ImageView) view);
     };
 
@@ -122,6 +125,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
     public void fillEventData(User user, Event event) {
         this.user = user;
         eventId = event.getId();
+        title.setPadding(0, 0, (int) getResources().getDimension(R.dimen.padding_end), 0);
         title.setText(event.getEventName());
         title.setSelected(true);
         nameEvent.setText(event.getEventName());

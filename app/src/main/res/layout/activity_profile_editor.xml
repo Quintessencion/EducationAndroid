@@ -28,7 +28,6 @@
                 android:src="@drawable/user_icon"
                 app:riv_mutate_background="true"
                 app:riv_oval="true"
-                app:riv_tile_mode="repeat"
                 app:srcCompat="@drawable/user_icon" />
 
             <com.makeramen.roundedimageview.RoundedImageView
