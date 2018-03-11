@@ -88,6 +88,7 @@
     <string name="take_photo">Сделать снимок</string>
     <string name="delete">Удалить</string>
     <string name="download_report">Скачать отчет</string>
+    <string name="completed">Завершено: %s %s</string>
 
     <plurals name="days_plural">
         <item quantity="zero">Осталось %1$d дней</item>

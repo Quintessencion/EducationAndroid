@@ -4,6 +4,7 @@ import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 
 import java.util.List;
 
@@ -11,4 +12,6 @@ import java.util.List;
 public interface NewsView extends MvpView {
 
     void updateData(List<Event> events);
+
+    void loadData();
 }

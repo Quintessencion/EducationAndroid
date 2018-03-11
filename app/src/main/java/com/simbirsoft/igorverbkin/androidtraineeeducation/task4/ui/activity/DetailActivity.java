@@ -19,8 +19,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.DetailPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.EventDetailView;
@@ -37,10 +37,10 @@ import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.BECOME_VOLUNTEER;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.HELPING_THINGS;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.HELP_MONEY;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance.PROFESSIONAL_HELP;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.BECOME_VOLUNTEER;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELPING_THINGS;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELP_MONEY;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.PROFESSIONAL_HELP;
 
 public class DetailActivity extends MvpAppCompatActivity implements EventDetailView,
         MoneyTransferDialog.ActionHelp, HelpDialog.ActionHelp {
@@ -203,11 +203,11 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         }
     }
 
-    private void preparationButtons(TypeAssistance[] types) {
+    private void preparationButtons(Category[] types) {
         if (types == null) {
             return;
         }
-        for (TypeAssistance type : types) {
+        for (Category type : types) {
             if (type.equals(HELPING_THINGS)) {
                 enableHelpBtn(HELPING_THINGS, helpThingsBtn, separator1);
             }
@@ -223,12 +223,12 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         }
     }
 
-    private void enableHelpBtn(TypeAssistance type, Button button, View separator) {
+    private void enableHelpBtn(Category type, Button button, View separator) {
         DialogFragment dialog;
         button.setVisibility(VISIBLE);
         separator.setVisibility(VISIBLE);
 
-        if (TypeAssistance.HELP_MONEY.equals(type)) {
+        if (Category.HELP_MONEY.equals(type)) {
             dialog = MoneyTransferDialog.newInstance();
         } else {
             dialog = HelpDialog.newInstance(type, user.getPhoneNumber(), user.getEmail(), user.getFieldActivity());
@@ -238,12 +238,12 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
 
     @Override
     public void sendMoney(int sum) {
-        user.addHistory(eventId, getString(TypeAssistance.HELP_MONEY.getDescriptionAssistance()) + ": " + sum + " ₽");
+        user.addHistory(eventId, getString(Category.HELP_MONEY.getDescriptionAssistance()) + ": " + sum + " ₽");
         presenter.sendMoney(sum, user);
     }
 
     @Override
-    public void sendOfferHelp(TypeAssistance type) {
+    public void sendOfferHelp(Category type) {
         user.addHistory(eventId, getString(type.getDescriptionAssistance()));
         presenter.sendOffer(type, user);
     }

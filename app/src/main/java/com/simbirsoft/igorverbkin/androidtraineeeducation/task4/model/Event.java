@@ -1,10 +1,13 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.threeten.bp.LocalDate;
 
 import java.util.Arrays;
 
-public class Event implements Cloneable {
+public class Event implements Parcelable, Cloneable {
 
     private String id;
     private String eventName;
@@ -14,18 +17,21 @@ public class Event implements Cloneable {
     private String address;
     private String[] phones;
     private String content;
-    private String[] friendsId;
     private String email;
     private String webSite;
     private boolean isEvent;
     private String[] contributors;
-    private TypeAssistance[] typesAssistance;
+    private Category[] categories;
     private String[] photos;
     private String descriptionAssistance;
 
+    public Event() {
+
+    }
+
     public Event(String id, String eventName, LocalDate start, LocalDate end, String fundName,
                  String email, String address, String[] phones, String content, String webSite,
-                 boolean isEvent, String[] contributors, TypeAssistance[] typesAssistance, String[] photos) {
+                 boolean isEvent, String[] contributors, Category[] categories, String[] photos) {
         this.id = id;
         this.eventName = eventName;
         this.start = start;
@@ -38,9 +44,36 @@ public class Event implements Cloneable {
         this.webSite = webSite;
         this.isEvent = isEvent;
         this.contributors = contributors;
-        this.typesAssistance = typesAssistance;
+        this.categories = categories;
         this.photos = photos;
     }
+
+    protected Event(Parcel in) {
+        id = in.readString();
+        eventName = in.readString();
+        fundName = in.readString();
+        address = in.readString();
+        phones = in.createStringArray();
+        content = in.readString();
+        email = in.readString();
+        webSite = in.readString();
+        isEvent = in.readByte() != 0;
+        contributors = in.createStringArray();
+        photos = in.createStringArray();
+        descriptionAssistance = in.readString();
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -62,16 +95,16 @@ public class Event implements Cloneable {
         return start;
     }
 
-    public void setStart(LocalDate start) {
-        this.start = start;
+    public void setStart(String start) {
+        this.start = LocalDate.parse(start);
     }
 
     public LocalDate getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDate end) {
-        this.end = end;
+    public void setEnd(String end) {
+        this.end = LocalDate.parse(end);
     }
 
     public String getFundName() {
@@ -114,14 +147,6 @@ public class Event implements Cloneable {
         this.content = content;
     }
 
-    public String[] getFriendsId() {
-        return friendsId;
-    }
-
-    public void setFriendsId(String[] friendsId) {
-        this.friendsId = friendsId;
-    }
-
     public String getWebSite() {
         return webSite;
     }
@@ -146,12 +171,20 @@ public class Event implements Cloneable {
         this.contributors = contributors;
     }
 
-    public TypeAssistance[] getTypesAssistance() {
-        return typesAssistance;
+    public Category[] getTypesAssistance() {
+        return categories;
     }
 
-    public void setTypesAssistance(TypeAssistance[] typesAssistance) {
-        this.typesAssistance = typesAssistance;
+    public void setTypesAssistance(Category[] categories) {
+        this.categories = categories;
+    }
+
+    public Category[] getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Category[] categories) {
+        this.categories = categories;
     }
 
     public String[] getPhotos() {
@@ -194,13 +227,12 @@ public class Event implements Cloneable {
         if (!Arrays.equals(phones, event.phones)) return false;
         if (content != null ? !content.equals(event.content) : event.content != null) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(friendsId, event.friendsId)) return false;
         if (email != null ? !email.equals(event.email) : event.email != null) return false;
         if (webSite != null ? !webSite.equals(event.webSite) : event.webSite != null) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
         if (!Arrays.equals(contributors, event.contributors)) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        if (!Arrays.equals(typesAssistance, event.typesAssistance)) return false;
+        if (!Arrays.equals(categories, event.categories)) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
         if (!Arrays.equals(photos, event.photos)) return false;
         return descriptionAssistance != null ? descriptionAssistance.equals(event.descriptionAssistance) : event.descriptionAssistance == null;
@@ -216,14 +248,55 @@ public class Event implements Cloneable {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + Arrays.hashCode(phones);
         result = 31 * result + (content != null ? content.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(friendsId);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (webSite != null ? webSite.hashCode() : 0);
         result = 31 * result + (isEvent ? 1 : 0);
         result = 31 * result + Arrays.hashCode(contributors);
-        result = 31 * result + Arrays.hashCode(typesAssistance);
+        result = 31 * result + Arrays.hashCode(categories);
         result = 31 * result + Arrays.hashCode(photos);
         result = 31 * result + (descriptionAssistance != null ? descriptionAssistance.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id='" + id + '\'' +
+                ", eventName='" + eventName + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                ", fundName='" + fundName + '\'' +
+                ", address='" + address + '\'' +
+                ", phones=" + Arrays.toString(phones) +
+                ", content='" + content + '\'' +
+                ", email='" + email + '\'' +
+                ", webSite='" + webSite + '\'' +
+                ", isEvent=" + isEvent +
+                ", contributors=" + Arrays.toString(contributors) +
+                ", categories=" + Arrays.toString(categories) +
+                ", photos=" + Arrays.toString(photos) +
+                ", descriptionAssistance='" + descriptionAssistance + '\'' +
+                '}' + "\n";
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(eventName);
+        dest.writeString(fundName);
+        dest.writeString(address);
+        dest.writeStringArray(phones);
+        dest.writeString(content);
+        dest.writeString(email);
+        dest.writeString(webSite);
+        dest.writeByte((byte) (isEvent ? 1 : 0));
+        dest.writeStringArray(contributors);
+        dest.writeStringArray(photos);
+        dest.writeString(descriptionAssistance);
     }
 }

@@ -77,9 +77,11 @@ public class Repository {
     //preferences  processing
     public <T> Flowable<T> loadObject(Class<T> clazz, String nameObject) {
         return Flowable.fromCallable(() -> new Gson().fromJson(preferences.getString(nameObject, ""), clazz))
-                .onErrorReturn(tr -> clazz.newInstance())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .onErrorReturn(tr -> clazz.newInstance());
+    }
+
+    public <T> T loadFilter(Class<T> clazz, String nameObject) {
+        return new Gson().fromJson(preferences.getString(nameObject, ""), clazz);
     }
 
     public void saveObject(Object obj, String nameObject) {

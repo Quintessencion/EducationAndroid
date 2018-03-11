@@ -1,7 +1,11 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,19 +21,34 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.EventPresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.receiver.EventResultsReceiver;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
 import java.util.List;
 
+import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
 
-public class NewsFragment extends MvpAppCompatFragment implements NewsView, RecyclerViewClickListener {
+public class NewsFragment extends MvpAppCompatFragment implements NewsView, RecyclerViewClickListener,
+        EventResultsReceiver.Receiver {
+
+    public static final String RECEIVER = "app_results_receiver";
+    public static final String RESPONSE_EXTRA_EVENT = "response_event";
+    public static final int LOAD_RESULT = 1;
 
     @InjectPresenter EventPresenter presenter;
     private EventsAdapter adapter;
+
+    private ServiceConnection sc;
+    private JsonReadService jsonService;
+    private boolean bound;
+
+    private EventResultsReceiver receiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,13 +67,45 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView, Recy
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
+        sc = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                jsonService = ((JsonReadService.EventBinder) service).getService();
+                bound = true;
+                loadData();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                bound = false;
+            }
+        };
+
+        receiver = new EventResultsReceiver(new Handler());
+        receiver.setReceiver(this);
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        presenter.getEvents();
+        getActivity().bindService(new Intent(getActivity(), JsonReadService.class)
+                .putExtra(RECEIVER, receiver), sc, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    public void loadData() {
+        if (bound) {
+            jsonService.loadData();
+        }
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle data) {
+        if (resultCode == LOAD_RESULT) {
+            updateData(data.getParcelableArrayList(RESPONSE_EXTRA_EVENT));
+        }
     }
 
     @Override

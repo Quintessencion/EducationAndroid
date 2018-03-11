@@ -3,12 +3,37 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.BECOME_VOLUNTEER;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELPING_THINGS;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELP_MONEY;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.PROFESSIONAL_HELP;
+
 public class Filter implements Parcelable {
 
     private boolean isVolunteer;
     private boolean isMoneyHelp;
     private boolean isThingsHelp;
     private boolean isProfHelp;
+
+    public List<Category> getFilter() {
+        List<Category> categories = new ArrayList<>();
+        if (isVolunteer()) {
+            categories.add(BECOME_VOLUNTEER);
+        }
+        if (isMoneyHelp()) {
+            categories.add(HELP_MONEY);
+        }
+        if (isThingsHelp()) {
+            categories.add(HELPING_THINGS);
+        }
+        if (isProfHelp()) {
+            categories.add(PROFESSIONAL_HELP);
+        }
+        return categories;
+    }
 
     public Filter() {
     }

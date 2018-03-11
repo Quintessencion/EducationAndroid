@@ -12,6 +12,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.EventPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
@@ -71,6 +72,11 @@ public class NewsOrganizationsActivity extends MvpAppCompatActivity implements N
     @Override
     public void updateData(List<Event> events) {
         adapter.updateList(events);
+    }
+
+    @Override
+    public void loadData() {
+
     }
 
     @Override

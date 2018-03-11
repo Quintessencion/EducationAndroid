@@ -54,6 +54,8 @@
         <activity android:name=".task4.ui.activity.ImageSliderActivity" />
         <activity android:name=".task4.ui.activity.FilterActivity" />
         <activity android:name=".task4.ui.activity.ProfileEditorActivity" />
+
+        <service android:name=".task4.ui.service.JsonReadService" />
     </application>
 
 </manifest>

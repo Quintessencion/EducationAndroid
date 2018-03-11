@@ -15,6 +15,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.MainActivityPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SwitchAbleView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.HelpFragment;
@@ -22,7 +23,10 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.Hist
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.NewsFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.SearchFragment;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.JsonUtil;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
+
+import org.json.JSONException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

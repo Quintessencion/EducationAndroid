@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.arellomobile.mvp.Pair;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.EventDetailView;
@@ -46,7 +46,7 @@ public class DetailPresenter extends MvpPresenter<EventDetailView> {
         saveUser(user);
     }
 
-    public void sendOffer(TypeAssistance type, User user) {
+    public void sendOffer(Category type, User user) {
         saveUser(user);
     }
 }

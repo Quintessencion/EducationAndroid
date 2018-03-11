@@ -58,10 +58,20 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="TextAppearanceFund" parent="TextDefault">
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/gray_300</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="TextAppearanceDate" parent="TextDefault">
         <item name="android:lineSpacingExtra">4sp</item>
         <item name="android:textColor">@color/white_70</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearanceDetail" parent="TextAppearanceDate">
+        <item name="android:textColor">@color/gray_200</item>
     </style>
 
     <style name="TextAppearanceFIO" parent="TextDefault">

@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.TypeAssistance;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.ProfileEditorActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.UtilsValidator;
@@ -47,7 +47,7 @@ public class HelpDialog extends DialogFragment {
     @BindView(R.id.text_prof) TextView textProf;
 
     private ActionHelp actionHelp;
-    private TypeAssistance type;
+    private Category type;
     private FormatWatcher format;
 
     private boolean phoneError;
@@ -63,10 +63,10 @@ public class HelpDialog extends DialogFragment {
     private CompositeDisposable compositeDisposable;
 
     public interface ActionHelp {
-        void sendOfferHelp(TypeAssistance type);
+        void sendOfferHelp(Category type);
     }
 
-    public static HelpDialog newInstance(TypeAssistance type, String phone, String email, String fieldActivity) {
+    public static HelpDialog newInstance(Category type, String phone, String email, String fieldActivity) {
         Bundle args = new Bundle();
         args.putSerializable(TYPE, type);
         args.putString(PHONE, phone);
@@ -90,7 +90,7 @@ public class HelpDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        type = (TypeAssistance) getArguments().getSerializable(TYPE);
+        type = (Category) getArguments().getSerializable(TYPE);
         String phone = (String) getArguments().getSerializable(PHONE);
         String email = (String) getArguments().getSerializable(EMAIL);
         String fieldActivity = (String) getArguments().getSerializable(FIELD_ACTIVITY);
@@ -98,7 +98,7 @@ public class HelpDialog extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_help, null);
         ButterKnife.bind(this, view);
 
-        if (TypeAssistance.PROFESSIONAL_HELP.equals(type)) {
+        if (Category.PROFESSIONAL_HELP.equals(type)) {
             textProf.setVisibility(View.VISIBLE);
             fieldActivityLayout.setVisibility(View.VISIBLE);
             isCheckFieldActivity = true;
