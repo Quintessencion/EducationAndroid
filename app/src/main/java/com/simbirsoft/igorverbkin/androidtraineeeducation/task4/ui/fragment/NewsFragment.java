@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,22 +18,20 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.receiver.EventResultsReceiver;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.LOAD_EVENTS;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RECEIVER;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RESPONSE_EXTRA_EVENTS;
 
-public class NewsFragment extends MvpAppCompatFragment implements RecyclerViewClickListener,
-        EventResultsReceiver.Receiver {
+public class NewsFragment extends MvpAppCompatFragment implements RecyclerViewClickListener {
 
     private EventsAdapter adapter;
 
@@ -42,11 +39,12 @@ public class NewsFragment extends MvpAppCompatFragment implements RecyclerViewCl
     private JsonReadService jsonService;
     private boolean bound;
 
-    private EventResultsReceiver receiver;
+    private CompositeDisposable compositeDisposable;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        compositeDisposable = new CompositeDisposable();
         adapter = new EventsAdapter(this);
         super.onCreate(savedInstanceState);
 
@@ -55,7 +53,7 @@ public class NewsFragment extends MvpAppCompatFragment implements RecyclerViewCl
             public void onServiceConnected(ComponentName name, IBinder service) {
                 jsonService = ((JsonReadService.EventBinder) service).getService();
                 bound = true;
-                loadData();
+                loadEvents();
             }
 
             @Override
@@ -63,9 +61,6 @@ public class NewsFragment extends MvpAppCompatFragment implements RecyclerViewCl
                 bound = false;
             }
         };
-
-        receiver = new EventResultsReceiver(new Handler());
-        receiver.setReceiver(this);
     }
 
     @Nullable
@@ -82,26 +77,20 @@ public class NewsFragment extends MvpAppCompatFragment implements RecyclerViewCl
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().bindService(new Intent(getActivity(), JsonReadService.class)
-                .putExtra(RECEIVER, receiver), sc, BIND_AUTO_CREATE);
+        getActivity().bindService(new Intent(getActivity(), JsonReadService.class), sc, BIND_AUTO_CREATE);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         getActivity().unbindService(sc);
+        compositeDisposable.clear();
     }
 
-    public void loadData() {
+    public void loadEvents() {
         if (bound) {
-            jsonService.loadEvents();
-        }
-    }
-
-    @Override
-    public void onReceiveResult(int resultCode, Bundle data) {
-        if (resultCode == LOAD_EVENTS) {
-            updateData(data.getParcelableArrayList(RESPONSE_EXTRA_EVENTS));
+            compositeDisposable.add(jsonService.getAllEvents().subscribe(this::updateData, tr ->
+                    Logger.d("NewsFragment json exception: " + tr.getMessage())));
         }
     }
 

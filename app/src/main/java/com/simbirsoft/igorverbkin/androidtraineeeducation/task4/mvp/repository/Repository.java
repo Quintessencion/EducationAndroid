@@ -14,7 +14,6 @@ import io.reactivex.subjects.Subject;
 public class Repository {
 
     private SharedPreferences preferences;
-
     private Subject<String> queryObservable;
 
     public Repository(SharedPreferences preferences) {
@@ -27,10 +26,6 @@ public class Repository {
                 .onErrorReturn(tr -> clazz.newInstance())
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    public <T> T loadObject2(Class<T> clazz, String nameObject) {
-        return new Gson().fromJson(preferences.getString(nameObject, ""), clazz);
     }
 
     public void saveObject(Object obj, String nameObject) {

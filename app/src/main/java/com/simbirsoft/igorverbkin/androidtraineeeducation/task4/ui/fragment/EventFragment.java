@@ -52,9 +52,4 @@ public class EventFragment extends BaseSearchFragment {
     public boolean onQueryTextChange(String newText) {
         return false;
     }
-
-    @Override
-    public void loadEvents(List<String> nkos) {
-
-    }
 }

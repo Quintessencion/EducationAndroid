@@ -42,6 +42,5 @@ public class ProfilePresenter extends MvpPresenter<UserProfileView> {
     public void onDestroy() {
         super.onDestroy();
         disposable.clear();
-        disposable.dispose();
     }
 }

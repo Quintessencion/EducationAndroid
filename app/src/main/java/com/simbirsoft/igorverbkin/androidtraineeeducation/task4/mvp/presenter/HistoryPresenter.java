@@ -19,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER_PREFERENCES;
 
 @InjectViewState
-public class HistoryPresenter extends MvpPresenter<HistoryView> {
+public class  HistoryPresenter extends MvpPresenter<HistoryView> {
 
     private Repository repository;
     private CompositeDisposable disposable;
@@ -29,36 +29,7 @@ public class HistoryPresenter extends MvpPresenter<HistoryView> {
         disposable = new CompositeDisposable();
     }
 
-    public void loadDataUser(List<Event> events) {
-        disposable.add(repository.loadObject(User.class, USER_PREFERENCES)
-                .doOnSubscribe(e -> getViewState().showLoading())
-                .subscribe(user -> {
-                    if (user.getHistory() != null) {
-                        Map<String, Event> mapEvents = new HashMap<>();
-                        for (Event event : events) {
-                            mapEvents.put(event.getId(), event);
-                        }
-                        List<Event> historyEvents = new ArrayList<>();
-                        for (History history : user.getHistory()) {
-                            Event event = mapEvents.get(history.getId()).clone();
-                            event.setDescriptionAssistance(history.getDescription());
-                            historyEvents.add(event);
-                        }
-                        getViewState().updateData(historyEvents);
-                    } else {
-                        getViewState().showEmptyHistory();
-                    }
-                }));
-    }
-
     public void downloadReport(String id) {
 
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        disposable.clear();
-        disposable.dispose();
     }
 }

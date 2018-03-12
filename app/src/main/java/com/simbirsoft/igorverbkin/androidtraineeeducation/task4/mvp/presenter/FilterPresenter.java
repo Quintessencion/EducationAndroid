@@ -37,6 +37,5 @@ public class FilterPresenter extends MvpPresenter<FilterView> {
     public void onDestroy() {
         super.onDestroy();
         disposable.clear();
-        disposable.dispose();
     }
 }

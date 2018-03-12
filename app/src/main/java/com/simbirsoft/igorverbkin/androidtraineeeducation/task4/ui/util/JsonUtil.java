@@ -1,7 +1,6 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
@@ -16,11 +15,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class JsonUtil {
 
-    public static ArrayList<Event> readEventsFromJsonFile(Context context, List<Category> filter) throws JSONException {
+    public static ArrayList<Event> readAllEvents(Context context, List<Category> filter) throws JSONException {
         JSONObject jsonRoot = new JSONObject(readText(context, R.raw.events));
         JSONArray jsonArrayEvents = jsonRoot.getJSONArray("events");
 
@@ -53,12 +54,113 @@ public class JsonUtil {
             event.setWebSite(jsonObject.getString("webSite"));
             event.setEvent(jsonObject.getBoolean("isEvent"));
             event.setContributors(getArrayByName("contributors", jsonObject));
-            event.setCategories(categories);
             event.setPhotos(getArrayByName("photos", jsonObject));
+
+            event.setCategories(categories);
 
             events.add(event);
         }
 
+        return events;
+    }
+
+    public static Event readEventById(Context context, String id) throws JSONException {
+        JSONObject jsonRoot = new JSONObject(readText(context, R.raw.events));
+        JSONArray jsonArrayEvents = jsonRoot.getJSONArray("events");
+
+        for (int i = 0; i < jsonArrayEvents.length(); i++) {
+            JSONObject jsonObject = jsonArrayEvents.getJSONObject(i);
+
+            String eventId = jsonObject.getString("id");
+            if (!eventId.equals(id)) {
+                continue;
+            }
+
+            Event event = new Event();
+            event.setId(id);
+            event.setEventName(jsonObject.getString("eventName"));
+            event.setStart(jsonObject.getString("start"));
+            event.setEnd(jsonObject.getString("end"));
+            event.setFundName(jsonObject.getString("fundName"));
+            event.setEmail(jsonObject.getString("email"));
+            event.setAddress(jsonObject.getString("address"));
+            event.setPhones(getArrayByName("phones", jsonObject));
+            event.setContent(jsonObject.getString("content"));
+            event.setWebSite(jsonObject.getString("webSite"));
+            event.setEvent(jsonObject.getBoolean("isEvent"));
+            event.setContributors(getArrayByName("contributors", jsonObject));
+            event.setPhotos(getArrayByName("photos", jsonObject));
+
+            JSONArray jsonArrayCategories = jsonObject.getJSONArray("categories");
+            Category[] categories = new Category[jsonArrayCategories.length()];
+            for (int j = 0; j < jsonArrayCategories.length(); j++) {
+                categories[j] = Category.valueOf(jsonArrayCategories.getString(j));
+            }
+            event.setCategories(categories);
+
+            return event;
+        }
+        return null;
+    }
+
+    public static List<String> readEventByQuery(Context context, String query) throws JSONException {
+        JSONObject jsonRoot = new JSONObject(readText(context, R.raw.events));
+        JSONArray jsonArrayEvents = jsonRoot.getJSONArray("events");
+
+        Set<String> nameOrganization = new HashSet<>();
+
+        for (int i = 0; i < jsonArrayEvents.length(); i++) {
+            JSONObject jsonObject = jsonArrayEvents.getJSONObject(i);
+
+            String eventName = jsonObject.getString("fundName");
+            if (eventName.contains(query)) {
+                nameOrganization.add(eventName);
+            }
+        }
+        List<String> events = new ArrayList<>();
+        events.addAll(nameOrganization);
+
+        return events;
+    }
+
+    public static List<Event> readEventByName(Context context, String name) throws JSONException {
+        JSONObject jsonRoot = new JSONObject(readText(context, R.raw.events));
+        JSONArray jsonArrayEvents = jsonRoot.getJSONArray("events");
+
+        ArrayList<Event> events = new ArrayList<>(jsonArrayEvents.length());
+
+        for (int i = 0; i < jsonArrayEvents.length(); i++) {
+            JSONObject jsonObject = jsonArrayEvents.getJSONObject(i);
+
+            String fundName = jsonObject.getString("fundName");
+            if (!fundName.equals(name)) {
+                continue;
+            }
+
+            Event event = new Event();
+            event.setId(jsonObject.getString("id"));
+            event.setEventName(jsonObject.getString("eventName"));
+            event.setStart(jsonObject.getString("start"));
+            event.setEnd(jsonObject.getString("end"));
+            event.setFundName(fundName);
+            event.setEmail(jsonObject.getString("email"));
+            event.setAddress(jsonObject.getString("address"));
+            event.setPhones(getArrayByName("phones", jsonObject));
+            event.setContent(jsonObject.getString("content"));
+            event.setWebSite(jsonObject.getString("webSite"));
+            event.setEvent(jsonObject.getBoolean("isEvent"));
+            event.setContributors(getArrayByName("contributors", jsonObject));
+            event.setPhotos(getArrayByName("photos", jsonObject));
+
+            JSONArray jsonArrayCategories = jsonObject.getJSONArray("categories");
+            Category[] categories = new Category[jsonArrayCategories.length()];
+            for (int j = 0; j < jsonArrayCategories.length(); j++) {
+                categories[j] = Category.valueOf(jsonArrayCategories.getString(j));
+            }
+            event.setCategories(categories);
+
+            events.add(event);
+        }
         return events;
     }
 

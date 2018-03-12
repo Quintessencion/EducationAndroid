@@ -6,7 +6,6 @@ import android.content.ServiceConnection;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
@@ -27,19 +26,20 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.DetailPresenter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.receiver.EventResultsReceiver;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.EventDetailView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.HelpDialog;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.MoneyTransferDialog;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtils;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageUtils;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -47,12 +47,9 @@ import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Cat
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELPING_THINGS;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELP_MONEY;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.PROFESSIONAL_HELP;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.LOAD_EVENTS;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RECEIVER;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RESPONSE_EXTRA_EVENTS;
 
 public class DetailActivity extends MvpAppCompatActivity implements EventDetailView,
-        MoneyTransferDialog.ActionHelp, HelpDialog.ActionHelp, EventResultsReceiver.Receiver {
+        MoneyTransferDialog.ActionHelp, HelpDialog.ActionHelp {
 
     public static final String DIALOG_HELP = "dialog_help";
     public static final String EVENT_ID = "event_id";
@@ -95,10 +92,11 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
     private JsonReadService jsonService;
     private boolean bound;
 
-    private EventResultsReceiver receiver;
+    private CompositeDisposable compositeDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        compositeDisposable = new CompositeDisposable();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
@@ -123,7 +121,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
             public void onServiceConnected(ComponentName name, IBinder service) {
                 jsonService = ((JsonReadService.EventBinder) service).getService();
                 bound = true;
-                loadData();
+                loadEvent();
             }
 
             @Override
@@ -131,26 +129,26 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
                 bound = false;
             }
         };
-        receiver = new EventResultsReceiver(new Handler());
-        receiver.setReceiver(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        bindService(new Intent(this, JsonReadService.class)
-                .putExtra(RECEIVER, receiver), sc, BIND_AUTO_CREATE);
+        bindService(new Intent(this, JsonReadService.class), sc, BIND_AUTO_CREATE);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         unbindService(sc);
+        compositeDisposable.clear();
     }
 
-    private void loadData() {
+    private void loadEvent() {
         if (bound) {
-            jsonService.loadEvents();
+            compositeDisposable.add(jsonService.getEventById(eventId)
+                    .subscribe(pair -> fillEventData(pair.first, pair.second),
+                            tr -> Logger.d("DetailActivity json exception: " + tr.getMessage())));
         }
     }
 
@@ -171,10 +169,8 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         });
     };
 
-    @Override
     public void fillEventData(User user, Event event) {
         this.user = user;
-//        eventId = event.getId();
         title.setPadding(0, 0, (int) getResources().getDimension(R.dimen.padding_end), 0);
         title.setText(event.getEventName());
         title.setSelected(true);
@@ -293,12 +289,5 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
     public void sendOfferHelp(Category type) {
         user.addHistory(eventId, getString(type.getDescriptionAssistance()));
         presenter.sendOffer(type, user);
-    }
-
-    @Override
-    public void onReceiveResult(int resultCode, Bundle data) {
-        if (resultCode == LOAD_EVENTS) {
-            presenter.getEventById(eventId, data.getParcelableArrayList(RESPONSE_EXTRA_EVENTS));
-        }
     }
 }
