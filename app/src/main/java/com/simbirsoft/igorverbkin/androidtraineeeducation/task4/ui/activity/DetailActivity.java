@@ -173,7 +173,6 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         this.user = user;
         title.setPadding(0, 0, (int) getResources().getDimension(R.dimen.padding_end), 0);
         title.setText(event.getEventName());
-        title.setSelected(true);
         nameEvent.setText(event.getEventName());
         expirationDate.setText(DateUtils.getFormatStringDate(getResources(), event.getStart(), event.getEnd()));
         fundName.setText(event.getFundName());

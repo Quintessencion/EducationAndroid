@@ -28,9 +28,6 @@
     <style name="ToolbarTitle" parent="TextAppearanceHeadline">
         <item name="android:lineSpacingExtra">0sp</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">marquee</item>
-        <item name="android:marqueeRepeatLimit">0</item>
     </style>
 
     <style name="TextAppearanceDescriptionAction" parent="TextDefault">
