@@ -1,9 +1,13 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -23,9 +27,11 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.DetailPresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.receiver.EventResultsReceiver;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.EventDetailView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.HelpDialog;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.dialog.MoneyTransferDialog;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtils;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.ImageUtils;
 
@@ -41,9 +47,12 @@ import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Cat
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELPING_THINGS;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELP_MONEY;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.PROFESSIONAL_HELP;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.LOAD_EVENTS;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RECEIVER;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RESPONSE_EXTRA_EVENTS;
 
 public class DetailActivity extends MvpAppCompatActivity implements EventDetailView,
-        MoneyTransferDialog.ActionHelp, HelpDialog.ActionHelp {
+        MoneyTransferDialog.ActionHelp, HelpDialog.ActionHelp, EventResultsReceiver.Receiver {
 
     public static final String DIALOG_HELP = "dialog_help";
     public static final String EVENT_ID = "event_id";
@@ -82,6 +91,12 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
     private User user;
     private String eventId;
 
+    private ServiceConnection sc;
+    private JsonReadService jsonService;
+    private boolean bound;
+
+    private EventResultsReceiver receiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +107,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         mailLink.setPaintFlags(mailLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         websiteLink.setPaintFlags(websiteLink.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        presenter.getEventById(getIntent().getStringExtra(EVENT_ID));
+        eventId = getIntent().getStringExtra(EVENT_ID);
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -102,6 +117,41 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
             actionBar.setHomeAsUpIndicator(R.drawable.icon_back);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
+
+        sc = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                jsonService = ((JsonReadService.EventBinder) service).getService();
+                bound = true;
+                loadData();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                bound = false;
+            }
+        };
+        receiver = new EventResultsReceiver(new Handler());
+        receiver.setReceiver(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        bindService(new Intent(this, JsonReadService.class)
+                .putExtra(RECEIVER, receiver), sc, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unbindService(sc);
+    }
+
+    private void loadData() {
+        if (bound) {
+            jsonService.loadEvents();
+        }
     }
 
     private final ButterKnife.Setter<View, String[]> SET_PHOTO = (view, photos, index) -> {
@@ -124,7 +174,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
     @Override
     public void fillEventData(User user, Event event) {
         this.user = user;
-        eventId = event.getId();
+//        eventId = event.getId();
         title.setPadding(0, 0, (int) getResources().getDimension(R.dimen.padding_end), 0);
         title.setText(event.getEventName());
         title.setSelected(true);
@@ -210,14 +260,11 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         for (Category type : types) {
             if (type.equals(HELPING_THINGS)) {
                 enableHelpBtn(HELPING_THINGS, helpThingsBtn, separator1);
-            }
-            if (type.equals(BECOME_VOLUNTEER)) {
+            } else if (type.equals(BECOME_VOLUNTEER)) {
                 enableHelpBtn(BECOME_VOLUNTEER, becomeVolunteerBtn, separator2);
-            }
-            if (type.equals(PROFESSIONAL_HELP)) {
+            } else if (type.equals(PROFESSIONAL_HELP)) {
                 enableHelpBtn(PROFESSIONAL_HELP, professionalHelpBtn, separator3);
-            }
-            if (type.equals(HELP_MONEY)) {
+            } else if (type.equals(HELP_MONEY)) {
                 enableHelpBtn(HELP_MONEY, helpMoneyBtn, separator3);
             }
         }
@@ -246,5 +293,12 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
     public void sendOfferHelp(Category type) {
         user.addHistory(eventId, getString(type.getDescriptionAssistance()));
         presenter.sendOffer(type, user);
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle data) {
+        if (resultCode == LOAD_EVENTS) {
+            presenter.getEventById(eventId, data.getParcelableArrayList(RESPONSE_EXTRA_EVENTS));
+        }
     }
 }

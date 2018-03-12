@@ -54,7 +54,7 @@ public class EventFragment extends BaseSearchFragment {
     }
 
     @Override
-    public void loadData(List<String> nkos) {
+    public void loadEvents(List<String> nkos) {
 
     }
 }

@@ -1,11 +1,10 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model;
 
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
 
     private String uri;
     private String secondName;

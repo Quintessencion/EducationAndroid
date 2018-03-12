@@ -17,31 +17,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
-import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.EventPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.receiver.EventResultsReceiver;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
 import java.util.List;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.LOAD_EVENTS;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RECEIVER;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RESPONSE_EXTRA_EVENTS;
 
-public class NewsFragment extends MvpAppCompatFragment implements NewsView, RecyclerViewClickListener,
+public class NewsFragment extends MvpAppCompatFragment implements RecyclerViewClickListener,
         EventResultsReceiver.Receiver {
 
-    public static final String RECEIVER = "app_results_receiver";
-    public static final String RESPONSE_EXTRA_EVENT = "response_event";
-    public static final int LOAD_RESULT = 1;
-
-    @InjectPresenter EventPresenter presenter;
     private EventsAdapter adapter;
 
     private ServiceConnection sc;
@@ -55,17 +49,6 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView, Recy
         setHasOptionsMenu(true);
         adapter = new EventsAdapter(this);
         super.onCreate(savedInstanceState);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
-
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
 
         sc = new ServiceConnection() {
             @Override
@@ -83,7 +66,16 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView, Recy
 
         receiver = new EventResultsReceiver(new Handler());
         receiver.setReceiver(this);
+    }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
@@ -95,20 +87,24 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView, Recy
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unbindService(sc);
+    }
+
     public void loadData() {
         if (bound) {
-            jsonService.loadData();
+            jsonService.loadEvents();
         }
     }
 
     @Override
     public void onReceiveResult(int resultCode, Bundle data) {
-        if (resultCode == LOAD_RESULT) {
-            updateData(data.getParcelableArrayList(RESPONSE_EXTRA_EVENT));
+        if (resultCode == LOAD_EVENTS) {
+            updateData(data.getParcelableArrayList(RESPONSE_EXTRA_EVENTS));
         }
     }
 
-    @Override
     public void updateData(List<Event> events) {
         adapter.updateList(events);
     }
@@ -129,8 +125,6 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView, Recy
 
     @Override
     public void openDetailEvent(String id) {
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(EVENT_ID, id);
-        startActivity(intent);
+        startActivity(new Intent(getActivity(), DetailActivity.class).putExtra(EVENT_ID, id));
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @StateStrategyType(OneExecutionStateStrategy.class)
 public interface SearchNkoView extends MvpView {
 
-    void loadData(List<String> nkos);
+    void loadEvents(List<String> nkos);
 
     void setQueryToSearchView(String query);
 }

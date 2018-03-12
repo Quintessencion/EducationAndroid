@@ -1,6 +1,7 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;

@@ -3,12 +3,16 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.History;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.HistoryView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -25,28 +29,26 @@ public class HistoryPresenter extends MvpPresenter<HistoryView> {
         disposable = new CompositeDisposable();
     }
 
-    @Override
-    public void attachView(HistoryView view) {
-        super.attachView(view);
-        loadDataUser();
-    }
-
-    private void loadDataUser() {
+    public void loadDataUser(List<Event> events) {
         disposable.add(repository.loadObject(User.class, USER_PREFERENCES)
                 .doOnSubscribe(e -> getViewState().showLoading())
                 .subscribe(user -> {
                     if (user.getHistory() != null) {
-                        getEventsByIds(user.getHistory());
+                        Map<String, Event> mapEvents = new HashMap<>();
+                        for (Event event : events) {
+                            mapEvents.put(event.getId(), event);
+                        }
+                        List<Event> historyEvents = new ArrayList<>();
+                        for (History history : user.getHistory()) {
+                            Event event = mapEvents.get(history.getId()).clone();
+                            event.setDescriptionAssistance(history.getDescription());
+                            historyEvents.add(event);
+                        }
+                        getViewState().updateData(historyEvents);
                     } else {
                         getViewState().showEmptyHistory();
                     }
                 }));
-    }
-
-    private void getEventsByIds(List<History> histories) {
-        disposable.add(repository.getEventsByIds(histories)
-                .doOnNext(e -> getViewState().hideLoading())
-                .subscribe(getViewState()::updateData));
     }
 
     public void downloadReport(String id) {

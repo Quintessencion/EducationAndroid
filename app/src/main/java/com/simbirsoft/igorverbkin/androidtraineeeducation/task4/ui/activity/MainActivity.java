@@ -34,6 +34,11 @@ import butterknife.ButterKnife;
 public class MainActivity extends MvpAppCompatActivity implements
         BottomNavigationViewEx.OnNavigationItemSelectedListener, SwitchAbleView {
 
+    public static final String RECEIVER = "app_results_receiver";
+    public static final String RESPONSE_EXTRA_EVENT = "response_event";
+    public static final String RESPONSE_EXTRA_EVENTS = "response_events";
+    public static final String RESPONSE_EXTRA_USER = "response_user";
+    public static final int LOAD_EVENTS = 1;
     public static final int HELP_PAGE = 2;
 
     @InjectPresenter MainActivityPresenter presenter;
@@ -139,6 +144,7 @@ public class MainActivity extends MvpAppCompatActivity implements
 
         fm.beginTransaction()
                 .replace(R.id.fragment_navigation, fragment, classFragment.getName())
+                .addToBackStack(null)
                 .commit();
         titleToolbar.setText(titleId);
     }

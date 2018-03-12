@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.JsonUtil;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
@@ -22,9 +23,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity.FILTERS_PREFERENCES;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.NewsFragment.LOAD_RESULT;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.NewsFragment.RECEIVER;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.NewsFragment.RESPONSE_EXTRA_EVENT;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.LOAD_EVENTS;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RECEIVER;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RESPONSE_EXTRA_EVENT;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RESPONSE_EXTRA_EVENTS;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.MainActivity.RESPONSE_EXTRA_USER;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER_PREFERENCES;
 
 public class JsonReadService extends Service {
 
@@ -33,6 +37,7 @@ public class JsonReadService extends Service {
 
     private Repository repository;
     private EventBinder binder = new EventBinder();
+
     private ResultReceiver resultReceiver;
 
     public JsonReadService() {
@@ -52,10 +57,10 @@ public class JsonReadService extends Service {
         return binder;
     }
 
-    public void loadData() {
-        Logger.d("service loadData() ");
+    public void loadEvents() {
         executor.execute(new JsonFileReader());
     }
+
 
     public class EventBinder extends Binder {
         public JsonReadService getService() {
@@ -68,16 +73,15 @@ public class JsonReadService extends Service {
 
         @Override
         public void run() {
-            Filter filter = repository.loadFilter(Filter.class, FILTERS_PREFERENCES);
-            ArrayList<Event> events = new ArrayList<>();
+            Filter filter = repository.loadObject2(Filter.class, FILTERS_PREFERENCES);
             try {
-                events = JsonUtil.readEventsFromJsonFile(JsonReadService.this, filter.getFilter());
+                ArrayList<Event> events = JsonUtil.readEventsFromJsonFile(JsonReadService.this, filter.getFilter());
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(RESPONSE_EXTRA_EVENTS, events);
+                resultReceiver.send(LOAD_EVENTS, args);
             } catch (JSONException e) {
-                e.printStackTrace();
+                Logger.d("Error reading json file: " + e.getMessage());
             }
-            Bundle args = new Bundle();
-            args.putParcelableArrayList(RESPONSE_EXTRA_EVENT, events);
-            resultReceiver.send(LOAD_RESULT, args);
         }
     }
 }

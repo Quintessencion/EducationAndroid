@@ -50,7 +50,7 @@
         </provider>
 
         <activity android:name=".task4.ui.activity.DetailActivity" />
-        <activity android:name=".task4.ui.activity.NewsOrganizationsActivity" />
+        <activity android:name=".task4.ui.activity.OrganizationsActivity" />
         <activity android:name=".task4.ui.activity.ImageSliderActivity" />
         <activity android:name=".task4.ui.activity.FilterActivity" />
         <activity android:name=".task4.ui.activity.ProfileEditorActivity" />

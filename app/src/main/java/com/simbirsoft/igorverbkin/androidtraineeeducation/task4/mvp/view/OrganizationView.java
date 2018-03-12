@@ -9,9 +9,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 import java.util.List;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface NewsView extends MvpView {
+public interface OrganizationView extends MvpView {
 
     void updateData(List<Event> events);
-
-    void loadData();
 }
