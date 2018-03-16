@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.Pair;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.History;
@@ -51,6 +52,12 @@ public class JsonReadService extends Service {
     public Flowable<Pair<User, Event>> getEventById(String id) {
         return repository.loadObject(User.class, User.class.getName())
                 .map(user -> new Pair<>(user, JsonUtil.readEventById(JsonReadService.this, id)))
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Flowable<List<Event>> getEventByCategory(Category category) {
+        return Flowable.fromCallable(() -> JsonUtil.readEventByCategory(JsonReadService.this, category))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

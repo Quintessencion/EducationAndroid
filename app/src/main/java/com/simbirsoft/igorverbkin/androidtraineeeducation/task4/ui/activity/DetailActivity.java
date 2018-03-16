@@ -22,7 +22,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.CategoryHelp;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.DetailPresenter;
@@ -43,10 +43,10 @@ import io.reactivex.disposables.CompositeDisposable;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.BECOME_VOLUNTEER;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELPING_THINGS;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELP_MONEY;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.PROFESSIONAL_HELP;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.CategoryHelp.BECOME_VOLUNTEER;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.CategoryHelp.HELPING_THINGS;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.CategoryHelp.HELP_MONEY;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.CategoryHelp.PROFESSIONAL_HELP;
 
 public class DetailActivity extends MvpAppCompatActivity implements EventDetailView,
         MoneyTransferDialog.ActionHelp, HelpDialog.ActionHelp {
@@ -211,7 +211,7 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         websiteLink.setOnClickListener(v -> startBrowser(event.getWebSite()));
 
         setContributors(event.getContributors());
-        preparationButtons(event.getTypesAssistance());
+        preparationButtons(event.getCategoriesHelp());
     }
 
     private void sendLetter(String emailAddress) {
@@ -254,11 +254,11 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         }
     }
 
-    private void preparationButtons(Category[] types) {
+    private void preparationButtons(CategoryHelp[] types) {
         if (types == null) {
             return;
         }
-        for (Category type : types) {
+        for (CategoryHelp type : types) {
             if (type.equals(HELPING_THINGS)) {
                 enableHelpBtn(HELPING_THINGS, helpThingsBtn, separator1);
             } else if (type.equals(BECOME_VOLUNTEER)) {
@@ -271,12 +271,12 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         }
     }
 
-    private void enableHelpBtn(Category type, Button button, View separator) {
+    private void enableHelpBtn(CategoryHelp type, Button button, View separator) {
         DialogFragment dialog;
         button.setVisibility(VISIBLE);
         separator.setVisibility(VISIBLE);
 
-        if (Category.HELP_MONEY.equals(type)) {
+        if (CategoryHelp.HELP_MONEY.equals(type)) {
             dialog = MoneyTransferDialog.newInstance();
         } else {
             dialog = HelpDialog.newInstance(type, user.getPhoneNumber(), user.getEmail(), user.getFieldActivity());
@@ -286,12 +286,12 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
 
     @Override
     public void sendMoney(int sum) {
-        user.addHistory(eventId, getString(Category.HELP_MONEY.getDescriptionAssistance()) + ": " + sum + " ₽");
+        user.addHistory(eventId, getString(CategoryHelp.HELP_MONEY.getDescriptionAssistance()) + ": " + sum + " ₽");
         presenter.sendMoney(sum, user);
     }
 
     @Override
-    public void sendOfferHelp(Category type) {
+    public void sendOfferHelp(CategoryHelp type) {
         user.addHistory(eventId, getString(type.getDescriptionAssistance()));
         presenter.sendOffer(type, user);
     }

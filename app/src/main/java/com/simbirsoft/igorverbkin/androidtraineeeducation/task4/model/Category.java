@@ -3,18 +3,19 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 
 public enum Category {
-    HELPING_THINGS(R.string.help_with_things),
-    BECOME_VOLUNTEER(R.string.volunteering_1),
-    PROFESSIONAL_HELP(R.string.prof_help_2),
-    HELP_MONEY(R.string.help_with_money);
+    CHILDREN(R.string.children),
+    ADULTS(R.string.adults),
+    ELDERLY(R.string.elderly),
+    PETS(R.string.pets),
+    EVENTS(R.string.events);
 
-    private final int descriptionAssistance;
+    private final int name;
 
-    Category(int descriptionAssistance) {
-        this.descriptionAssistance = descriptionAssistance;
+    Category(int name) {
+        this.name = name;
     }
 
-    public int getDescriptionAssistance() {
-        return descriptionAssistance;
+    public int getName() {
+        return name;
     }
 }

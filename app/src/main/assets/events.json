@@ -24,7 +24,8 @@
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVCqCO5zYgf30Wcj8xyxK9XlMXBkIP_e_QQvdrgdM99B2hxN_H",
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl2ce8-5g8LCRosHKybOxUaZUZvSWWk3NQsG6QX05i_ABP8YVjcw"
       ],
-      "categories": [
+      "category":"CHILDREN",
+      "categoriesHelp": [
         "HELPING_THINGS",
         "HELP_MONEY",
         "PROFESSIONAL_HELP",
@@ -55,7 +56,8 @@
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDzzL2oaCPjtWjT2zOia21ESFIv3_Kum5ai6mc1PLHy-1cp0sU",
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmlHGldLf-EbzVeiqQJwKUfFo3gPwCPYia05e_K-_eOj1UyMIs"
       ],
-      "categories": [
+      "category":"CHILDREN",
+      "categoriesHelp": [
         "HELP_MONEY",
         "PROFESSIONAL_HELP"
       ],
@@ -81,7 +83,8 @@
       "isEvent": false,
       "contributors": [
       ],
-      "categories": [
+      "category":"CHILDREN",
+      "categoriesHelp": [
         "HELP_MONEY"
       ],
       "photos": [
@@ -107,7 +110,8 @@
       "isEvent": false,
       "contributors": [
       ],
-      "categories": [
+      "category":"CHILDREN",
+      "categoriesHelp": [
         "HELP_MONEY"
       ],
       "photos": [
@@ -130,7 +134,8 @@
       "isEvent": true,
       "contributors": [
       ],
-      "categories": [
+      "category":"EVENTS",
+      "categoriesHelp": [
         "HELP_MONEY",
         "PROFESSIONAL_HELP"
       ],
@@ -155,7 +160,8 @@
       "isEvent": true,
       "contributors": [
       ],
-      "categories": [
+      "category":"CHILDREN",
+      "categoriesHelp": [
         "HELP_MONEY",
         "PROFESSIONAL_HELP"
       ],
@@ -180,7 +186,8 @@
       "isEvent": true,
       "contributors": [
       ],
-      "categories": [
+      "category":"ADULTS",
+      "categoriesHelp": [
         "HELP_MONEY",
         "PROFESSIONAL_HELP"
       ],
@@ -205,7 +212,8 @@
       "isEvent": true,
       "contributors": [
       ],
-      "categories": [
+      "category":"CHILDREN",
+      "categoriesHelp": [
         "HELP_MONEY",
         "PROFESSIONAL_HELP",
         "BECOME_VOLUNTEER"
@@ -231,7 +239,8 @@
       "isEvent": false,
       "contributors": [
       ],
-      "categories": [
+      "category":"ELDERLY",
+      "categoriesHelp": [
         "HELP_MONEY"
       ],
       "photos": [
@@ -255,7 +264,8 @@
       "isEvent": false,
       "contributors": [
       ],
-      "categories": [
+      "category":"CHILDREN",
+      "categoriesHelp": [
         "HELP_MONEY"
       ],
       "photos": [

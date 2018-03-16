@@ -89,6 +89,12 @@
     <string name="delete">Удалить</string>
     <string name="download_report">Скачать отчет</string>
     <string name="completed">Завершено: %s %s</string>
+    <string name="select_category">Выберите категорию помощи</string>
+    <string name="children">Дети</string>
+    <string name="adults">Взрослые</string>
+    <string name="elderly">Пожилые</string>
+    <string name="pets">Животные</string>
+    <string name="events">Мероприятия</string>
 
     <plurals name="days_plural">
         <item quantity="zero">Осталось %1$d дней</item>

@@ -6,10 +6,10 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.BECOME_VOLUNTEER;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELPING_THINGS;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.HELP_MONEY;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category.PROFESSIONAL_HELP;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.CategoryHelp.BECOME_VOLUNTEER;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.CategoryHelp.HELPING_THINGS;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.CategoryHelp.HELP_MONEY;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.CategoryHelp.PROFESSIONAL_HELP;
 
 public class Filter implements Parcelable {
 
@@ -18,8 +18,8 @@ public class Filter implements Parcelable {
     private boolean isThingsHelp;
     private boolean isProfHelp;
 
-    public List<Category> getFilter() {
-        List<Category> categories = new ArrayList<>();
+    public List<CategoryHelp> getFilter() {
+        List<CategoryHelp> categories = new ArrayList<>();
         if (isVolunteer()) {
             categories.add(BECOME_VOLUNTEER);
         }
