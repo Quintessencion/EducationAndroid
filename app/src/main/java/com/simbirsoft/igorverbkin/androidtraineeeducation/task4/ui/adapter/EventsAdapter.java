@@ -6,17 +6,16 @@ import android.view.ViewGroup;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.RecyclerViewClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventViewHolder> {
 
-    private RecyclerViewClickListener listener;
+    private NkoAdapter.OnItemClickListener listener;
     private List<Event> data = new ArrayList<>();
 
-    public EventsAdapter(RecyclerViewClickListener listener) {
+    public EventsAdapter(NkoAdapter.OnItemClickListener listener) {
         this.listener = listener;
     }
 

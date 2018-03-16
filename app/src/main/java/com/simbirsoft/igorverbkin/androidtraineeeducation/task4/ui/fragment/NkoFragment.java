@@ -31,7 +31,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.OrganizationsActivity.EVENT_FUND_NAME;
 
-public class NkoFragment extends BaseSearchFragment implements RecyclerViewClickListener {
+public class NkoFragment extends BaseSearchFragment implements NkoAdapter.OnItemClickListener {
 
     @InjectPresenter NkoPresenter presenter;
 

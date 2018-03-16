@@ -8,15 +8,15 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.EventDetailView;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER_PREFERENCES;
+import javax.inject.Inject;
 
 @InjectViewState
 public class DetailPresenter extends MvpPresenter<EventDetailView> {
 
-    private Repository repository;
+    @Inject Repository repository;
 
     public DetailPresenter() {
-        repository = App.getComponent().repository();
+        App.getComponent().inject(this);
     }
 
     public void sendMoney(int sum, User user) {
@@ -28,6 +28,6 @@ public class DetailPresenter extends MvpPresenter<EventDetailView> {
     }
 
     private void saveUser(User user) {
-        repository.saveObject(user, USER_PREFERENCES);
+        repository.saveObject(user, User.class.getName());
     }
 }

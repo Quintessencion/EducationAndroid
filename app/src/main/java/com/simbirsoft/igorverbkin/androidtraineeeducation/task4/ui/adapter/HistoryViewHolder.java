@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.HistoryRecyclerViewClickListener;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtils;
 
 import butterknife.BindView;
@@ -16,7 +15,7 @@ import butterknife.ButterKnife;
 
 public class HistoryViewHolder extends RecyclerView.ViewHolder {
 
-    private HistoryRecyclerViewClickListener listener;
+    private HistoryAdapter.OnItemClickListener listener;
 
     @BindView(R.id.news_card_view) CardView cardView;
     @BindView(R.id.headline) TextView headline;
@@ -24,7 +23,7 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.description_assistance) TextView descriptionAssistance;
     @BindView(R.id.download_report_btn) Button downloadReportBtn;
 
-    public HistoryViewHolder(View itemView, HistoryRecyclerViewClickListener listener) {
+    public HistoryViewHolder(View itemView, HistoryAdapter.OnItemClickListener listener) {
         super(itemView);
         this.listener = listener;
         ButterKnife.bind(this, itemView);

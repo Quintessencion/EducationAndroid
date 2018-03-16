@@ -7,30 +7,32 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.FilterView;
 
-import io.reactivex.disposables.CompositeDisposable;
+import javax.inject.Inject;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity.FILTERS_PREFERENCES;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 
 @InjectViewState
 public class FilterPresenter extends MvpPresenter<FilterView> {
 
-    private Repository repository;
+    @Inject Repository repository;
     private CompositeDisposable disposable;
 
     public FilterPresenter() {
-        repository = App.getComponent().repository();
+        App.getComponent().inject(this);
         disposable = new CompositeDisposable();
     }
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        disposable.add(repository.loadObject(Filter.class, FILTERS_PREFERENCES)
+        disposable.add(repository.loadObject(Filter.class, Filter.class.getName())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::fillUserFilters));
     }
 
     public void saveDataFilter(Filter filter) {
-        repository.saveObject(filter, FILTERS_PREFERENCES);
+        repository.saveObject(filter, Filter.class.getName());
     }
 
     @Override

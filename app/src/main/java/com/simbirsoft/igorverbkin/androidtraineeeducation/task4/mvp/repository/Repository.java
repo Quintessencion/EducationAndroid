@@ -24,8 +24,7 @@ public class Repository {
     public <T> Flowable<T> loadObject(Class<T> clazz, String nameObject) {
         return Flowable.fromCallable(() -> new Gson().fromJson(preferences.getString(nameObject, ""), clazz))
                 .onErrorReturn(tr -> clazz.newInstance())
-                .observeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(Schedulers.io());
     }
 
     public void saveObject(Object obj, String nameObject) {
@@ -37,7 +36,7 @@ public class Repository {
     }
 
     public Observable<String> voiceQuery() {
-        return queryObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return queryObservable
+                .subscribeOn(Schedulers.io());
     }
 }

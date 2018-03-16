@@ -33,7 +33,7 @@ import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
 
 public class HistoryFragment extends MvpAppCompatFragment implements HistoryView,
-        HistoryRecyclerViewClickListener {
+        HistoryAdapter.OnItemClickListener {
 
     @InjectPresenter HistoryPresenter presenter;
     private HistoryAdapter adapter;

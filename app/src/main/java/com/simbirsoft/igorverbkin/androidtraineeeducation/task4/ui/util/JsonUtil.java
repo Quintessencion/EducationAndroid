@@ -2,7 +2,6 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util;
 
 import android.content.Context;
 
-import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 
@@ -10,10 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +19,7 @@ import java.util.Set;
 public class JsonUtil {
 
     public static ArrayList<Event> readAllEvents(Context context, List<Category> filter) throws JSONException {
-        JSONObject jsonRoot = new JSONObject(readText(context, R.raw.events));
+        JSONObject jsonRoot = new JSONObject(openFile(context));
         JSONArray jsonArrayEvents = jsonRoot.getJSONArray("events");
 
         ArrayList<Event> events = new ArrayList<>(jsonArrayEvents.length());
@@ -65,7 +62,7 @@ public class JsonUtil {
     }
 
     public static Event readEventById(Context context, String id) throws JSONException {
-        JSONObject jsonRoot = new JSONObject(readText(context, R.raw.events));
+        JSONObject jsonRoot = new JSONObject(openFile(context));
         JSONArray jsonArrayEvents = jsonRoot.getJSONArray("events");
 
         for (int i = 0; i < jsonArrayEvents.length(); i++) {
@@ -104,7 +101,7 @@ public class JsonUtil {
     }
 
     public static List<String> readEventByQuery(Context context, String query) throws JSONException {
-        JSONObject jsonRoot = new JSONObject(readText(context, R.raw.events));
+        JSONObject jsonRoot = new JSONObject(openFile(context));
         JSONArray jsonArrayEvents = jsonRoot.getJSONArray("events");
 
         Set<String> nameOrganization = new HashSet<>();
@@ -124,7 +121,7 @@ public class JsonUtil {
     }
 
     public static List<Event> readEventByName(Context context, String name) throws JSONException {
-        JSONObject jsonRoot = new JSONObject(readText(context, R.raw.events));
+        JSONObject jsonRoot = new JSONObject(openFile(context));
         JSONArray jsonArrayEvents = jsonRoot.getJSONArray("events");
 
         ArrayList<Event> events = new ArrayList<>(jsonArrayEvents.length());
@@ -164,19 +161,17 @@ public class JsonUtil {
         return events;
     }
 
-    private static String readText(Context context, int resId) {
-        StringBuilder sb = new StringBuilder();
-        try (InputStream is = context.getResources().openRawResource(resId);
-             BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-                sb.append("\n");
-            }
+    private static String openFile(Context context) {
+        try (InputStream is = context.getAssets().open("events.json")) {
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+            is.close();
+
+            return new String(buffer);
         } catch (IOException e) {
             Logger.d("Error reading json file: " + e.getMessage());
         }
-        return sb.toString();
+        return null;
     }
 
     private static String[] getArrayByName(String nameArray, JSONObject jsonObject) {

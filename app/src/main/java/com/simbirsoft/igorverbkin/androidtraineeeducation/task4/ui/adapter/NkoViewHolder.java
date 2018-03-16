@@ -5,17 +5,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.RecyclerViewClickListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 class NkoViewHolder extends RecyclerView.ViewHolder {
 
-    private RecyclerViewClickListener listener;
+    private NkoAdapter.OnItemClickListener listener;
     @BindView(R.id.name_nko) TextView nameNko;
 
-    public NkoViewHolder(View itemView, RecyclerViewClickListener listener) {
+    public NkoViewHolder(View itemView, NkoAdapter.OnItemClickListener listener) {
         super(itemView);
         this.listener = listener;
         ButterKnife.bind(this, itemView);

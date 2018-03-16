@@ -21,6 +21,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.NkoAdapter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
@@ -31,7 +32,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
 
-public class NewsFragment extends MvpAppCompatFragment implements RecyclerViewClickListener {
+public class NewsFragment extends MvpAppCompatFragment implements NkoAdapter.OnItemClickListener {
 
     private EventsAdapter adapter;
 

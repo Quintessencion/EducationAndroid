@@ -6,17 +6,22 @@ import android.view.ViewGroup;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.HistoryRecyclerViewClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
 
-    private HistoryRecyclerViewClickListener listener;
+    private OnItemClickListener listener;
     private List<Event> data = new ArrayList<>();
 
-    public HistoryAdapter(HistoryRecyclerViewClickListener listener) {
+    public interface OnItemClickListener {
+        void downloadReport(String id);
+
+        void openDetailEvent(String id);
+    }
+
+    public HistoryAdapter(OnItemClickListener listener) {
         this.listener = listener;
     }
 

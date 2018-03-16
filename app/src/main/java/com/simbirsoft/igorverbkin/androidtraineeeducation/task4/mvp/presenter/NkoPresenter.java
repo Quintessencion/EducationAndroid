@@ -6,16 +6,19 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SearchNkoView;
 
+import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 
 @InjectViewState
 public class NkoPresenter extends MvpPresenter<SearchNkoView> {
 
-    private Repository repository;
+    @Inject Repository repository;
     private CompositeDisposable disposable;
 
     public NkoPresenter() {
-        repository = App.getComponent().repository();
+        App.getComponent().inject(this);
         disposable = new CompositeDisposable();
     }
 
@@ -27,6 +30,7 @@ public class NkoPresenter extends MvpPresenter<SearchNkoView> {
 
     private void setObserverQuery() {
         disposable.add(repository.voiceQuery()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::setQueryToSearchView, tr -> {
                 }));
     }

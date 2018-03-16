@@ -26,9 +26,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity.FILTERS_PREFERENCES;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER_PREFERENCES;
-
 public class JsonReadService extends Service {
 
     private Repository repository;
@@ -45,17 +42,15 @@ public class JsonReadService extends Service {
     }
 
     public Flowable<List<Event>> getAllEvents() {
-        return repository.loadObject(Filter.class, FILTERS_PREFERENCES)
+        return repository.loadObject(Filter.class, Filter.class.getName())
                 .map((Function<Filter, List<Event>>) filter ->
                         JsonUtil.readAllEvents(JsonReadService.this, filter.getFilter()))
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Flowable<Pair<User, Event>> getEventById(String id) {
-        return repository.loadObject(User.class, USER_PREFERENCES)
+        return repository.loadObject(User.class, User.class.getName())
                 .map(user -> new Pair<>(user, JsonUtil.readEventById(JsonReadService.this, id)))
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -72,7 +67,7 @@ public class JsonReadService extends Service {
     }
 
     public Flowable<List<Event>> getHistory() {
-        return repository.loadObject(User.class, USER_PREFERENCES)
+        return repository.loadObject(User.class, User.class.getName())
                 .map((Function<User, List<Event>>) user -> {
                     if (user.getHistory() != null) {
                         Map<String, Event> mapEvents = new HashMap<>();
@@ -89,7 +84,6 @@ public class JsonReadService extends Service {
                     }
                     return Collections.emptyList();
                 })
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

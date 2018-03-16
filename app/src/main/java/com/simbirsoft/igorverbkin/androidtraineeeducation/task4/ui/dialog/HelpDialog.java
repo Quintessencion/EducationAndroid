@@ -91,9 +91,9 @@ public class HelpDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         type = (Category) getArguments().getSerializable(TYPE);
-        String phone = (String) getArguments().getSerializable(PHONE);
-        String email = (String) getArguments().getSerializable(EMAIL);
-        String fieldActivity = (String) getArguments().getSerializable(FIELD_ACTIVITY);
+        String phone = getArguments().getString(PHONE);
+        String email = getArguments().getString(EMAIL);
+        String fieldActivity = getArguments().getString(FIELD_ACTIVITY);
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_help, null);
         ButterKnife.bind(this, view);

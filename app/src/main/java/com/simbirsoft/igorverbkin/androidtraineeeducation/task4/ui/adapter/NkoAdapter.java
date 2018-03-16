@@ -5,17 +5,20 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.RecyclerViewClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NkoAdapter extends RecyclerView.Adapter<NkoViewHolder> {
 
-    private RecyclerViewClickListener listener;
+    private OnItemClickListener listener;
     private List<String> data = new ArrayList<>();
 
-    public NkoAdapter(RecyclerViewClickListener listener) {
+    public interface OnItemClickListener {
+        void openDetailEvent(String id);
+    }
+
+    public NkoAdapter(OnItemClickListener listener) {
         this.listener = listener;
     }
 

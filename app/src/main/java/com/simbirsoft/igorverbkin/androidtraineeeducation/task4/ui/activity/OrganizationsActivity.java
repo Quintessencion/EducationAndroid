@@ -15,7 +15,7 @@ import android.view.Menu;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.RecyclerViewClickListener;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.NkoAdapter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
@@ -27,11 +27,12 @@ import io.reactivex.disposables.CompositeDisposable;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
 
-public class OrganizationsActivity extends AppCompatActivity implements RecyclerViewClickListener {
+public class OrganizationsActivity extends AppCompatActivity implements NkoAdapter.OnItemClickListener {
 
     public static final String EVENT_FUND_NAME = "event_fund_name";
 
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private EventsAdapter adapter;
 
@@ -58,11 +59,7 @@ public class OrganizationsActivity extends AppCompatActivity implements Recycler
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        adapter = new EventsAdapter(this);
-        recyclerView.setAdapter(adapter);
+        prepareRecyclerView();
 
         sc = new ServiceConnection() {
             @Override
@@ -77,6 +74,13 @@ public class OrganizationsActivity extends AppCompatActivity implements Recycler
                 bound = false;
             }
         };
+    }
+
+    private void prepareRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+        adapter = new EventsAdapter(this);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

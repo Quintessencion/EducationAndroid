@@ -7,18 +7,19 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.UserProfileView;
 
-import io.reactivex.disposables.CompositeDisposable;
+import javax.inject.Inject;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.ProfileFragment.USER_PREFERENCES;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 
 @InjectViewState
 public class ProfilePresenter extends MvpPresenter<UserProfileView> {
 
-    private Repository repository;
+    @Inject Repository repository;
     private CompositeDisposable disposable;
 
     public ProfilePresenter() {
-        repository = App.getComponent().repository();
+        App.getComponent().inject(this);
         disposable = new CompositeDisposable();
     }
 
@@ -29,12 +30,13 @@ public class ProfilePresenter extends MvpPresenter<UserProfileView> {
     }
 
     public void loadDataUser() {
-        disposable.add(repository.loadObject(User.class, USER_PREFERENCES)
+        disposable.add(repository.loadObject(User.class, User.class.getName())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::fillUserFields));
     }
 
     public void saveDataUser(User user) {
-        repository.saveObject(user, USER_PREFERENCES);
+        repository.saveObject(user, User.class.getName());
         loadDataUser();
     }
 

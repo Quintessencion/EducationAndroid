@@ -35,8 +35,6 @@ import butterknife.ButterKnife;
 
 public class ProfileFragment extends MvpAppCompatFragment implements UserProfileView {
 
-    public static final String USER_PREFERENCES = "user_preferences";
-
     @InjectPresenter(type = PresenterType.WEAK) ProfilePresenter presenter;
 
     @BindView(R.id.image_profile) ImageView photo;

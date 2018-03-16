@@ -144,6 +144,12 @@ public class DetailActivity extends MvpAppCompatActivity implements EventDetailV
         compositeDisposable.clear();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        layoutAvatars.removeAllViews();
+    }
+
     private void loadEvent() {
         if (bound) {
             compositeDisposable.add(jsonService.getEventById(eventId)
