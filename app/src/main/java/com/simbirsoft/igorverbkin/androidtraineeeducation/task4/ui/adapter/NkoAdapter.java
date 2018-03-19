@@ -14,10 +14,6 @@ public class NkoAdapter extends RecyclerView.Adapter<NkoViewHolder> {
     private OnItemClickListener listener;
     private List<String> data = new ArrayList<>();
 
-    public interface OnItemClickListener {
-        void openDetailEvent(String id);
-    }
-
     public NkoAdapter(OnItemClickListener listener) {
         this.listener = listener;
     }

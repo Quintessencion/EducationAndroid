@@ -11,10 +11,10 @@ import butterknife.ButterKnife;
 
 class NkoViewHolder extends RecyclerView.ViewHolder {
 
-    private NkoAdapter.OnItemClickListener listener;
+    private OnItemClickListener listener;
     @BindView(R.id.name_nko) TextView nameNko;
 
-    public NkoViewHolder(View itemView, NkoAdapter.OnItemClickListener listener) {
+    public NkoViewHolder(View itemView, OnItemClickListener listener) {
         super(itemView);
         this.listener = listener;
         ButterKnife.bind(this, itemView);

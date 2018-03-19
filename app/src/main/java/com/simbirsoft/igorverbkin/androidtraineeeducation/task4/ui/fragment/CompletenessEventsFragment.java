@@ -6,20 +6,17 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.OnItemClickListener;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
@@ -27,14 +24,23 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventCategoryActivity.BUNDLE_CATEGORY;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventCategoryActivity.BUNDLE_IS_CURRENT;
 
-public class NewsFragment extends MvpAppCompatFragment implements OnItemClickListener {
+public class CompletenessEventsFragment extends Fragment implements OnItemClickListener {
+
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private EventsAdapter adapter;
+
+    private Category category;
+    private boolean isCurrent;
 
     private ServiceConnection sc;
     private JsonReadService jsonService;
@@ -42,19 +48,38 @@ public class NewsFragment extends MvpAppCompatFragment implements OnItemClickLis
 
     private CompositeDisposable compositeDisposable;
 
+    public static CompletenessEventsFragment newInstance(Category category, boolean isCurrent) {
+        Bundle args = new Bundle();
+        args.putSerializable(BUNDLE_CATEGORY, category);
+        args.putBoolean(BUNDLE_IS_CURRENT, isCurrent);
+        CompletenessEventsFragment fragment = new CompletenessEventsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         compositeDisposable = new CompositeDisposable();
-        adapter = new EventsAdapter(this);
+        category = (Category) getArguments().getSerializable(BUNDLE_CATEGORY);
+        isCurrent = getArguments().getBoolean(BUNDLE_IS_CURRENT);
         super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_completeness_events, container, false);
+
+        ButterKnife.bind(this, view);
+
+        prepareRecyclerView();
 
         sc = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 jsonService = ((JsonReadService.EventBinder) service).getService();
                 bound = true;
-                loadEvents();
+                loadEvent();
             }
 
             @Override
@@ -62,17 +87,15 @@ public class NewsFragment extends MvpAppCompatFragment implements OnItemClickLis
                 bound = false;
             }
         };
+
+        return view;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+    private void prepareRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
+        adapter = new EventsAdapter(this);
         recyclerView.setAdapter(adapter);
-        return view;
     }
 
     @Override
@@ -88,10 +111,11 @@ public class NewsFragment extends MvpAppCompatFragment implements OnItemClickLis
         compositeDisposable.clear();
     }
 
-    public void loadEvents() {
+    private void loadEvent() {
         if (bound) {
-            compositeDisposable.add(jsonService.getAllEvents().subscribe(this::updateData, tr ->
-                    Logger.d("NewsFragment json exception: " + tr.getMessage())));
+            compositeDisposable.add(jsonService.getEventByCategory(category, isCurrent)
+                    .subscribe(this::updateData,
+                            tr -> Logger.d("CompletenessEventsFragment json exception: " + tr.getMessage())));
         }
     }
 
@@ -100,21 +124,9 @@ public class NewsFragment extends MvpAppCompatFragment implements OnItemClickLis
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.news_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.news_filter) {
-            startActivity(new Intent(getActivity(), FilterActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void openDetailEvent(String id) {
-        startActivity(new Intent(getActivity(), DetailActivity.class).putExtra(EVENT_ID, id));
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(EVENT_ID, id);
+        startActivity(intent);
     }
 }

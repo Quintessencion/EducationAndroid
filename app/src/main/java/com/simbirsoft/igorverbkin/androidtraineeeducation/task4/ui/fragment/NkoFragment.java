@@ -19,6 +19,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NkoPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.OrganizationsActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.NkoAdapter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.OnItemClickListener;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
@@ -31,7 +32,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.OrganizationsActivity.EVENT_FUND_NAME;
 
-public class NkoFragment extends BaseSearchFragment implements NkoAdapter.OnItemClickListener {
+public class NkoFragment extends BaseSearchFragment implements OnItemClickListener {
 
     @InjectPresenter NkoPresenter presenter;
 

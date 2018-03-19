@@ -9,7 +9,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragments = new ArrayList<>();
 

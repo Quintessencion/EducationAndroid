@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 
 class EventViewHolder extends RecyclerView.ViewHolder {
 
-    private NkoAdapter.OnItemClickListener listener;
+    private OnItemClickListener listener;
 
     @BindView(R.id.news_card_view) CardView cardView;
     @BindView(R.id.image_news) ImageView imageNews;
@@ -24,7 +24,7 @@ class EventViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.news_content) TextView newsContent;
     @BindView(R.id.expiration_date) TextView expirationDate;
 
-    EventViewHolder(View itemView, NkoAdapter.OnItemClickListener listener) {
+    EventViewHolder(View itemView, OnItemClickListener listener) {
         super(itemView);
         this.listener = listener;
         ButterKnife.bind(this, itemView);

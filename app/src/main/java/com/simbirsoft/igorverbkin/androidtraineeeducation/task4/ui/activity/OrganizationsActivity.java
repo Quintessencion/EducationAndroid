@@ -15,7 +15,7 @@ import android.view.Menu;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.NkoAdapter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.OnItemClickListener;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
 
@@ -27,7 +27,7 @@ import io.reactivex.disposables.CompositeDisposable;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
 
-public class OrganizationsActivity extends AppCompatActivity implements NkoAdapter.OnItemClickListener {
+public class OrganizationsActivity extends AppCompatActivity implements OnItemClickListener {
 
     public static final String EVENT_FUND_NAME = "event_fund_name";
 

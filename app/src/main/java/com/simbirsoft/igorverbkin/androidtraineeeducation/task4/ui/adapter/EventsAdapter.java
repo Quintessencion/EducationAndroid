@@ -12,10 +12,10 @@ import java.util.List;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventViewHolder> {
 
-    private NkoAdapter.OnItemClickListener listener;
+    private OnItemClickListener listener;
     private List<Event> data = new ArrayList<>();
 
-    public EventsAdapter(NkoAdapter.OnItemClickListener listener) {
+    public EventsAdapter(OnItemClickListener listener) {
         this.listener = listener;
     }
 

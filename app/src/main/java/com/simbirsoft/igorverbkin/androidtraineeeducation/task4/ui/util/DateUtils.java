@@ -25,7 +25,7 @@ public class DateUtils {
         long until = LocalDate.now().until(end, ChronoUnit.DAYS);
         int restDays = until > 0 ? (int) until : 0;
         if (restDays == 0) {
-            return resources.getString(R.string.completed, month[end.getMonthValue() - 1], dtfEventFinish.format(end));
+            return resources.getString(R.string.completed_in, month[end.getMonthValue() - 1], dtfEventFinish.format(end));
         }
         String plural = resources.getQuantityString(R.plurals.days_plural, restDays, restDays);
         return resources.getString(R.string.rest_days, plural, dtfEvent.format(start), dtfEvent.format(end));

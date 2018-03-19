@@ -14,6 +14,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.History;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtils;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.JsonUtil;
 
 import java.util.ArrayList;
@@ -55,8 +56,25 @@ public class JsonReadService extends Service {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Flowable<List<Event>> getEventByCategory(Category category) {
+    public Flowable<List<Event>> getEventByCategory(Category category, boolean isCurrent) {
         return Flowable.fromCallable(() -> JsonUtil.readEventByCategory(JsonReadService.this, category))
+                .map(events -> {
+                    List<Event> eventByCompleteness = new ArrayList<>();
+                    if (isCurrent) {
+                        for (Event event : events) {
+                            if (DateUtils.getRemainingDays(event.getEnd()) > 0) {
+                                eventByCompleteness.add(event);
+                            }
+                        }
+                    } else {
+                        for (Event event : events) {
+                            if (DateUtils.getRemainingDays(event.getEnd()) < 0) {
+                                eventByCompleteness.add(event);
+                            }
+                        }
+                    }
+                    return eventByCompleteness;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
