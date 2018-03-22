@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -47,12 +48,14 @@ public class JsonReadService extends Service {
         return repository.loadObject(Filter.class, Filter.class.getName())
                 .map((Function<Filter, List<Event>>) filter ->
                         JsonUtil.readAllEvents(JsonReadService.this, filter.getFilter()))
-                .observeOn(AndroidSchedulers.mainThread());
+                .delay(3, TimeUnit.SECONDS) //имитация долгой загрузки
+                .subscribeOn(Schedulers.io());
     }
 
     public Flowable<Pair<User, Event>> getEventById(String id) {
         return repository.loadObject(User.class, User.class.getName())
                 .map(user -> new Pair<>(user, JsonUtil.readEventById(JsonReadService.this, id)))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -109,6 +112,7 @@ public class JsonReadService extends Service {
                     }
                     return Collections.emptyList();
                 })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
