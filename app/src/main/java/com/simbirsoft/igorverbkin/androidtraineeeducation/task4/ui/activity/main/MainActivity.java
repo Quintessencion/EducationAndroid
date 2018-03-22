@@ -24,7 +24,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.Help
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.history.HistoryFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.NewsFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.profile.ProfileFragment;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.SearchFragment;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.search.SearchFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.Logger;
 
 import javax.inject.Inject;

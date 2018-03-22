@@ -1,4 +1,4 @@
-package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
+package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.search;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
