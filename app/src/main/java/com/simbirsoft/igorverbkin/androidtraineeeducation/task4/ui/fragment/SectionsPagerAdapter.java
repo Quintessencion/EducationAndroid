@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

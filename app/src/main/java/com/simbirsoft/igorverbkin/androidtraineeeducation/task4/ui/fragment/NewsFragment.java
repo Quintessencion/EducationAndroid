@@ -18,19 +18,18 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.FilterActivity;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.EventsAdapter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.adapter.OnItemClickListener;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.filter.FilterActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.event.EventsAdapter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.Logger;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.Logger;
 
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 
 import static android.content.Context.BIND_AUTO_CREATE;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.DetailActivity.EVENT_ID;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity.EVENT_ID;
 
 public class NewsFragment extends MvpAppCompatFragment implements OnItemClickListener {
 

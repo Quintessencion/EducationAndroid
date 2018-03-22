@@ -14,8 +14,8 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.History;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.DateUtils;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.util.JsonUtil;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.DateUtils;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;

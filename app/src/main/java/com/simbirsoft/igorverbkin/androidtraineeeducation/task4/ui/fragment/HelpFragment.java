@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventCategoryActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.event_category.EventCategoryActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.EventCategoryActivity.BUNDLE_CATEGORY;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.event_category.EventCategoryActivity.BUNDLE_CATEGORY;
 
 public class HelpFragment extends Fragment {
 

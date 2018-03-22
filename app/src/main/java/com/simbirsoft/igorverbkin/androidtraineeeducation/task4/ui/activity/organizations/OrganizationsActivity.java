@@ -1,23 +1,22 @@
-package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
+package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.organizations;
 
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.event.EventsAdapter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.OnItemClickListener;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.Logger;
 
@@ -27,19 +26,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 
-import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity.EVENT_ID;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.event_category.EventCategoryActivity.BUNDLE_CATEGORY;
-import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.event_category.EventCategoryActivity.BUNDLE_IS_CURRENT;
 
-public class CompletenessEventsFragment extends Fragment implements OnItemClickListener {
+public class OrganizationsActivity extends AppCompatActivity implements OnItemClickListener {
 
+    public static final String EVENT_FUND_NAME = "event_fund_name";
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private EventsAdapter adapter;
-
-    private Category category;
-    private boolean isCurrent;
 
     private ServiceConnection sc;
     private JsonReadService jsonService;
@@ -47,29 +43,22 @@ public class CompletenessEventsFragment extends Fragment implements OnItemClickL
 
     private CompositeDisposable compositeDisposable;
 
-    public static CompletenessEventsFragment newInstance(Category category, boolean isCurrent) {
-        Bundle args = new Bundle();
-        args.putSerializable(BUNDLE_CATEGORY, category);
-        args.putBoolean(BUNDLE_IS_CURRENT, isCurrent);
-        CompletenessEventsFragment fragment = new CompletenessEventsFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         compositeDisposable = new CompositeDisposable();
-        category = (Category) getArguments().getSerializable(BUNDLE_CATEGORY);
-        isCurrent = getArguments().getBoolean(BUNDLE_IS_CURRENT);
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_news_organizations);
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_completeness_events, container, false);
+        ButterKnife.bind(this);
 
-        ButterKnife.bind(this, view);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.icon_back);
+        }
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         prepareRecyclerView();
 
@@ -78,7 +67,7 @@ public class CompletenessEventsFragment extends Fragment implements OnItemClickL
             public void onServiceConnected(ComponentName name, IBinder service) {
                 jsonService = ((JsonReadService.EventBinder) service).getService();
                 bound = true;
-                loadEvent();
+                loadEventsByFundName((getIntent().getStringExtra(EVENT_FUND_NAME)));
             }
 
             @Override
@@ -86,12 +75,10 @@ public class CompletenessEventsFragment extends Fragment implements OnItemClickL
                 bound = false;
             }
         };
-
-        return view;
     }
 
     private void prepareRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         adapter = new EventsAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -100,21 +87,20 @@ public class CompletenessEventsFragment extends Fragment implements OnItemClickL
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().bindService(new Intent(getActivity(), JsonReadService.class), sc, BIND_AUTO_CREATE);
+        bindService(new Intent(this, JsonReadService.class), sc, BIND_AUTO_CREATE);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unbindService(sc);
+        unbindService(sc);
         compositeDisposable.clear();
     }
 
-    private void loadEvent() {
+    public void loadEventsByFundName(String fundName) {
         if (bound) {
-            compositeDisposable.add(jsonService.getEventByCategory(category, isCurrent)
-                    .subscribe(this::updateData,
-                            tr -> Logger.d("CompletenessEventsFragment json exception: " + tr.getMessage())));
+            compositeDisposable.add(jsonService.getEventsByFundName(fundName).subscribe(this::updateData,
+                    tr -> Logger.d("OrganizationsActivity json exception: " + tr.getMessage())));
         }
     }
 
@@ -123,8 +109,14 @@ public class CompletenessEventsFragment extends Fragment implements OnItemClickL
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return true;
+    }
+
+    @Override
     public void openDetailEvent(String id) {
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(EVENT_ID, id);
         startActivity(intent);
     }

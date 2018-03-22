@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.event.EventFragment;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.nko.NkoFragment;
 
 public class SearchFragment extends Fragment {
 

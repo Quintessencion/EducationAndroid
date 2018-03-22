@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/icon_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".task4.ui.activity.SplashActivity">
+        <activity android:name=".task4.ui.activity.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".task4.ui.activity.MainActivity"
+            android:name=".task4.ui.activity.main.MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan">
             <meta-data
@@ -47,15 +47,15 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".task4.ui.activity.DetailActivity" />
-        <activity android:name=".task4.ui.activity.OrganizationsActivity" />
-        <activity android:name=".task4.ui.activity.ImageSliderActivity" />
-        <activity android:name=".task4.ui.activity.FilterActivity" />
-        <activity android:name=".task4.ui.activity.ProfileEditorActivity" />
+        <activity android:name=".task4.ui.activity.detail.DetailActivity" />
+        <activity android:name=".task4.ui.activity.organizations.OrganizationsActivity" />
+        <activity android:name=".task4.ui.activity.image_slider.ImageSliderActivity" />
+        <activity android:name=".task4.ui.activity.filter.FilterActivity" />
+        <activity android:name=".task4.ui.activity.profile_editor.ProfileEditorActivity" />
 
         <service android:name=".task4.ui.service.JsonReadService" />
 
-        <activity android:name=".task4.ui.activity.EventCategoryActivity"></activity>
+        <activity android:name=".task4.ui.activity.event_category.EventCategoryActivity"></activity>
     </application>
 
 </manifest>
