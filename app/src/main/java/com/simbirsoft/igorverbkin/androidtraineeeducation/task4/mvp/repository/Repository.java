@@ -4,19 +4,25 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+import java.util.List;
+
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
+import io.realm.RealmModel;
 
 public class Repository {
 
+    private DataBase dataBase;
     private SharedPreferences preferences;
+
     private Subject<String> queryObservable;
     private Subject<SharedPreferences> prefObservable;
 
-    public Repository(SharedPreferences preferences) {
+    public Repository(DataBase dataBase, SharedPreferences preferences) {
+        this.dataBase = dataBase;
         this.preferences = preferences;
         queryObservable = PublishSubject.create();
         prefObservable = PublishSubject.create();
@@ -44,6 +50,11 @@ public class Repository {
 
     public Observable<SharedPreferences> getPreferences() {
         return prefObservable
+                .subscribeOn(Schedulers.io());
+    }
+
+    public <E extends RealmModel> Flowable<List<E>> checkData(Class<E> clazz) {
+        return dataBase.getItems(clazz)
                 .subscribeOn(Schedulers.io());
     }
 }

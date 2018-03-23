@@ -1,6 +1,7 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.component;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.module.ContextModule;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.module.DBModule;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.module.PreferencesModule;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.module.RepositoryModule;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.FilterPresenter;
@@ -10,6 +11,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.R
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.filter.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.main.MainActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.splash.SplashActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.EventsFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.history.HistoryFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.nko.NkoFragment;
@@ -20,7 +22,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {ContextModule.class, RepositoryModule.class, PreferencesModule.class})
+@Component(modules = {ContextModule.class, RepositoryModule.class, PreferencesModule.class, DBModule.class})
 public interface AppComponent {
 
     Repository repository();
@@ -44,4 +46,6 @@ public interface AppComponent {
     void inject(NkoFragment fragment);
 
     void inject(EventsFragment fragment);
+
+    void inject(SplashActivity activity);
 }

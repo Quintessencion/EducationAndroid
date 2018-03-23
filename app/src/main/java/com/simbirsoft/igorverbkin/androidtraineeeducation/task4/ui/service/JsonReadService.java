@@ -47,7 +47,7 @@ public class JsonReadService extends Service {
     public Flowable<List<Event>> getAllEvents() {
         return repository.loadObject(Filter.class, Filter.class.getName())
                 .map((Function<Filter, List<Event>>) filter ->
-                        JsonUtil.readAllEvents(JsonReadService.this, filter.getFilter()))
+                        JsonUtil.readAllEventsByFilter(JsonReadService.this, filter.getFilter()))
                 .delay(2, TimeUnit.SECONDS) //имитация долгой загрузки
                 .subscribeOn(Schedulers.io());
     }
@@ -99,7 +99,7 @@ public class JsonReadService extends Service {
                 .map((Function<User, List<Event>>) user -> {
                     if (user.getHistory() != null) {
                         Map<String, Event> mapEvents = new HashMap<>();
-                        for (Event event : JsonUtil.readAllEvents(JsonReadService.this, new ArrayList<>())) {
+                        for (Event event : JsonUtil.readAllEventsByFilter(JsonReadService.this, new ArrayList<>())) {
                             mapEvents.put(event.getId(), event);
                         }
                         List<Event> historyEvents = new ArrayList<>();

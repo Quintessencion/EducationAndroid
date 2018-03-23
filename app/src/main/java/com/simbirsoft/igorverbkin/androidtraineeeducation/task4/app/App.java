@@ -21,7 +21,9 @@ public class App extends Application {
         super.onCreate();
         AndroidThreeTen.init(this);
         Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .assetFile("events.json")
+                .build();
         Realm.setDefaultConfiguration(config);
 
         component = buildComponent();

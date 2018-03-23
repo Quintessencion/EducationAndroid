@@ -1,6 +1,7 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.CategoryHelp;
@@ -19,8 +20,51 @@ import java.util.Set;
 
 public class JsonUtil {
 
-    public static ArrayList<Event> readAllEvents(Context context, List<CategoryHelp> filter) throws JSONException {
+    public static ArrayList<Event> readAllEvents(Context context) throws JSONException {
+        return readAllEventsByFilter(context, new ArrayList<>());
+    }
+
+    public static ArrayList<Event> readAllEvents(AssetManager assetManager) throws JSONException {
+        return readAllEventsByFilter(assetManager, new ArrayList<>());
+    }
+
+    public static ArrayList<Event> readAllEventsByFilter(Context context, List<CategoryHelp> filter) throws JSONException {
         JSONObject jsonRoot = new JSONObject(openFile(context));
+        JSONArray jsonArrayEvents = jsonRoot.getJSONArray("events");
+
+        ArrayList<Event> events = new ArrayList<>(jsonArrayEvents.length());
+
+        for (int i = 0; i < jsonArrayEvents.length(); i++) {
+            JSONObject jsonObject = jsonArrayEvents.getJSONObject(i);
+
+            JSONArray jsonArrayCategories = jsonObject.getJSONArray("categoriesHelp");
+            List<CategoryHelp> categoriesList = new ArrayList<>();
+            CategoryHelp[] categories = new CategoryHelp[jsonArrayCategories.length()];
+            for (int j = 0; j < jsonArrayCategories.length(); j++) {
+                categories[j] = CategoryHelp.valueOf(jsonArrayCategories.getString(j));
+                categoriesList.add(categories[j]);
+            }
+            if (!categoriesList.containsAll(filter)) {
+                continue;
+            }
+
+            Event event = new Event();
+            event.setId(jsonObject.getString("id"));
+            event.setEventName(jsonObject.getString("eventName"));
+            event.setStart(jsonObject.getString("start"));
+            event.setEnd(jsonObject.getString("end"));
+            event.setFundName(jsonObject.getString("fundName"));
+            event.setContent(jsonObject.getString("content"));
+            event.setPhotos(getArrayByName("photos", jsonObject));
+
+            events.add(event);
+        }
+
+        return events;
+    }
+
+    public static ArrayList<Event> readAllEventsByFilter(AssetManager assetManager, List<CategoryHelp> filter) throws JSONException {
+        JSONObject jsonRoot = new JSONObject(openFile(assetManager));
         JSONArray jsonArrayEvents = jsonRoot.getJSONArray("events");
 
         ArrayList<Event> events = new ArrayList<>(jsonArrayEvents.length());
@@ -170,6 +214,19 @@ public class JsonUtil {
 
     private static String openFile(Context context) {
         try (InputStream is = context.getAssets().open("events.json")) {
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+            is.close();
+
+            return new String(buffer);
+        } catch (IOException e) {
+            Logger.d("Error reading json file: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private static String openFile(AssetManager assetManager) {
+        try (InputStream is = assetManager.open("events.json")) {
             byte[] buffer = new byte[is.available()];
             is.read(buffer);
             is.close();
