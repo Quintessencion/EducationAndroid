@@ -13,9 +13,9 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Filter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.History;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.User;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.DateUtils;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.JsonUtil;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +48,7 @@ public class JsonReadService extends Service {
         return repository.loadObject(Filter.class, Filter.class.getName())
                 .map((Function<Filter, List<Event>>) filter ->
                         JsonUtil.readAllEvents(JsonReadService.this, filter.getFilter()))
-                .delay(3, TimeUnit.SECONDS) //имитация долгой загрузки
+                .delay(2, TimeUnit.SECONDS) //имитация долгой загрузки
                 .subscribeOn(Schedulers.io());
     }
 
@@ -78,8 +78,8 @@ public class JsonReadService extends Service {
                     }
                     return eventByCompleteness;
                 })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .delay(2, TimeUnit.SECONDS) //имитация долгой загрузки
+                .subscribeOn(Schedulers.io());
     }
 
     public Flowable<List<String>> getEventsByQuery(String query) {
@@ -112,8 +112,8 @@ public class JsonReadService extends Service {
                     }
                     return Collections.emptyList();
                 })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .delay(2, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io());
     }
 
     public class EventBinder extends Binder {

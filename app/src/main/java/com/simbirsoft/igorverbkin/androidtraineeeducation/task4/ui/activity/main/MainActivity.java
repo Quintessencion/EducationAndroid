@@ -22,7 +22,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.R
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.SwitchAbleView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.HelpFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.history.HistoryFragment;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.NewsFragment;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.EventsFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.profile.ProfileFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.search.SearchFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.Logger;
@@ -111,7 +111,7 @@ public class MainActivity extends MvpAppCompatActivity implements
 
     @Override
     public void loadNewsFragment() {
-        changeFragment(NewsFragment.class, R.string.news);
+        changeFragment(EventsFragment.class, R.string.news);
     }
 
     @Override

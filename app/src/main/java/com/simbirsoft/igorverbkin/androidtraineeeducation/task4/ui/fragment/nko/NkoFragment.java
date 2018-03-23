@@ -18,13 +18,13 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.Logger;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NkoPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.organizations.OrganizationsActivity;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.OnItemClickListener;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.BaseSearchFragment;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.OnItemClickListener;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.Logger;
 
 import java.util.List;
 
@@ -108,7 +108,9 @@ public class NkoFragment extends BaseSearchFragment implements OnItemClickListen
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unbindService(sc);
+        if (!bound) {
+            getActivity().unbindService(sc);
+        }
         compositeDisposable.clear();
     }
 
@@ -146,6 +148,8 @@ public class NkoFragment extends BaseSearchFragment implements OnItemClickListen
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        keywords.setText(newText);
+        loadEvents(newText);
         return false;
     }
 

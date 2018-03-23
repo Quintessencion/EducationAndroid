@@ -10,6 +10,7 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.R
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.filter.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.main.MainActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.EventsFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.history.HistoryFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.nko.NkoFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.profile.ProfileFragment;
@@ -41,4 +42,6 @@ public interface AppComponent {
     void inject(MainActivity activity);
 
     void inject(NkoFragment fragment);
+
+    void inject(EventsFragment fragment);
 }

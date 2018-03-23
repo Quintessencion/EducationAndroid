@@ -30,6 +30,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
         this.data.addAll(data);
         notifyDataSetChanged();
     }
+    public void clearList() {
+        data.clear();
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
@@ -15,10 +14,12 @@ public class Repository {
 
     private SharedPreferences preferences;
     private Subject<String> queryObservable;
+    private Subject<SharedPreferences> prefObservable;
 
     public Repository(SharedPreferences preferences) {
         this.preferences = preferences;
         queryObservable = PublishSubject.create();
+        prefObservable = PublishSubject.create();
     }
 
     public <T> Flowable<T> loadObject(Class<T> clazz, String nameObject) {
@@ -29,6 +30,7 @@ public class Repository {
 
     public void saveObject(Object obj, String nameObject) {
         preferences.edit().putString(nameObject, new Gson().toJson(obj)).apply();
+        prefObservable.onNext(preferences);
     }
 
     public void sendVoiceQuery(String query) {
@@ -37,6 +39,11 @@ public class Repository {
 
     public Observable<String> voiceQuery() {
         return queryObservable
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Observable<SharedPreferences> getPreferences() {
+        return prefObservable
                 .subscribeOn(Schedulers.io());
     }
 }

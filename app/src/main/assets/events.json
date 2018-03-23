@@ -271,6 +271,31 @@
       "photos": [
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVaNc3iWfacjngJ-jTVuSSIyaOuBXuIxNMlLCYMcC02590ZKdpGg"
       ]
+    },
+    {
+      "id": "11",
+      "eventName": "Развивающие игры - веселые гонки",
+      "start": "2018-01-01",
+      "end": "2018-03-10",
+      "fundName": "P.E.A.D",
+      "email": "centr.umka-deti@mail.ru",
+      "address": "Санкт-Петербург, Кирочная улица, д. 50А, каб. 208",
+      "phones": [
+        "+7 (987) 331-38-11",
+        "+7 (937) 009-77-83"
+      ],
+      "content": "",
+      "webSite": "centr.umka-deti@mail.ru",
+      "isEvent": false,
+      "contributors": [
+      ],
+      "category":"CHILDREN",
+      "categoriesHelp": [
+        "HELP_MONEY"
+      ],
+      "photos": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVaNc3iWfacjngJ-jTVuSSIyaOuBXuIxNMlLCYMcC02590ZKdpGg"
+      ]
     }
   ]
 }

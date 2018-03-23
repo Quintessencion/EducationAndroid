@@ -68,7 +68,7 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
             public void onServiceConnected(ComponentName name, IBinder service) {
                 jsonService = ((JsonReadService.EventBinder) service).getService();
                 bound = true;
-                loadHistory();
+                presenter.loadData(jsonService);
             }
 
             @Override
@@ -95,27 +95,15 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void bindService() {
         getActivity().bindService(new Intent(getActivity(), JsonReadService.class), sc, BIND_AUTO_CREATE);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unbindService(sc);
-    }
-
-    public void loadHistory() {
+    public void unbindService() {
         if (bound) {
-            showLoading();
-            jsonService.getHistory().subscribe(events -> {
-                if (events.isEmpty()) {
-                    showEmptyHistory();
-                } else {
-                    updateData(events);
-                }
-            });
+            getActivity().unbindService(sc);
+            bound = false;
         }
     }
 
@@ -124,7 +112,11 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
         emptyHistoryScreenLayout.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         adapter.updateList(events);
-        hideLoading();
+    }
+
+    @Override
+    public void clearData() {
+        adapter.clearList();
     }
 
     @Override

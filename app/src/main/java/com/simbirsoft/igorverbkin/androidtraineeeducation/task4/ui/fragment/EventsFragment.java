@@ -18,10 +18,13 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NewsPresenter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.NewsView;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.EventsView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.filter.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.event.EventsAdapter;
@@ -29,15 +32,18 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonR
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity.EVENT_ID;
 
-public class NewsFragment extends MvpAppCompatFragment implements NewsView, OnItemClickListener {
+public class EventsFragment extends MvpAppCompatFragment implements EventsView, OnItemClickListener {
 
     @InjectPresenter NewsPresenter presenter;
+    @Inject Repository repository;
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -48,8 +54,14 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView, OnIt
     private JsonReadService jsonService;
     private boolean bound;
 
+    @ProvidePresenter
+    NewsPresenter provideNewsPresenter() {
+        return new NewsPresenter(repository);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        App.getComponent().inject(this);
         setHasOptionsMenu(true);
         adapter = new EventsAdapter(this);
         super.onCreate(savedInstanceState);
@@ -78,14 +90,6 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView, OnIt
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (jsonService != null) {
-            presenter.loadData(jsonService);
-        }
     }
 
     @Override

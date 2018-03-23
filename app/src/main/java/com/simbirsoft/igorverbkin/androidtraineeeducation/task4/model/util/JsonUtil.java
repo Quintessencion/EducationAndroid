@@ -130,7 +130,7 @@ public class JsonUtil {
             JSONObject jsonObject = jsonArrayEvents.getJSONObject(i);
 
             String eventName = jsonObject.getString("fundName");
-            if (eventName.contains(query)) {
+            if (eventName.toLowerCase().contains(query.toLowerCase())) {
                 nameOrganization.add(eventName);
             }
         }
