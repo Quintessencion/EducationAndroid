@@ -1,100 +1,88 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import org.threeten.bp.LocalDate;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode
-public class Event extends RealmObject implements Parcelable, Cloneable {
+@EqualsAndHashCode(callSuper = true)
+public class Event extends RealmObject implements Cloneable {
+
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_FUND_NAME = "fundName";
+    public static final String FIELD_FUND_CATEGORY = "category";
+    public static final String FIELD_FUND_END_DATE = "end";
 
     @PrimaryKey
     private String id;
     private String eventName;
     private String start;
-    private String end;
+    private Date end;
     private String fundName;
     private String address;
-    private String[] phones;
+    private RealmList<String> phones;
     private String content;
     private String email;
     private String webSite;
-    private String[] contributors;
-    private Category category;
-    private CategoryHelp[] categoriesHelp;
-    private String[] photos;
+    private RealmList<String> contributors;
+    private String category;
+    private RealmList<String> categoriesHelp;
+    private RealmList<String> photos;
     private String descriptionAssistance;
 
-    public Event() {
+    public String[] getPhones() {
+        return getArrayString(phones.size(), phones);
     }
 
-    protected Event(Parcel in) {
-        id = in.readString();
-        eventName = in.readString();
-        start = in.readString();
-        end = in.readString();
-        fundName = in.readString();
-        address = in.readString();
-        phones = in.createStringArray();
-        content = in.readString();
-        email = in.readString();
-        webSite = in.readString();
-        contributors = in.createStringArray();
-        photos = in.createStringArray();
-        descriptionAssistance = in.readString();
+    public String[] getContributors() {
+        return getArrayString(contributors.size(), contributors);
     }
 
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
-        @Override
-        public Event createFromParcel(Parcel in) {
-            return new Event(in);
+    public CategoryHelp[] getCategoriesHelp() {
+        CategoryHelp[] categories = new CategoryHelp[categoriesHelp.size()];
+        for (int i = 0; i < categoriesHelp.size(); i++) {
+            categories[i] = CategoryHelp.valueOf(categoriesHelp.get(i));
         }
+        return categories;
+    }
 
-        @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
+    public List<CategoryHelp> getCategoriesHelpList() {
+        List<CategoryHelp> categories = new ArrayList<>();
+        for (String s : categoriesHelp) {
+            categories.add(CategoryHelp.valueOf(s));
         }
-    };
+        return categories;
+    }
+
+    public String[] getPhotos() {
+        return getArrayString(photos.size(), photos);
+    }
 
     public LocalDate getStart() {
         return LocalDate.parse(start);
     }
 
-    public LocalDate getEnd() {
-        return LocalDate.parse(end);
-    }
+//    public LocalDate getEnd() {
+//        return LocalDate.parse(end);
+//    }
 
     public Event clone() throws CloneNotSupportedException {
         return (Event) super.clone();
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(eventName);
-        dest.writeString(start);
-        dest.writeString(end);
-        dest.writeString(fundName);
-        dest.writeString(address);
-        dest.writeStringArray(phones);
-        dest.writeString(content);
-        dest.writeString(email);
-        dest.writeString(webSite);
-        dest.writeStringArray(contributors);
-        dest.writeStringArray(photos);
-        dest.writeString(descriptionAssistance);
+    private String[] getArrayString(int size, RealmList<String> objects) {
+        String[] array = new String[size];
+        for (int i = 0; i < size; i++) {
+            array[i] = objects.get(i);
+        }
+        return array;
     }
 }

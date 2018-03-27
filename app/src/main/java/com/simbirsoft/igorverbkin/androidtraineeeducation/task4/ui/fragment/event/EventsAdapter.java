@@ -26,11 +26,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void clearList() {
-        data.clear();
-        notifyDataSetChanged();
-    }
-
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new EventViewHolder(LayoutInflater.from(parent.getContext())

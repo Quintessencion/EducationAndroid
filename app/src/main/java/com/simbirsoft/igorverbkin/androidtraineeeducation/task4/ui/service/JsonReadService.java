@@ -44,36 +44,21 @@ public class JsonReadService extends Service {
         return binder;
     }
 
-    public Flowable<List<Event>> getAllEvents() {
-        return repository.loadObject(Filter.class, Filter.class.getName())
-                .map((Function<Filter, List<Event>>) filter ->
-                        JsonUtil.readAllEventsByFilter(JsonReadService.this, filter.getFilter()))
-                .delay(2, TimeUnit.SECONDS) //имитация долгой загрузки
-                .subscribeOn(Schedulers.io());
-    }
-
-    public Flowable<Pair<User, Event>> getEventById(String id) {
-        return repository.loadObject(User.class, User.class.getName())
-                .map(user -> new Pair<>(user, JsonUtil.readEventById(JsonReadService.this, id)))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
     public Flowable<List<Event>> getEventByCategory(Category category, boolean isCurrent) {
         return Flowable.fromCallable(() -> JsonUtil.readEventByCategory(JsonReadService.this, category))
                 .map(events -> {
                     List<Event> eventByCompleteness = new ArrayList<>();
                     if (isCurrent) {
                         for (Event event : events) {
-                            if (DateUtils.getRemainingDays(event.getEnd()) > 0) {
-                                eventByCompleteness.add(event);
-                            }
+//                            if (DateUtils.getRemainingDays(event.getEnd()) > 0) {
+//                                eventByCompleteness.add(event);
+//                            }
                         }
                     } else {
                         for (Event event : events) {
-                            if (DateUtils.getRemainingDays(event.getEnd()) < 0) {
-                                eventByCompleteness.add(event);
-                            }
+//                            if (DateUtils.getRemainingDays(event.getEnd()) < 0) {
+//                                eventByCompleteness.add(event);
+//                            }
                         }
                     }
                     return eventByCompleteness;
@@ -86,34 +71,6 @@ public class JsonReadService extends Service {
         return Flowable.fromCallable(() -> JsonUtil.readEventByQuery(JsonReadService.this, query))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    public Flowable<List<Event>> getEventsByFundName(String fundName) {
-        return Flowable.fromCallable(() -> JsonUtil.readEventByName(JsonReadService.this, fundName))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    public Flowable<List<Event>> getHistory() {
-        return repository.loadObject(User.class, User.class.getName())
-                .map((Function<User, List<Event>>) user -> {
-                    if (user.getHistory() != null) {
-                        Map<String, Event> mapEvents = new HashMap<>();
-                        for (Event event : JsonUtil.readAllEventsByFilter(JsonReadService.this, new ArrayList<>())) {
-                            mapEvents.put(event.getId(), event);
-                        }
-                        List<Event> historyEvents = new ArrayList<>();
-                        for (History history : user.getHistory()) {
-                            Event event = mapEvents.get(history.getId()).clone();
-                            event.setDescriptionAssistance(history.getDescription());
-                            historyEvents.add(event);
-                        }
-                        return historyEvents;
-                    }
-                    return Collections.emptyList();
-                })
-                .delay(2, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io());
     }
 
     public class EventBinder extends Binder {

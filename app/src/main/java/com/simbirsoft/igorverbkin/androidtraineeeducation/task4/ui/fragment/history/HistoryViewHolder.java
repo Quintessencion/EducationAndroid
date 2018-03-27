@@ -31,14 +31,14 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
 
     public void bindView(Event event) {
         headline.setText(event.getEventName());
-        expirationDate.setText(DateUtils.getFormatStringDate(itemView.getResources(), event.getStart(), event.getEnd()));
+//        expirationDate.setText(DateUtils.getFormatStringDate(itemView.getResources(), event.getStart(), event.getEnd()));
         descriptionAssistance.setText(event.getDescriptionAssistance());
 
-        if (DateUtils.getRemainingDays(event.getEnd()) > 0) {
-            downloadReportBtn.getLayoutParams().height = 0;
-        } else {
-            downloadReportBtn.setOnClickListener(v -> listener.downloadReport(event.getId()));
-        }
+//        if (DateUtils.getRemainingDays(event.getEnd()) > 0) {
+//            downloadReportBtn.getLayoutParams().height = 0;
+//        } else {
+//            downloadReportBtn.setOnClickListener(v -> listener.downloadReport(event.getId()));
+//        }
         itemView.setOnClickListener(v -> listener.openDetailEvent(event.getId()));
     }
 }

@@ -35,7 +35,7 @@ class EventViewHolder extends RecyclerView.ViewHolder {
         newsHeadline.setText(event.getEventName());
         newsContent.setText(event.getContent());
         ImageUtils.setImage(itemView.getContext(), event.getPhotos()[0], imageNews);
-        expirationDate.setText(DateUtils.getFormatStringDate(itemView.getResources(), event.getStart(), event.getEnd()));
+//        expirationDate.setText(DateUtils.getFormatStringDate(itemView.getResources(), event.getStart(), event.getEnd()));
         itemView.setOnClickListener(v -> listener.openDetailEvent(event.getId()));
     }
 }

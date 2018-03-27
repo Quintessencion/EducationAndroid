@@ -2,55 +2,56 @@ package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Category;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.Logger;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.QueryDecorator;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.EventsView;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
+
+import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.realm.RealmModel;
+import io.realm.RealmQuery;
+
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event.FIELD_FUND_CATEGORY;
+import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event.FIELD_FUND_END_DATE;
 
 @InjectViewState
 public class CompletenessEventsPresenter extends MvpPresenter<EventsView> {
 
-    private CompositeDisposable compositeDisposable;
-    private boolean isLoading;
+    private Repository repository;
+    private CompositeDisposable disposable;
 
-    public CompletenessEventsPresenter() {
-        compositeDisposable = new CompositeDisposable();
+    public CompletenessEventsPresenter(Repository repository) {
+        this.repository = repository;
+        disposable = new CompositeDisposable();
     }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-        getViewState().bindService();
-    }
+    public void loadData(String category, boolean isCurrent) {
+        QueryDecorator decorator = new QueryDecorator() {
+            @Override
+            public <T extends RealmModel> RealmQuery<T> decorateQuery(RealmQuery<T> query) {
+                query.equalTo(FIELD_FUND_CATEGORY, category).and();
+                if (isCurrent) {
+                    query.greaterThanOrEqualTo(FIELD_FUND_END_DATE, new Date());
+                } else {
+                    query.lessThanOrEqualTo(FIELD_FUND_END_DATE, new Date());
+                }
+                return query;
+            }
+        };
 
-    public void loadData(JsonReadService service, Category category, boolean isCurrent) {
-        if (!isLoading) {
-            getViewState().clearData();
-            compositeDisposable.add(service.getEventByCategory(category, isCurrent)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe(s -> changeStateLoading())
-                    .doOnTerminate(this::changeStateLoading)
-                    .subscribe(getViewState()::updateData, tr ->
-                            Logger.d("CompletenessEventsFragment json exception: " + tr.getMessage())));
-        }
-    }
-
-    private void changeStateLoading() {
-        isLoading = !isLoading;
-        if (isLoading) {
-            getViewState().showLoading();
-        } else {
-            getViewState().hideLoading();
-        }
+        disposable.add(repository.getItems(decorator, Event.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(s -> getViewState().showLoading())
+                .doOnTerminate(() -> getViewState().hideLoading())
+                .subscribe(getViewState()::updateData));
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getViewState().unbindService();
-        compositeDisposable.clear();
+        disposable.clear();
     }
 }

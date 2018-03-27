@@ -35,7 +35,7 @@ public class EventCategoryActivity extends AppCompatActivity {
 
         Category category = (Category) getIntent().getSerializableExtra(BUNDLE_CATEGORY);
 
-        title.setText(category.getName());
+        title.setText(category.getRes());
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

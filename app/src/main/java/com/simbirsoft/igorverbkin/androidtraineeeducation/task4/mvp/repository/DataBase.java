@@ -1,18 +1,47 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository;
 
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.CheckSpaceUtil;
+import android.content.Context;
 
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.CheckSpaceUtil;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.Logger;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Flowable;
 import io.realm.Realm;
-import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 
 public class DataBase {
+
+    public <T extends RealmObject> void firstReadDataFromJson(Context context, Class<T> clazz) {
+        try (Realm realm = Realm.getDefaultInstance()) {
+            if (realm.where(clazz).count() == 0) {
+                final JSONArray jsonArrayEvents = getJsonArray(context);
+                realm.executeTransaction(r -> realm.createAllFromJson(clazz, jsonArrayEvents));
+            }
+        }
+    }
+
+    private JSONArray getJsonArray(Context context) {
+        try (InputStream is = context.getAssets().open("events.json")) {
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+
+            return new JSONObject(new String(buffer)).getJSONArray("events");
+        } catch (IOException | JSONException e) {
+            Logger.d("Error reading json file: " + e.getMessage());
+        }
+        return null;
+    }
 
     public <T extends RealmObject> boolean saveItem(T item) {
         List<T> list = new ArrayList<>(1);
@@ -39,37 +68,22 @@ public class DataBase {
         }
     }
 
-    public <E extends RealmModel> E getItem(QueryDecorator decorator, Class<E> clazz) {
+    public <T extends RealmObject> T getItem(QueryDecorator decorator, Class<T> clazz) {
         try (Realm realm = Realm.getDefaultInstance()) {
-            RealmResults<E> items = decorator.decorateQuery(realm
-                    .where(clazz))
-                    .findAll();
-            if (items.size() == 1) {
-                return realm.copyFromRealm(items).get(0);
-            }
-            return null;
+            RealmResults<T> items = decorator.decorateQuery(realm.where(clazz)).findAll();
+            return realm.copyFromRealm(items).get(0);
         }
     }
 
-    public <E extends RealmModel> Flowable<List<E>> getItems(Class<E> clazz) {
+    public <T extends RealmObject> Flowable<List<T>> getItems(Class<T> clazz) {
         return getItems(new EmptyQueryDecorator(), clazz);
     }
 
-    public <E extends RealmModel> Flowable<List<E>> getItems(QueryDecorator decorator, Class<E> clazz) {
-
+    public <T extends RealmObject> Flowable<List<T>> getItems(QueryDecorator decorator, Class<T> clazz) {
         return Flowable.fromCallable(() -> {
-            List<E> results = null;
             try (Realm realm = Realm.getDefaultInstance()) {
-                results = realm.copyFromRealm(decorator.decorateQuery(realm.where(clazz)).findAll());
-
-                if (results == null) {
-                    results = new ArrayList<>();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+                return realm.copyFromRealm(decorator.decorateQuery(realm.where(clazz)).findAll());
             }
-
-            return results;
         });
     }
 }

@@ -52,10 +52,10 @@ public class JsonUtil {
             event.setId(jsonObject.getString("id"));
             event.setEventName(jsonObject.getString("eventName"));
             event.setStart(jsonObject.getString("start"));
-            event.setEnd(jsonObject.getString("end"));
+//            event.setEnd(jsonObject.getString("end"));
             event.setFundName(jsonObject.getString("fundName"));
             event.setContent(jsonObject.getString("content"));
-            event.setPhotos(getArrayByName("photos", jsonObject));
+//            event.setPhotos(getArrayByName("photos", jsonObject));
 
             events.add(event);
         }
@@ -87,10 +87,10 @@ public class JsonUtil {
             event.setId(jsonObject.getString("id"));
             event.setEventName(jsonObject.getString("eventName"));
             event.setStart(jsonObject.getString("start"));
-            event.setEnd(jsonObject.getString("end"));
+//            event.setEnd(jsonObject.getString("end"));
             event.setFundName(jsonObject.getString("fundName"));
             event.setContent(jsonObject.getString("content"));
-            event.setPhotos(getArrayByName("photos", jsonObject));
+//            event.setPhotos(getArrayByName("photos", jsonObject));
 
             events.add(event);
         }
@@ -114,22 +114,22 @@ public class JsonUtil {
             event.setId(id);
             event.setEventName(jsonObject.getString("eventName"));
             event.setStart(jsonObject.getString("start"));
-            event.setEnd(jsonObject.getString("end"));
+//            event.setEnd(jsonObject.getString("end"));
             event.setFundName(jsonObject.getString("fundName"));
             event.setEmail(jsonObject.getString("email"));
             event.setAddress(jsonObject.getString("address"));
-            event.setPhones(getArrayByName("phones", jsonObject));
+//            event.setPhones(getArrayByName("phones", jsonObject));
             event.setContent(jsonObject.getString("content"));
             event.setWebSite(jsonObject.getString("webSite"));
-            event.setContributors(getArrayByName("contributors", jsonObject));
-            event.setPhotos(getArrayByName("photos", jsonObject));
+//            event.setContributors(getArrayByName("contributors", jsonObject));
+//            event.setPhotos(getArrayByName("photos", jsonObject));
 
             JSONArray jsonArrayCategories = jsonObject.getJSONArray("categoriesHelp");
             CategoryHelp[] categories = new CategoryHelp[jsonArrayCategories.length()];
             for (int j = 0; j < jsonArrayCategories.length(); j++) {
                 categories[j] = CategoryHelp.valueOf(jsonArrayCategories.getString(j));
             }
-            event.setCategoriesHelp(categories);
+//            event.setCategoriesHelp(categories);
 
             return event;
         }
@@ -154,10 +154,10 @@ public class JsonUtil {
             event.setId(jsonObject.getString("id"));
             event.setEventName(jsonObject.getString("eventName"));
             event.setStart(jsonObject.getString("start"));
-            event.setEnd(jsonObject.getString("end"));
+//            event.setEnd(jsonObject.getString("end"));
             event.setFundName(jsonObject.getString("fundName"));
             event.setContent(jsonObject.getString("content"));
-            event.setPhotos(getArrayByName("photos", jsonObject));
+//            event.setPhotos(getArrayByName("photos", jsonObject));
 
             events.add(event);
         }
@@ -202,10 +202,10 @@ public class JsonUtil {
             event.setId(jsonObject.getString("id"));
             event.setEventName(jsonObject.getString("eventName"));
             event.setStart(jsonObject.getString("start"));
-            event.setEnd(jsonObject.getString("end"));
+//            event.setEnd(jsonObject.getString("end"));
             event.setFundName(fundName);
             event.setContent(jsonObject.getString("content"));
-            event.setPhotos(getArrayByName("photos", jsonObject));
+//            event.setPhotos(getArrayByName("photos", jsonObject));
 
             events.add(event);
         }

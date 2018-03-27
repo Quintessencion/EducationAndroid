@@ -1,5 +1,6 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.module;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.DataBase;
@@ -16,7 +17,7 @@ public class RepositoryModule {
     @Provides
     @Nonnull
     @Singleton
-    Repository provideRepository(DataBase dataBase, SharedPreferences preferences) {
-        return new Repository(dataBase, preferences);
+    Repository provideRepository(Context context, DataBase dataBase, SharedPreferences preferences) {
+        return new Repository(context, dataBase, preferences);
     }
 }

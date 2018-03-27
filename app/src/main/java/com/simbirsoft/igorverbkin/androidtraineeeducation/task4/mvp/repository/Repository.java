@@ -1,8 +1,10 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
-import io.realm.RealmModel;
+import io.realm.RealmObject;
 
 public class Repository {
 
@@ -21,11 +23,13 @@ public class Repository {
     private Subject<String> queryObservable;
     private Subject<SharedPreferences> prefObservable;
 
-    public Repository(DataBase dataBase, SharedPreferences preferences) {
+    public Repository(Context context, DataBase dataBase, SharedPreferences preferences) {
         this.dataBase = dataBase;
         this.preferences = preferences;
         queryObservable = PublishSubject.create();
         prefObservable = PublishSubject.create();
+
+        dataBase.firstReadDataFromJson(context, Event.class);
     }
 
     public <T> Flowable<T> loadObject(Class<T> clazz, String nameObject) {
@@ -53,8 +57,22 @@ public class Repository {
                 .subscribeOn(Schedulers.io());
     }
 
-    public <E extends RealmModel> Flowable<List<E>> checkData(Class<E> clazz) {
+    public <T extends RealmObject> Flowable<T> getItem(Class<T> clazz) {
+        return getItem(new EmptyQueryDecorator(), clazz);
+    }
+
+    public <T extends RealmObject> Flowable<T> getItem(QueryDecorator decorator, Class<T> clazz) {
+        return Flowable.fromCallable(() -> dataBase.getItem(decorator, clazz))
+                .subscribeOn(Schedulers.io());
+    }
+
+    public <T extends RealmObject> Flowable<List<T>> getItems(Class<T> clazz) {
         return dataBase.getItems(clazz)
+                .subscribeOn(Schedulers.io());
+    }
+
+    public <T extends RealmObject> Flowable<List<T>> getItems(QueryDecorator decorator, Class<T> clazz) {
+        return dataBase.getItems(decorator, clazz)
                 .subscribeOn(Schedulers.io());
     }
 }

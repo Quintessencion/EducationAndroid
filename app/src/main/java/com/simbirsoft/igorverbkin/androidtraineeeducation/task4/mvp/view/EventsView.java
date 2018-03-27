@@ -10,11 +10,5 @@ import java.util.List;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface EventsView extends MvpView, LoadingView {
 
-    void bindService();
-
-    void unbindService();
-
     void updateData(List<Event> events);
-
-    void clearData();
 }

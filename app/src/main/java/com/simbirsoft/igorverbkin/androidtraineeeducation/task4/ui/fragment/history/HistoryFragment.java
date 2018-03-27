@@ -1,10 +1,7 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.history;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +21,6 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.Hi
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.HistoryView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
 
 import java.util.List;
 
@@ -33,7 +29,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity.EVENT_ID;
 
 public class HistoryFragment extends MvpAppCompatFragment implements HistoryView,
@@ -47,9 +42,6 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
     @BindView(R.id.progress_bar) ProgressBar loading;
 
     private HistoryAdapter adapter;
-    private ServiceConnection sc;
-    private JsonReadService jsonService;
-    private boolean bound;
 
     @ProvidePresenter
     HistoryPresenter provideHistoryPresenter() {
@@ -62,21 +54,6 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
         setHasOptionsMenu(true);
         adapter = new HistoryAdapter(this);
         super.onCreate(savedInstanceState);
-
-        sc = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                jsonService = ((JsonReadService.EventBinder) service).getService();
-                bound = true;
-                presenter.loadData(jsonService);
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                bound = false;
-            }
-        };
-
     }
 
     @Nullable
@@ -95,28 +72,20 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
     }
 
     @Override
-    public void bindService() {
-        getActivity().bindService(new Intent(getActivity(), JsonReadService.class), sc, BIND_AUTO_CREATE);
-    }
-
-    @Override
-    public void unbindService() {
-        if (bound) {
-            getActivity().unbindService(sc);
-            bound = false;
-        }
+    public void onStart() {
+        super.onStart();
+        presenter.requestData();
     }
 
     @Override
     public void updateData(List<Event> events) {
+        if (events.isEmpty()) {
+            emptyHistoryScreenLayout.setVisibility(View.VISIBLE);
+            return;
+        }
         emptyHistoryScreenLayout.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         adapter.updateList(events);
-    }
-
-    @Override
-    public void clearData() {
-        adapter.clearList();
     }
 
     @Override

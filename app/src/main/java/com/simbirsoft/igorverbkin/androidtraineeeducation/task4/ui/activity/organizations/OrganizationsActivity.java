@@ -1,55 +1,62 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.organizations;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.R;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.App;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.Event;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.OrganizationsPresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.OrganizationView;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.event.EventsAdapter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.OnItemClickListener;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.model.util.Logger;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.event.EventsAdapter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.CompositeDisposable;
 
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity.EVENT_ID;
 
-public class OrganizationsActivity extends AppCompatActivity implements OnItemClickListener {
+public class OrganizationsActivity extends MvpAppCompatActivity implements OrganizationView, OnItemClickListener {
 
     public static final String EVENT_FUND_NAME = "event_fund_name";
+
+    @InjectPresenter OrganizationsPresenter presenter;
+    @Inject Repository repository;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private EventsAdapter adapter;
+    private String fundName;
 
-    private ServiceConnection sc;
-    private JsonReadService jsonService;
-    private boolean bound;
-
-    private CompositeDisposable compositeDisposable;
+    @ProvidePresenter
+    OrganizationsPresenter provideOrganizationsPresenter() {
+        return new OrganizationsPresenter(repository);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        compositeDisposable = new CompositeDisposable();
+        App.getComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_organizations);
 
         ButterKnife.bind(this);
+
+        fundName = getIntent().getStringExtra(EVENT_FUND_NAME);
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -61,20 +68,6 @@ public class OrganizationsActivity extends AppCompatActivity implements OnItemCl
         toolbar.setNavigationOnClickListener(v -> finish());
 
         prepareRecyclerView();
-
-        sc = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                jsonService = ((JsonReadService.EventBinder) service).getService();
-                bound = true;
-                loadEventsByFundName((getIntent().getStringExtra(EVENT_FUND_NAME)));
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                bound = false;
-            }
-        };
     }
 
     private void prepareRecyclerView() {
@@ -85,26 +78,13 @@ public class OrganizationsActivity extends AppCompatActivity implements OnItemCl
     }
 
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
-        bindService(new Intent(this, JsonReadService.class), sc, BIND_AUTO_CREATE);
+        presenter.loadData(fundName);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        unbindService(sc);
-        compositeDisposable.clear();
-    }
-
-    public void loadEventsByFundName(String fundName) {
-        if (bound) {
-            compositeDisposable.add(jsonService.getEventsByFundName(fundName).subscribe(this::updateData,
-                    tr -> Logger.d("OrganizationsActivity json exception: " + tr.getMessage())));
-        }
-    }
-
-    public void updateData(List<Event> events) {
+    public void loadData(List<Event> events) {
         adapter.updateList(events);
     }
 

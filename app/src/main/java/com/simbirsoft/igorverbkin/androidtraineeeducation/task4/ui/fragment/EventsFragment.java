@@ -1,10 +1,7 @@
 package com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +25,6 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.view.EventsV
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.filter.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.event.EventsAdapter;
-import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.service.JsonReadService;
 
 import java.util.List;
 
@@ -37,7 +33,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.content.Context.BIND_AUTO_CREATE;
 import static com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity.EVENT_ID;
 
 public class EventsFragment extends MvpAppCompatFragment implements EventsView, OnItemClickListener {
@@ -50,10 +45,6 @@ public class EventsFragment extends MvpAppCompatFragment implements EventsView, 
 
     private EventsAdapter adapter;
 
-    private ServiceConnection sc;
-    private JsonReadService jsonService;
-    private boolean bound;
-
     @ProvidePresenter
     NewsPresenter provideNewsPresenter() {
         return new NewsPresenter(repository);
@@ -65,20 +56,6 @@ public class EventsFragment extends MvpAppCompatFragment implements EventsView, 
         setHasOptionsMenu(true);
         adapter = new EventsAdapter(this);
         super.onCreate(savedInstanceState);
-
-        sc = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                jsonService = ((JsonReadService.EventBinder) service).getService();
-                bound = true;
-                presenter.loadData(jsonService);
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                bound = false;
-            }
-        };
     }
 
     @Nullable
@@ -93,26 +70,14 @@ public class EventsFragment extends MvpAppCompatFragment implements EventsView, 
     }
 
     @Override
-    public void bindService() {
-        getActivity().bindService(new Intent(getActivity(), JsonReadService.class), sc, BIND_AUTO_CREATE);
-    }
-
-    @Override
-    public void unbindService() {
-        if (bound) {
-            getActivity().unbindService(sc);
-            bound = false;
-        }
+    public void onStart() {
+        super.onStart();
+        presenter.getData();
     }
 
     @Override
     public void updateData(List<Event> events) {
         adapter.updateList(events);
-    }
-
-    @Override
-    public void clearData() {
-        adapter.clearList();
     }
 
     @Override

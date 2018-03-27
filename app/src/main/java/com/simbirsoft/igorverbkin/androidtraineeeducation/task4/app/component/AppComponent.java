@@ -7,11 +7,14 @@ import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.app.module.Repos
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.FilterPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.HistoryPresenter;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.presenter.NkoPresenter;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.DataBase;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.mvp.repository.Repository;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.detail.DetailActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.filter.FilterActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.main.MainActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.organizations.OrganizationsActivity;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.activity.splash.SplashActivity;
+import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.CompletenessEventsFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.EventsFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.history.HistoryFragment;
 import com.simbirsoft.igorverbkin.androidtraineeeducation.task4.ui.fragment.nko.NkoFragment;
@@ -48,4 +51,10 @@ public interface AppComponent {
     void inject(EventsFragment fragment);
 
     void inject(SplashActivity activity);
+
+    void inject(DataBase dataBase);
+
+    void inject(OrganizationsActivity activity);
+
+    void inject(CompletenessEventsFragment fragment);
 }
